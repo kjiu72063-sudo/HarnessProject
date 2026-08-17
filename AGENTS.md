@@ -43,9 +43,10 @@
 7. 不修改 .coze 中的 sub_id
 8. POST/PUT 路由请求体必须用 Pydantic BaseModel，禁止裸参数 [P003]
 9. `progress.txt` 和 `feature_list.json` 必须纳入 Git，不可被 .gitignore 排除 [P004]
-10. 所有代码变更必须通过 `scripts/verify.sh` 全闸门（12项: 类型检查+Lint+CSS Lint+前端测试+分层依赖+覆盖率≥80%+文件大小+文档新鲜度+技术栈基线一致性）
+10. 所有代码变更必须通过 `scripts/verify.sh` 全闸门（14项: 类型检查+Lint+CSS Lint+前端测试+分层依赖+覆盖率≥80%+文件大小+文档新鲜度+技术栈基线一致性+Git追踪+端口一致性）
 11. 单文件 ≤ 300 行；单函数/方法 ≤ 50 行（ESLint + verify.sh 强制）
 12. AGENTS.md 技术栈基线必须与 `package.json`/`pyproject.toml` 实际安装版本一致，初始化后及每次审计时交叉验证 [P008]
+13. 审计时必须执行「规则→执行」闭合校验：AGENTS.md 每条规则须在 `convention-to-rule-mapping.md` 有对应行且状态为「✅ 已机械化」或「⚠️ 人工审查」，详见该文档"审计闭环校验"段
 
 ## 常见问题和预防
 

@@ -6,23 +6,44 @@ owner: @K总
 
 PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次以上,就应该写成 Linter 规则。"
 
-| 团队口头约定 | 机械化规则 | 实现方式 | 状态 |
-|---|---|---|---|
-| 前端不直接调后端代码 | 前端 src/ 禁止 import server/ | dependency-cruiser 自定义规则 | ✅ 已配置 |
-| 前端不硬编码域名/IP | 前端禁止 localhost/IP/域名 | ESLint no-restricted-syntax + AGENTS.md 硬性规则 #1 | ✅ 已配置 |
-| routes 不直接操作数据库 | server.routes 禁止 import server.models | import-linter forbidden contract + 三要素注释 | ✅ 已配置 |
-| Node 不操作 HTTP 响应 | server.nodes 禁止 import server.routes | import-linter forbidden contract + 三要素注释 | ✅ 已配置 |
-| 禁止循环依赖 | 任何模块间循环依赖 | dependency-cruiser + ESLint import/no-cycle | ✅ 已配置 |
-| 后端禁裸 print() | ruff T201 规则 + AGENTS.md 硬性规则 #2 | ruff T20 规则族 | ✅ 已配置 |
-| 前端禁 as any | ESLint @typescript-eslint/no-explicit-any | ESLint recommended 含此规则 | ✅ 已配置 |
-| POST 用 Pydantic Body | AGENTS.md 硬性规则 #8 [P003] | 文档约束（人工审查） | ✅ 已记录 |
-| 测试覆盖率 ≥ 80% | pytest-cov --cov-fail-under=80 | verify.sh 闸门强制 | ✅ 已配置 |
-| Python 版本 ≥ 3.12 | pyproject.toml requires-python | pyproject.toml 约束 | ✅ 已配置 |
-| pnpm 版本 ≥ 9 | package.json engines | package.json 约束 | ✅ 已配置 |
-| 文件要短 | 单文件 ≤ 300 行 | ESLint max-lines + verify.sh 检查 | ✅ 已配置 |
-| 方法要短 | 单方法/函数 ≤ 50 行 | ESLint max-lines-per-function + verify.sh AST 检查 | ✅ 已配置 |
-| CSS 代码规范 | stylelint-config-standard | stylelint + verify.sh 闸门强制 | ✅ 已配置 |
-| 技术栈基线一致性 | AGENTS.md 声明版本 = 实际安装版本 | verify.sh check_tech_stack_alignment [P008] | ✅ 已配置 |
+## 状态分类（根因修复：消除"✅ 已配置"歧义）
+
+| 状态 | 含义 | 条件 |
+|---|---|---|
+| ✅ 已机械化 | verify.sh 闸门或工具安装时强制执行 | 规则→工具→闸门 完整链路 |
+| ⚠️ 人工审查 | 仅文档约束，依赖 Code Review | 可机械化但复杂度高或触发次数 < 3 |
+| ⬜ 待机械化 | 应机械化但未实现 | 流程未到或工具不支持 |
+
+| 团队口头约定 | 机械化规则 | 实现方式 | 状态 | AGENTS.md |
+|---|---|---|---|---|
+| 前端不直接调后端代码 | src/ 禁止 import server/ | dependency-cruiser → verify.sh #5 | ✅ 已机械化 | #1 |
+| 前端不硬编码域名/IP | 禁止 localhost/IP/域名 | ESLint no-restricted-syntax → verify.sh #2 | ✅ 已机械化 | #1 |
+| routes 不直接操作数据库 | routes 禁止 import models | import-linter + 三要素 → verify.sh #8 | ✅ 已机械化 | #8 |
+| Node 不操作 HTTP 响应 | nodes 禁止 import routes | import-linter + 三要素 → verify.sh #8 | ✅ 已机械化 | #8 |
+| 禁止循环依赖 | 模块间循环依赖 | dep-cruiser + ESLint → verify.sh #2+#5 | ✅ 已机械化 | — |
+| 后端禁裸 print() | ruff T201 规则族 | ruff T20 → verify.sh #6 | ✅ 已机械化 | #2 |
+| 前端禁 as any | no-explicit-any | ESLint recommended → verify.sh #2 | ✅ 已机械化 | #3 |
+| POST 用 Pydantic Body | 路由参数必须 Pydantic Body | 文档约束 [P003] | ⚠️ 人工审查 | #8 |
+| API 必须有类型定义 | Pydantic schema + TS 类型 | FastAPI 自动校验 + mypy | ⚠️ 人工审查 | #4 |
+| LangGraph Node 纯函数 | 接收 State 返回 State | — | ⬜ 待机械化 | #5 |
+| 测试覆盖率 ≥ 80% | --cov-fail-under=80 | pytest-cov → verify.sh #9 | ✅ 已机械化 | #10 |
+| Python 版本 ≥ 3.12 | requires-python >= 3.12 | pyproject.toml + check_tech_stack_alignment → #12 | ✅ 已机械化 | #12 |
+| pnpm 版本 ≥ 9 | engines pnpm >= 9 | package.json engines（pnpm install 时强制） | ✅ 已机械化 | — |
+| 文件要短 | 单文件 ≤ 300 行 | ESLint max-lines + verify.sh #11 | ✅ 已机械化 | #11 |
+| 方法要短 | 单方法 ≤ 50 行 | ESLint max-lines-per-function + verify.sh #11 | ✅ 已机械化 | #11 |
+| CSS 代码规范 | stylelint-config-standard | stylelint → verify.sh #4 | ✅ 已机械化 | #10 |
+| 技术栈基线一致性 | 声明版本 = 实际版本 | check_tech_stack_alignment → verify.sh #12 [P008] | ✅ 已机械化 | #12 |
+| 端口一致性 | .preview = vite.config.ts | check_port_consistency → verify.sh #14 | ✅ 已机械化 | #6 |
+| Git 追踪关键文件 | progress.txt/feature_list.json | check_git_tracking → verify.sh #13 [P004] | ✅ 已机械化 | #9 |
+| sub_id 不可变 | .coze sub_id 创建后不可改 | git-level 约束 | ⚠️ 人工审查 | #7 |
+
+## 审计闭环校验（根因修复）
+
+每次审计结束前必须执行:
+1. 遍历 AGENTS.md 每条硬性规则，确认在本表有对应行
+2. 遍历本表每行，确认「实现方式」真实存在于代码库
+3. 任何 ⬜ 行必须在 journal 中记录为「流程未到」并标注功能 ID
+4. 任何 ⚠️ 行累计触发 ≥ 3 次时，升级为 ✅（写入 Linter/闸门）
 
 ## 新增规则流程
 
@@ -30,7 +51,7 @@ PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次�
 1. 判断是否可以机械化（Linter 规则 / 架构约束 / 类型系统）
 2. 如可以，在对应工具中添加规则
 3. 规则错误信息使用三要素公式: `❌ [什么错了] ✅ FIX: [怎么改] 📖 See: [哪个文档]`
-4. 在本表新增一行
+4. 在本表新增一行，状态标为 ✅ 已机械化
 5. 运行 `scripts/verify.sh` 确认不冲突
 
 ## Linter 管理指导（PDF 踩坑指南）

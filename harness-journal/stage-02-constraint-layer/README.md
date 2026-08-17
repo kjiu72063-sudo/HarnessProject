@@ -38,7 +38,7 @@
 ### 06 - verify 全闸门脚本
 - 脚本: `scripts/verify.sh`
 - 等价于: PDF 中的 `mvn -B clean verify`
-- 12项检查: ts-check + eslint + vitest + stylelint + depcruise + ruff + mypy + import-linter + pytest-cov + doc-freshness + file-size + tech-stack-alignment
+- 14项检查: ts-check + eslint + vitest + stylelint + depcruise + ruff + mypy + import-linter + pytest-cov + doc-freshness + file-size + tech-stack-alignment + git-tracking + port-consistency
 - 任何一项失败即整体失败
 
 ### 07 - 编码 Agent 会话启动脚本
@@ -74,7 +74,7 @@
 ## 产出物
 - `.dependency-cruiser.cjs` — 前端分层依赖检查配置
 - `pyproject.toml` — 后端 ruff/mypy/pytest-cov/import-linter 配置
-- `scripts/verify.sh` — 全链路闸门脚本（12项）
+- `scripts/verify.sh` — 全链路闸门脚本（14项）
 - `scripts/coding-agent-start.sh` — 编码 Agent 启动脚本（含 e2e）
 - `server/tests/test_api.py` — API 基础测试 (5个)
 - `server/tests/test_settings.py` — 配置基础测试 (2个)
@@ -194,3 +194,22 @@ G11 暴露的设计盲区——五轮审计均聚焦 PDF 要求逐条对照，�
 - pitfalls.md: P001-P008 全部正确，无错误引用
 
 审计同时确认：第九轮无新增流程未到项，PDF 与当前设计无冲突。verify.sh 仍为 12 项（新增的 ESLint 规则属于第 2 项 ESLint 内部，无需新增闸门项）。
+
+### section 19: 根治方案 — 过早宣布胜利的递归修复
+
+**根因诊断**：G12-G15 连续四轮发现同一模式——规则已声明但未机械化执行。这正是 PDF G1 修复的「过早宣布胜利」失败模式在约束层搭建过程中的递归实例。
+
+**根治措施**：
+1. convention-to-rule-mapping.md 引入三级状态分类（✅ 已机械化 / ⚠️ 人工审查 / ⬜ 待机械化），消除「✅ 已配置」的歧义
+2. 补齐 AGENTS.md 规则 #4/#5/#6/#7/#9 的映射行（此前 5 条规则无对应行）
+3. 新增 verify.sh #13 check_git_tracking（机械化规则 #9）+ #14 check_port_consistency（机械化规则 #6）
+4. AGENTS.md 新增硬性规则 #13：审计时必须执行「规则→执行」闭合校验
+5. env-review.md 审计流程新增第 6 项：「规则→执行」闭合校验
+6. coding.md 过早宣布胜利段新增递归内省：约束层搭建过程本身也受此约束
+
+**修复后状态**：
+- verify.sh: 14 项（12 + git tracking + port consistency）
+- convention-to-rule-mapping.md: 20 行映射表 + 三级状态分类法
+- AGENTS.md: 13 条硬性规则（含 #13 审计闭环校验）
+- PDF「把主观品味翻译成机械规则」表 5 项全部机械化
+- 所有 AGENTS.md 硬性规则在 convention-to-rule-mapping.md 均有对应行

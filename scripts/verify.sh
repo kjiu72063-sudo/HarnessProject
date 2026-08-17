@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Harness Platform - Verify 闸门
 # 等价于 PDF 中的 `mvn -B clean verify` 全链路
-# 12 项: 类型检查 + Lint + CSS Lint + 单元测试 + 分层依赖 + 覆盖率 ≥ 80% + 文档新鲜度 + 文件大小 + 技术栈基线一致性
+# 14 项: 类型检查 + Lint + CSS Lint + 单元测试 + 分层依赖 + 覆盖率 ≥ 80% + 文档新鲜度 + 文件大小 + 技术栈基线一致性 + Git 追踪 + 端口一致性
 # 任何一项失败即整体失败，阻止代码合并
 
 set -euo pipefail
@@ -211,6 +211,44 @@ check_tech_stack_alignment() {
   return $found_mismatch
 }
 run_check "Tech Stack Baseline Alignment (AGENTS.md vs actual)" "check_tech_stack_alignment"
+
+# ---------- Check 13: Git Tracking ----------
+check_git_tracking() {
+  local missing=0
+  for f in progress.txt feature_list.json; do
+    if ! git ls-files --error-unmatch "$f" >/dev/null 2>&1; then
+      echo "  ❌ $f 未被 Git 追踪"
+      echo "  ✅ FIX: git add $f"
+      echo "  📖 See: docs/conventions/pitfalls.md (P004)"
+      missing=1
+    fi
+  done
+  if [ $missing -eq 0 ]; then
+    echo "  progress.txt 和 feature_list.json 均已被 Git 追踪"
+  fi
+  return $missing
+}
+run_check "Git Tracking (progress.txt + feature_list.json)" "check_git_tracking"
+
+# ---------- Check 14: Port Consistency ----------
+check_port_consistency() {
+  local preview_port vite_port
+  preview_port=$(awk -F '[ =]+' '/^expose_port/ {print $2; exit}' .preview 2>/dev/null)
+  vite_port=$(grep -oE 'port:[[:space:]]*[0-9]+' vite.config.ts | head -1 | grep -oE '[0-9]+')
+  if [ -z "$preview_port" ] || [ -z "$vite_port" ]; then
+    echo "  ⚠️ 无法读取端口配置（.preview=$preview_port, vite=$vite_port），跳过"
+    return 0
+  fi
+  if [ "$preview_port" != "$vite_port" ]; then
+    echo "  ❌ .preview expose_port=$preview_port 与 vite.config.ts port=$vite_port 不一致"
+    echo "  ✅ FIX: 统一两个文件中的端口配置"
+    echo "  📖 See: docs/architecture/boundaries.md"
+    return 1
+  fi
+  echo "  端口一致: .preview=$preview_port vite.config.ts=$vite_port"
+  return 0
+}
+run_check "Port Consistency (.preview vs vite.config.ts)" "check_port_consistency"
 
 echo ""
 echo "=========================================="

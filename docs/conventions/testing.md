@@ -18,12 +18,12 @@ owner: @K总
 - LangGraph Node 测试: 输入 State → 调用 Node → 断言输出 State
 
 ## 验证流程
-所有检查绑定到 `scripts/verify.sh`，一次执行（12 项），等价于 PDF 中的 `mvn verify` 闸门：
+所有检查绑定到 `scripts/verify.sh`，一次执行（14 项），等价于 PDF 中的 `mvn verify` 闸门：
 
 | # | 检查项 | 说明 |
 |---|---|---|
 | 1 | `pnpm ts-check` | 前端 TypeScript 类型检查 |
-| 2 | `pnpm lint` | 前端 ESLint（含 max-lines / max-lines-per-function / import/no-cycle） |
+| 2 | `pnpm lint` | 前端 ESLint（含 max-lines / max-lines-per-function / import/no-cycle / no-restricted-syntax） |
 | 3 | `pnpm vitest run --passWithNoTests` | 前端单元测试（无测试文件时通过，有测试时强制执行） |
 | 4 | `pnpm lint:style` | 前端 CSS Lint（Stylelint + stylelint-config-standard） |
 | 5 | `npx depcruise` | 前端分层依赖检查 |
@@ -34,6 +34,8 @@ owner: @K总
 | 10 | doc-freshness | 文档新鲜度（>60 天未更新则失败） |
 | 11 | file-size | 文件 ≤ 300 行 + Python 函数 ≤ 50 行 |
 | 12 | tech-stack-alignment | AGENTS.md 声明版本与 package.json / pyproject.toml 实际版本一致 [P008] |
+| 13 | git-tracking | progress.txt 和 feature_list.json 必须被 Git 追踪 [P004] |
+| 14 | port-consistency | .preview expose_port 与 vite.config.ts port 一致 |
 
 任何一项失败即整体失败。
 

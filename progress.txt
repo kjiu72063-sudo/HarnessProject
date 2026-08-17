@@ -53,3 +53,4 @@
 [2026-08-17T16:30Z] stage-02 | fix-G14 | done | verify.sh头部注释更新为12项 + 新增第12项check_tech_stack_alignment(React/Python/Vite声明版本vs实际版本比对[P008]) + testing.md/AGENTS.md/convention-mapping同步更新
 [2026-08-17T17:00Z] stage-02 | cross-validate-3 | done | 交叉验证架构文档/跨文档引用/PDF机械规则表: vite.config/tailwind/postcss/feature_list/sprint/boundaries/state-design/harness-flow/api-spec/template/env-review/coding/pitfalls全部一致
 [2026-08-17T17:00Z] stage-02 | fix-G15 | done | ESLint新增no-restricted-syntax拦截fetch硬编码URL(PDF禁裸HTTP机械化) + convention-mapping移除错误[P001]引用(实际P001是plugin-react兼容性) + 更新实现方式为ESLint+AGENTS.md
+[2026-08-17T17:30Z] stage-02 | root-cause | done | 根治方案: (1)convention-mapping引入三级状态(✅已机械化/⚠️人工审查/⬜待机械化) (2)补齐5条AGENTS.md规则映射行 (3)verify.sh新增#13git-tracking+#14port-consistency(14项) (4)AGENTS.md新增#13审计闭环校验 (5)env-review新增闭合校验步骤 (6)coding.md过早宣布胜利递归内省
