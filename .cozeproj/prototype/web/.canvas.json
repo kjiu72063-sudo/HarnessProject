@@ -1,0 +1,36 @@
+{
+  "elements": [
+    {
+      "type": "html",
+      "options": {
+        "path": ".cozeproj/prototype/web/requirement.html"
+      },
+      "title": "需求输入",
+      "size": "web"
+    },
+    {
+      "type": "html",
+      "options": {
+        "path": ".cozeproj/prototype/web/pipeline.html"
+      },
+      "title": "流程监控",
+      "size": "web"
+    },
+    {
+      "type": "html",
+      "options": {
+        "path": ".cozeproj/prototype/web/constraints.html"
+      },
+      "title": "约束配置",
+      "size": "web"
+    },
+    {
+      "type": "html",
+      "options": {
+        "path": ".cozeproj/prototype/web/artifacts.html"
+      },
+      "title": "产物管理",
+      "size": "web"
+    }
+  ]
+}

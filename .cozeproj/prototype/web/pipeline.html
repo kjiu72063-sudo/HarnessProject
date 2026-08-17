@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://lf-code-agent.coze.cn/obj/x-ai-cn/fonts/google/google-all-fonts.css" rel="stylesheet"/>
+
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/jquery/jquery-3.7.1.min.js"></script>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/lucide/lucide-1.11.0.min.js"></script>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/tailwindcss/tailwindcss-browser-4.2.4.min.js"></script>
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-primary:              #3B82F6;
+      --color-primary-container:    #1E3A5F;
+      --color-on-primary:           #ffffff;
+      --color-background:                 #0F1115;
+      --color-surface-container-lowest:   #0F1115;
+      --color-surface:                    #1A1D24;
+      --color-surface-container:          #252830;
+      --color-surface-container-high:     #2A2D35;
+      --color-surface-container-highest:  #32363F;
+      --color-on-surface:           #FFFFFF;
+      --color-on-surface-variant:   #9CA3AF;
+      --color-success:  #10B981;
+      --color-error:    #EF4444;
+      --color-warning:  #F59E0B;
+      --color-outline:          #374151;
+      --color-outline-variant:  #4B5563;
+      --radius-sm:   0.25rem;
+      --radius-md:   0.375rem;
+      --radius-lg:   0.5rem;
+      --radius-xl:   0.75rem;
+      --radius-2xl:  1rem;
+      --radius-full: 9999px;
+      --shadow-card:   0 2px 8px rgba(0,0,0,0.15);
+      --shadow-float:  0 10px 25px rgba(0,0,0,0.2);
+      --shadow-dialog: 0 25px 50px rgba(0,0,0,0.3);
+      --font-sans: "Inter", "Noto Sans SC", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+  </style>
+
+  <style>
+    .stage-line { position: relative; }
+    .stage-line::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 32px;
+      bottom: -8px;
+      width: 2px;
+      background: var(--color-outline-variant);
+      opacity: 0.3;
+    }
+    .stage-line:last-child::after { display: none; }
+    .diamond {
+      width: 20px; height: 20px;
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+    .diamond-inner {
+      width: 12px; height: 12px;
+      transform: rotate(-45deg);
+    }
+    @keyframes pulse-amber {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .pulse-amber { animation: pulse-amber 1.5s ease-in-out infinite; }
+    @keyframes scan-line {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    .scan-anim::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 60%;
+      background: linear-gradient(90deg, transparent, rgba(59,130,246,0.08), transparent);
+      animation: scan-line 2s ease-in-out infinite;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('error', function (e) {
+      const img = e.target;
+      if (img.tagName !== 'IMG' || img.dataset.fallback) return;
+      img.dataset.fallback = '1';
+    }, true);
+  </script>
+</head>
+
+<body class="bg-background text-on-surface font-sans">
+
+  <!-- @nav:start -->
+  <header class="bg-surface sticky top-0 z-40 h-14 flex items-center justify-between px-5 border-b border-outline/20">
+    <div class="flex items-center gap-2.5">
+      <i data-lucide="cpu" class="text-primary w-5 h-5"></i>
+      <span class="font-bold text-base tracking-tight">Harness Platform</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="text-xs text-on-surface-variant font-mono">v0.1.0</span>
+      <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">初</div>
+    </div>
+  </header>
+
+  <div class="flex" style="height: calc(100vh - 3.5rem)">
+    <aside class="w-52 shrink-0 bg-surface border-r border-outline/20 overflow-y-auto">
+      <div class="p-3 space-y-0.5">
+        <a href="requirement.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-medium text-sm transition-colors">
+          <i data-lucide="message-square-plus" class="w-4 h-4"></i>需求输入
+        </a>
+        <a href="pipeline.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md bg-primary/10 text-primary font-medium text-sm" aria-current="page">
+          <i data-lucide="git-branch" class="w-4 h-4"></i>流程监控
+        </a>
+        <a href="constraints.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-medium text-sm transition-colors">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>约束配置
+        </a>
+        <a href="artifacts.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-medium text-sm transition-colors">
+          <i data-lucide="package" class="w-4 h-4"></i>产物管理
+        </a>
+      </div>
+    </aside>
+
+    <!-- @main-content:start -->
+    <main class="flex-1 min-w-0 overflow-y-auto bg-background flex">
+      <!-- 左侧：8 阶段流程图 -->
+      <div class="flex-1 p-6 overflow-y-auto">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h1 class="text-2xl font-bold">流程监控</h1>
+            <p class="text-sm text-on-surface-variant mt-0.5">团队任务管理应用 — React + FastAPI</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-sm text-xs font-medium bg-warning/15 text-warning pulse-amber">
+              <i data-lucide="loader-2" class="w-3 h-3 mr-1"></i>编码实现中
+            </span>
+          </div>
+        </div>
+
+        <!-- Harness 8 阶段拓扑 -->
+        <div class="space-y-1">
+
+          <!-- 阶段0: 初始化 — 通过 -->
+          <div class="stage-line flex items-start gap-3 pb-3">
+            <div class="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="check" class="w-4 h-4 text-success"></i>
+            </div>
+            <div class="flex-1 bg-surface rounded-lg shadow-card p-4 cursor-pointer hover:bg-surface-container/30 transition-colors" id="stage-0">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs text-success font-mono font-semibold">阶段0</span>
+                  <span class="text-sm font-semibold text-on-surface ml-2">初始化 Agent</span>
+                </div>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-on-surface-variant"></i>
+              </div>
+              <p class="text-xs text-on-surface-variant mt-1">init.sh + progress.txt + feature_list.json + Git 初始提交</p>
+            </div>
+          </div>
+
+          <!-- 阶段1: 信息层 — 通过 -->
+          <div class="stage-line flex items-start gap-3 pb-3">
+            <div class="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="check" class="w-4 h-4 text-success"></i>
+            </div>
+            <div class="flex-1 bg-surface rounded-lg shadow-card p-4 cursor-pointer hover:bg-surface-container/30 transition-colors" id="stage-1">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs text-success font-mono font-semibold">阶段1</span>
+                  <span class="text-sm font-semibold text-on-surface ml-2">需求与架构规划</span>
+                </div>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-on-surface-variant"></i>
+              </div>
+              <p class="text-xs text-on-surface-variant mt-1">需求文档 + 架构文档 + AGENTS.md + 原型确认</p>
+            </div>
+          </div>
+
+          <!-- 菱形：原型确认 — 通过 -->
+          <div class="stage-line flex items-start gap-3 pb-3 pl-1">
+            <div class="diamond bg-success/20 flex items-center justify-center shrink-0 mt-1">
+              <i data-lucide="check" class="diamond-inner w-3 h-3 text-success"></i>
+            </div>
+            <div class="flex-1 bg-surface-container/50 rounded-md p-3">
+              <span class="text-xs font-semibold text-success">原型确认</span>
+              <span class="text-xs text-on-surface-variant ml-2">用户已确认原型图</span>
+            </div>
+          </div>
+
+          <!-- 阶段2: 功能拆分 — 通过 -->
+          <div class="stage-line flex items-start gap-3 pb-3">
+            <div class="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="check" class="w-4 h-4 text-success"></i>
+            </div>
+            <div class="flex-1 bg-surface rounded-lg shadow-card p-4 cursor-pointer hover:bg-surface-container/30 transition-colors" id="stage-2">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs text-success font-mono font-semibold">阶段2</span>
+                  <span class="text-sm font-semibold text-on-surface ml-2">功能拆分与设计</span>
+                </div>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-on-surface-variant"></i>
+              </div>
+              <p class="text-xs text-on-surface-variant mt-1">F001-F010 功能拆分 + 设计文档审批</p>
+            </div>
+          </div>
+
+          <!-- 菱形：设计审批 — 通过 -->
+          <div class="stage-line flex items-start gap-3 pb-3 pl-1">
+            <div class="diamond bg-success/20 flex items-center justify-center shrink-0 mt-1">
+              <i data-lucide="check" class="diamond-inner w-3 h-3 text-success"></i>
+            </div>
+            <div class="flex-1 bg-surface-container/50 rounded-md p-3">
+              <span class="text-xs font-semibold text-success">设计审批</span>
+              <span class="text-xs text-on-surface-variant ml-2">文档已审批通过</span>
+            </div>
+          </div>
+
+          <!-- 阶段3: 编码 Agent 启动 — 通过 -->
+          <div class="stage-line flex items-start gap-3 pb-3">
+            <div class="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="check" class="w-4 h-4 text-success"></i>
+            </div>
+            <div class="flex-1 bg-surface rounded-lg shadow-card p-4 cursor-pointer hover:bg-surface-container/30 transition-colors" id="stage-3">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs text-success font-mono font-semibold">阶段3</span>
+                  <span class="text-sm font-semibold text-on-surface ml-2">编码 Agent 启动</span>
+                </div>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-on-surface-variant"></i>
+              </div>
+              <p class="text-xs text-on-surface-variant mt-1">5 步标准流程: pwd → gitlog → featurelist → verify → 开发</p>
+            </div>
+          </div>
+
+          <!-- 阶段4: 编码实现 — 进行中 -->
+          <div class="stage-line flex items-start gap-3 pb-3">
+            <div class="w-8 h-8 rounded-full bg-warning/20 flex items-center justify-center shrink-0 mt-0.5 relative scan-anim">
+              <i data-lucide="code-2" class="w-4 h-4 text-warning"></i>
+            </div>
+            <div class="flex-1 bg-surface rounded-lg shadow-card p-4 border border-warning/30 cursor-pointer" id="stage-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs text-warning font-mono font-semibold pulse-amber">阶段4</span>
+                  <span class="text-sm font-semibold text-on-surface ml-2">编码实现</span>
+                </div>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-on-surface-variant"></i>
+              </div>
+              <p class="text-xs text-on-surface-variant mt-1">约束注入 + Worktree 隔离 + 写代码 → verify 全闸门</p>
+              <div class="mt-2 flex items-center gap-2">
+                <div class="h-1.5 flex-1 bg-surface-container rounded-full overflow-hidden">
+                  <div class="h-full bg-warning rounded-full" style="width: 60%"></div>
+                </div>
+                <span class="text-xs text-warning font-mono">60%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 阶段5: 自校验 — 待执行 -->
+          <div class="stage-line flex items-start gap-3 pb-3">
+            <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="refresh-cw" class="w-4 h-4 text-on-surface-variant"></i>
+            </div>
+            <div class="flex-1 bg-surface rounded-lg shadow-card p-4 opacity-50 cursor-pointer hover:opacity-70 transition-opacity" id="stage-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs text-on-surface-variant font-mono font-semibold">阶段5</span>
+                  <span class="text-sm font-semibold text-on-surface ml-2">自校验与反馈循环</span>
+                </div>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-on-surface-variant"></i>
+              </div>
+              <p class="text-xs text-on-surface-variant mt-1">测试结果 → 失败 → 问题分类 → 查询文档 → 修复 → 文档反馈</p>
+            </div>
+          </div>
+
+          <!-- 菱形：测试结果 — 待执行 -->
+          <div class="stage-line flex items-start gap-3 pb-3 pl-1 opacity-50">
+            <div class="diamond bg-surface-container flex items-center justify-center shrink-0 mt-1">
+              <i data-lucide="help-circle" class="diamond-inner w-3 h-3 text-on-surface-variant"></i>
+            </div>
+            <div class="flex-1 bg-surface-container/30 rounded-md p-3">
+              <span class="text-xs font-semibold text-on-surface-variant">测试结果?</span>
+              <span class="text-xs text-on-surface-variant ml-2">待执行</span>
+            </div>
+          </div>
+
+          <!-- 阶段6: 合并与部署 — 待执行 -->
+          <div class="stage-line flex items-start gap-3 pb-3">
+            <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="git-merge" class="w-4 h-4 text-on-surface-variant"></i>
+            </div>
+            <div class="flex-1 bg-surface rounded-lg shadow-card p-4 opacity-50" id="stage-6">
+              <div>
+                <span class="text-xs text-on-surface-variant font-mono font-semibold">阶段6</span>
+                <span class="text-sm font-semibold text-on-surface ml-2">合并与部署</span>
+              </div>
+              <p class="text-xs text-on-surface-variant mt-1">审查通过 → 代码合并 → CI/CD → 部署</p>
+            </div>
+          </div>
+
+          <!-- 阶段7: 可观测性验证 — 待执行 -->
+          <div class="stage-line flex items-start gap-3 pb-3">
+            <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="activity" class="w-4 h-4 text-on-surface-variant"></i>
+            </div>
+            <div class="flex-1 bg-surface rounded-lg shadow-card p-4 opacity-50" id="stage-7">
+              <div>
+                <span class="text-xs text-on-surface-variant font-mono font-semibold">阶段7</span>
+                <span class="text-sm font-semibold text-on-surface ml-2">可观测性验证</span>
+              </div>
+              <p class="text-xs text-on-surface-variant mt-1">查看日志/指标 → 验收通过?</p>
+            </div>
+          </div>
+
+          <!-- 阶段8: 熵管理 — 穿插 -->
+          <div class="flex items-start gap-3 pb-3">
+            <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="recycle" class="w-4 h-4 text-on-surface-variant"></i>
+            </div>
+            <div class="flex-1 bg-surface rounded-lg shadow-card p-4 opacity-50" id="stage-8">
+              <div>
+                <span class="text-xs text-on-surface-variant font-mono font-semibold">阶段8</span>
+                <span class="text-sm font-semibold text-on-surface ml-2">熵管理（穿插）</span>
+              </div>
+              <p class="text-xs text-on-surface-variant mt-1">后台清理 + Doc-Gardening + 质量基线更新</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧：实时日志面板 -->
+      <div class="w-96 shrink-0 border-l border-outline/20 bg-surface flex flex-col">
+        <div class="px-4 py-3 border-b border-outline/20 flex items-center justify-between">
+          <span class="text-sm font-semibold text-on-surface">实时日志</span>
+          <div class="flex items-center gap-2">
+            <button id="btn-log-clear" class="text-xs text-on-surface-variant hover:text-on-surface transition-colors">清空</button>
+          </div>
+        </div>
+        <div class="flex-1 overflow-y-auto px-4 py-3 space-y-1.5 font-mono text-xs" id="log-panel">
+          <div class="text-success">✓ 阶段0 初始化完成</div>
+          <div class="text-on-surface-variant">  init.sh executed (4 steps)</div>
+          <div class="text-success">✓ 阶段1 信息层完成</div>
+          <div class="text-on-surface-variant">  AGENTS.md written (9 rules)</div>
+          <div class="text-on-surface-variant">  docs/ created (6 documents)</div>
+          <div class="text-on-surface-variant">  architecture docs written</div>
+          <div class="text-success">✓ 原型确认通过</div>
+          <div class="text-success">✓ 阶段2 功能拆分完成</div>
+          <div class="text-on-surface-variant">  feature_list.json: F001-F010</div>
+          <div class="text-on-surface-variant">  design docs: 10 files</div>
+          <div class="text-success">✓ 设计审批通过</div>
+          <div class="text-success">✓ 阶段3 Agent 启动完成</div>
+          <div class="text-on-surface-variant">  Step 1: pwd /workspace/projects</div>
+          <div class="text-on-surface-variant">  Step 2: git log (5 commits)</div>
+          <div class="text-on-surface-variant">  Step 3: feature_list.json → F002</div>
+          <div class="text-on-surface-variant">  Step 4: verify.sh 14/14 passed</div>
+          <div class="text-warning">▸ 阶段4 编码实现中</div>
+          <div class="text-on-surface-variant">  F002: LangGraph StateGraph 拓扑</div>
+          <div class="text-on-surface-variant">  → graph/definition.py created</div>
+          <div class="text-on-surface-variant">  → graph/edges.py created</div>
+          <div class="text-on-surface-variant">  → nodes/initializer.py created</div>
+          <div class="text-on-surface-variant">  → nodes/information_layer.py created</div>
+          <div class="text-warning pulse-amber">▸ 正在实现 nodes/constraint_injector.py...</div>
+        </div>
+
+        <!-- 状态摘要 -->
+        <div class="px-4 py-3 border-t border-outline/20 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-on-surface-variant">verify.sh 闸门</span>
+            <span class="text-success font-semibold">14 / 14 通过</span>
+          </div>
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-on-surface-variant">当前功能</span>
+            <span class="text-warning font-semibold">F002 LangGraph 编排引擎</span>
+          </div>
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-on-surface-variant">耗时</span>
+            <span class="text-on-surface font-mono">4m 32s</span>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- @main-content:end -->
+  </div>
+  <!-- @nav:end -->
+
+  <script>
+    lucide.createIcons();
+
+    $(function() {
+      // 阶段节点点击展开/折叠
+      $('[id^="stage-"]').on('click', function() {
+        console.log('展开阶段详情:', $(this).attr('id'));
+      });
+
+      // 日志清空
+      $('#btn-log-clear').on('click', function() {
+        $('#log-panel').empty();
+      });
+    });
+  </script>
+</body>
+
+</html>
