@@ -65,12 +65,18 @@ exclude = ["tests/", "\\.venv/"]
 [tool.importlinter]
 root_package = "server"
 
+# ❌ Routes 不得直接 import Models（绕过 Service 层）
+# ✅ FIX: 在 Service 层编排数据访问，Routes 只持有 Service 引用
+# 📖 See: docs/architecture/boundaries.md
 [[tool.importlinter.contracts]]
 name = "Routes cannot import models directly"
 type = "forbidden"
 source_modules = ["server.routes"]
 forbidden_modules = ["server.models"]
 
+# ❌ Nodes 不得直接 import Routes（Node 只返回 State，不操作 HTTP 响应）
+# ✅ FIX: Node 只返回 State，HTTP 响应由 routes 层处理
+# 📖 See: docs/architecture/boundaries.md
 [[tool.importlinter.contracts]]
 name = "Nodes cannot import routes"
 type = "forbidden"

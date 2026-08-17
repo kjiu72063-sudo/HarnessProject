@@ -35,3 +35,6 @@
 [2026-08-17T14:00Z] stage-02 | fix-G8 | done | 日志规范: coding.md新增Anthropic上下文窗口污染缓解实践段
 [2026-08-17T14:00Z] stage-02 | fix-G9 | done | env-review.md补每月规则回顾 + convention-mapping补Linter管理指导(逐条添加+豁免白名单)
 [2026-08-17T14:00Z] stage-02 | verify-9 | done | verify.sh 9项全通过: 新增file-size检查, AGENTS.md硬性规则增至11条
+[2026-08-17T14:30Z] stage-02 | pdf-audit-4 | done | PDF第四轮审计: 1个设计缺失(G10 import-linter三要素) + 无新增流程未到 + 无冲突
+[2026-08-17T14:30Z] stage-02 | fix-G10 | done | import-linter三要素: pyproject.toml合约注释 + verify.sh check_import_linter自定义函数解析BROKEN输出三要素引导
+[2026-08-17T14:30Z] stage-02 | verify-9-v2 | done | verify.sh 9项全通过: import-linter检查升级为三要素输出, convention-mapping标注更新

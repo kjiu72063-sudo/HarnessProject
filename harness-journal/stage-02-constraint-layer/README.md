@@ -74,7 +74,7 @@
 ## 产出物
 - `.dependency-cruiser.cjs` — 前端分层依赖检查配置
 - `pyproject.toml` — 后端 ruff/mypy/pytest-cov/import-linter 配置
-- `scripts/verify.sh` — 全链路闸门脚本（8项）
+- `scripts/verify.sh` — 全链路闸门脚本（9项）
 - `scripts/coding-agent-start.sh` — 编码 Agent 启动脚本（含 e2e）
 - `server/tests/test_api.py` — API 基础测试 (5个)
 - `server/tests/test_settings.py` — 配置基础测试 (2个)
@@ -104,3 +104,13 @@
 附加修复: ESLint `max-lines-per-function` 触发 `App.tsx` 的 `App` 函数超限（53 行 > 50），提取 `ApiStatus` 子组件使主函数降至 50 行以内。AGENTS.md 硬性规则新增 #11（文件大小/方法长度限制）。
 
 审计同时确认：第三轮无新增流程未到项，PDF 与当前设计无冲突。verify.sh 从 8 项扩展为 9 项。
+
+### 12 - 第四轮 PDF 审计修复
+
+基于 PDF 原文第四轮逐项对照落地清单 + 「把主观品味翻译成机械规则」表 + 「自定义 Linter 规则：错误信息即 Prompt」段，发现 1 个设计缺失：
+
+1. **import-linter 合约缺少三要素错误信息**（G10）: PDF 原文「每条 Linter 报错都必须包含三要素——是什么、怎么修、去哪看文档」。dependency-cruiser 自定义规则已有三要素（`comment` 字段），但 import-linter 工具不支持自定义错误输出，合约被违反时只显示合约名 + `BROKEN`。修复：(a) 在 `pyproject.toml` 每个合约上方添加三要素 TOML 注释；(b) 在 `verify.sh` 中将 import-linter 从普通 `run_check` 替换为 `check_import_linter` 自定义函数，合约被违反时解析输出并打印对应的 ❌/✅/📖 三要素引导。`convention-to-rule-mapping.md` 两行 import-linter 规则标注更新为「+ 三要素注释」。
+
+审计同时确认：第四轮无新增流程未到项，PDF 与当前设计无冲突。
+
+修正: 产出物段 verify.sh 从「8项」更正为「9项」（第三轮修复时遗漏）。

@@ -53,8 +53,40 @@ run_check "Backend Ruff Lint" "uv run ruff check server/"
 # 5. 后端 MyPy 类型检查
 run_check "Backend MyPy Type Check" "uv run mypy server/ --config-file pyproject.toml"
 
-# 6. 后端分层依赖检查（等价于 ArchUnit）
-run_check "Backend Architecture (import-linter)" "uv run lint-imports"
+# 6. 后端分层依赖检查（等价于 ArchUnit）+ 三要素错误信息
+check_import_linter() {
+  local output
+  output=$(uv run lint-imports 2>&1)
+  local rc=$?
+  echo "$output"
+  if [ $rc -ne 0 ]; then
+    echo ""
+    echo "$output" | grep 'BROKEN' | while IFS= read -r line; do
+      local contract_name
+      contract_name=$(echo "$line" | sed 's/ BROKEN.*//' | sed 's/^.*\. //')
+      case "$contract_name" in
+        "Routes cannot import models directly")
+          echo "  ❌ Routes 直接 import 了 Models（绕过 Service 层）"
+          echo "  ✅ FIX: 在 Service 层编排数据访问，Routes 只持有 Service 引用"
+          echo "  📖 See: docs/architecture/boundaries.md"
+          ;;
+        "Nodes cannot import routes")
+          echo "  ❌ Nodes 直接 import 了 Routes（Node 应只返回 State）"
+          echo "  ✅ FIX: Node 只返回 State，HTTP 响应由 routes 层处理"
+          echo "  📖 See: docs/architecture/boundaries.md"
+          ;;
+        *)
+          echo "  ❌ 分层依赖违规: $contract_name"
+          echo "  ✅ FIX: 参阅 docs/architecture/boundaries.md 依赖方向规则"
+          echo "  📖 See: docs/architecture/boundaries.md"
+          ;;
+      esac
+    done
+    return 1
+  fi
+  return 0
+}
+run_check "Backend Architecture (import-linter)" "check_import_linter"
 
 # 7. 后端单元测试 + 覆盖率（等价于 JaCoCo ≥ 80%）
 run_check "Backend Tests + Coverage >= 80%" "uv run pytest server/ --cov=server --cov-report=term-missing --cov-fail-under=80"
