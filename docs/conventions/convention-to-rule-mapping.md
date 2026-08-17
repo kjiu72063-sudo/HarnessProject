@@ -17,7 +17,7 @@ PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次�
 | 前端禁 as any | ESLint @typescript-eslint/no-explicit-any | ESLint recommended 含此规则 | ✅ 已配置 |
 | POST 用 Pydantic Body | AGENTS.md 硬性规则 #8 [P003] | 文档约束（人工审查） | ✅ 已记录 |
 | 测试覆盖率 ≥ 80% | pytest-cov --cov-fail-under=80 | verify.sh 闸门强制 | ✅ 已配置 |
-| Python 版本 ≥ 3.11 | pyproject.toml requires-python | pyproject.toml 约束 | ✅ 已配置 |
+| Python 版本 ≥ 3.12 | pyproject.toml requires-python | pyproject.toml 约束 | ✅ 已配置 |
 | pnpm 版本 ≥ 9 | package.json engines | package.json 约束 | ✅ 已配置 |
 | 文件要短 | 单文件 ≤ 300 行 | ESLint max-lines + verify.sh 检查 | ✅ 已配置 |
 | 方法要短 | 单方法/函数 ≤ 50 行 | ESLint max-lines-per-function + verify.sh AST 检查 | ✅ 已配置 |

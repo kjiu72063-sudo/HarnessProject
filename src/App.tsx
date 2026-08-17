@@ -52,7 +52,7 @@ export default function App() {
         </p>
         <ApiStatus loading={loading} health={health} />
         <div className="mt-4 grid grid-cols-4 gap-2 text-xs text-[#6B7280] font-mono">
-          <span>React 18</span>
+          <span>React 19</span>
           <span>·</span>
           <span>FastAPI</span>
           <span>·</span>

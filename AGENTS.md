@@ -6,7 +6,7 @@
 
 ## 技术栈基线（不允许擅自升级）
 
-- 前端: React 18 + TypeScript + Vite 7（不迁 Next.js）
+- 前端: React 19 + TypeScript + Vite 7（不迁 Next.js）
 - 后端: Python 3.12 + FastAPI + LangGraph
 - 数据库: PostgreSQL
 - LLM: OpenAI ChatGPT（可插拔，首个实现）

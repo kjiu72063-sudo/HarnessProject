@@ -38,7 +38,7 @@
 ### 06 - verify 全闸门脚本
 - 脚本: `scripts/verify.sh`
 - 等价于: PDF 中的 `mvn -B clean verify`
-- 8项检查: ts-check + eslint + depcruise + ruff + mypy + import-linter + pytest-cov + doc-freshness
+- 9项检查: ts-check + eslint + depcruise + ruff + mypy + import-linter + pytest-cov + doc-freshness + file-size
 - 任何一项失败即整体失败
 
 ### 07 - 编码 Agent 会话启动脚本
@@ -114,3 +114,13 @@
 审计同时确认：第四轮无新增流程未到项，PDF 与当前设计无冲突。
 
 修正: 产出物段 verify.sh 从「8项」更正为「9项」（第三轮修复时遗漏）。
+
+### 13 - 第五轮 PDF 审计修复
+
+基于 PDF 原文第五轮交叉验证——首次将 PDF「技术栈基线（不允许擅自升级）」原则与实际 `package.json` / `pyproject.toml` 依赖声明逐项比对，发现 1 个设计缺失：
+
+1. **AGENTS.md 技术栈基线与实际安装版本不一致**（G11）: PDF 原文要求 AGENTS.md 声明的技术栈基线必须与实际安装版本一致，Agent 读取 AGENTS.md 来决定编写兼容代码。但 AGENTS.md 声明 `React 18`，`package.json` 实际安装 `react: ^19.2.8`；`convention-to-rule-mapping.md` 声明 `Python ≥ 3.11`，`pyproject.toml` 为 `requires-python = ">=3.11"`，但 AGENTS.md 基线为 `Python 3.12`。`src/App.tsx` UI 也显示 `React 18`。根因：平台 Vite 模板默认安装 React 19，AGENTS.md 按原始设计写 React 18，四轮审计均未交叉验证声明基线与实际依赖。修复：(a) `AGENTS.md` 技术栈基线 `React 18` → `React 19`；(b) `src/App.tsx` UI 显示 `React 18` → `React 19`；(c) `pyproject.toml` `requires-python` 从 `>=3.11` 收紧为 `>=3.12`；(d) `convention-to-rule-mapping.md` `Python 版本 ≥ 3.11` → `≥ 3.12`。`docs/conventions/env-review.md` 已正确引用 React 19（第 4 项检查 `React 19→20`），无需修改。
+
+附加修正: journal section 06 描述行仍写「8项检查」（第四轮仅修正了产出物段，遗漏 section 06），更正为「9项检查」。
+
+审计同时确认：第五轮无新增流程未到项，PDF 与当前设计无冲突。verify.sh 9 项全通过，覆盖率 100%。
