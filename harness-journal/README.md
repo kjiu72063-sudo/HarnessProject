@@ -22,7 +22,8 @@ harness-journal/
 │   ├── 01-agents-md.md                 编写 AGENTS.md
 │   ├── 02-docs-directory.md            创建 docs/ 目录结构
 │   ├── 03-architecture-docs.md         编写架构文档
-│   └── 04-pitfalls-knowledge-base.md   踩坑知识库建立
+│   ├── 04-pitfalls-knowledge-base.md   踩坑知识库建立
+│   └── 05-prototype-planning.md         原型图开发规划（缺口补齐）
 ├── stage-02-constraint-layer/        ← 阶段2：约束层搭建（✅ 已完成）
 ├── stage-02-feature-breakdown/       ← 阶段2：功能拆分与设计（待执行）
 ├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
