@@ -1,5 +1,6 @@
 last_updated: 2026-08-17
 status: active
+owner: @K总
 
 # 测试规范
 

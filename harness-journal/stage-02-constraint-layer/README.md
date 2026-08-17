@@ -84,8 +84,23 @@
 - `docs/conventions/env-review.md` — 环境审查实践
 
 ## 验证结果
-- verify.sh 8 项全部通过
+- verify.sh 9 项全部通过
 - 覆盖率 100%（≥ 80% 阈值）
 - 分层依赖: 前端 0 违规, 后端 2 合约全部 KEPT
 - 文档新鲜度: 新文件跳过，已有文件全部在 60 天内
+- 文件大小: 全部源文件 ≤ 300 行, 全部函数 ≤ 50 行
 - test_run 服务探活通过
+
+### 11 - 第三轮 PDF 审计修复
+
+基于 PDF 原文第三轮逐句审计发现 5 个设计缺失（非流程未到），全部修复：
+
+1. **ruff T201 未启用**（G5）: AGENTS.md 硬性规则 #2 声明「禁止裸 print()」但 ruff select 不含 T20 规则族。在 `pyproject.toml` 的 ruff select 中添加 `"T20"`，`convention-to-rule-mapping.md` 状态从 `⬜ 待启用` 更新为 `✅ 已配置`
+2. **文件大小/方法长度限制缺失**（G6）: PDF「把主观品味翻译成机械规则」明确列出「单文件 ≤ 300 行」+「单方法 ≤ 50 行」两条机械规则。在 `eslint.config.mjs` 添加 `max-lines` (300) + `max-lines-per-function` (50) 规则；在 `verify.sh` 新增第 9 项检查（bash 文件长度 + Python AST 函数长度）；`convention-to-rule-mapping.md` 新增两行
+3. **文档元信息缺少 owner 字段**（G7）: PDF 文档模板要求 `last_updated` + `status` + `owner`。给 10 个缺少 `owner` 的 docs/*.md 文件全部补上 `owner: @K总`
+4. **日志规范缺失**（G8）: PDF Anthropic 案例「上下文窗口污染缓解」明确列为关键 Harness 设计。在 `coding.md` 新增「日志规范」段：最小化控制台输出 + 日志写文件 + grep 友好错误格式 + 预计算聚合统计
+5. **每月规则回顾 + Linter 管理指导缺失**（G9）: PDF 持续维护要求「每月回顾并更新规则」。在 `env-review.md` 新增「每月规则回顾」段；在 `convention-to-rule-mapping.md` 新增「Linter 管理指导」段（逐条添加原则 + 豁免白名单机制）
+
+附加修复: ESLint `max-lines-per-function` 触发 `App.tsx` 的 `App` 函数超限（53 行 > 50），提取 `ApiStatus` 子组件使主函数降至 50 行以内。AGENTS.md 硬性规则新增 #11（文件大小/方法长度限制）。
+
+审计同时确认：第三轮无新增流程未到项，PDF 与当前设计无冲突。verify.sh 从 8 项扩展为 9 项。

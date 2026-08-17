@@ -43,7 +43,8 @@
 7. 不修改 .coze 中的 sub_id
 8. POST/PUT 路由请求体必须用 Pydantic BaseModel，禁止裸参数 [P003]
 9. `progress.txt` 和 `feature_list.json` 必须纳入 Git，不可被 .gitignore 排除 [P004]
-10. 所有代码变更必须通过 `scripts/verify.sh` 全闸门（类型检查+Lint+分层依赖+覆盖率≥80%）
+10. 所有代码变更必须通过 `scripts/verify.sh` 全闸门（类型检查+Lint+分层依赖+覆盖率≥80%+文件大小+文档新鲜度）
+11. 单文件 ≤ 300 行；单函数/方法 ≤ 50 行（ESLint + verify.sh 强制）
 
 ## 常见问题和预防
 

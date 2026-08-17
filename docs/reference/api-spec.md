@@ -1,5 +1,6 @@
 last_updated: 2026-08-17
 status: draft
+owner: @K总
 
 # API 接口规范
 

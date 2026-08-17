@@ -27,3 +27,11 @@
 [2026-08-17T13:15Z] stage-02 | fix-G3 | done | coding-agent-start.sh Step4补dev server启动+curl健康检查
 [2026-08-17T13:15Z] stage-02 | fix-G4 | done | 环境审查实践: docs/conventions/env-review.md (每周30分钟4项检查)
 [2026-08-17T13:15Z] stage-02 | verify-8 | done | verify.sh 8项全通过: 新增doc-freshness检查
+[2026-08-17T14:00Z] stage-02 | pdf-audit-3 | done | PDF第三轮逐句审计: 5个设计缺失(G5-G9) + 无新增流程未到 + 无冲突
+[2026-08-17T14:00Z] stage-02 | fix-G5 | done | ruff T201启用: pyproject.toml select添加T20, convention-mapping状态更新为已配置
+[2026-08-17T14:00Z] stage-02 | fix-G6 | done | 文件/方法长度限制: ESLint max-lines(300)+max-lines-per-function(50) + verify.sh第9项检查
+[2026-08-17T14:00Z] stage-02 | fix-G6-refactor | done | App.tsx重构: 提取ApiStatus子组件, App函数从53行降至50行以内
+[2026-08-17T14:00Z] stage-02 | fix-G7 | done | 文档元信息: 10个docs/*.md文件补owner字段
+[2026-08-17T14:00Z] stage-02 | fix-G8 | done | 日志规范: coding.md新增Anthropic上下文窗口污染缓解实践段
+[2026-08-17T14:00Z] stage-02 | fix-G9 | done | env-review.md补每月规则回顾 + convention-mapping补Linter管理指导(逐条添加+豁免白名单)
+[2026-08-17T14:00Z] stage-02 | verify-9 | done | verify.sh 9项全通过: 新增file-size检查, AGENTS.md硬性规则增至11条

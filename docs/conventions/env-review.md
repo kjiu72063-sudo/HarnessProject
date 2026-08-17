@@ -1,5 +1,6 @@
 last_updated: 2026-08-17
 status: active
+owner: @K总
 
 # 环境审查
 
@@ -24,3 +25,19 @@ PDF 原文: "过度依赖 Agent，忘了'审查环境'" 是常见踩坑之一。
 ```
 
 如果发现需要修复的问题，按正常开发流程修复后通过 verify.sh 验证。
+
+## 每月规则回顾
+
+PDF 原文: "每月回顾并更新 ArchUnit / Checkstyle 规则"。
+
+每月一次（建议每月第一周），在每周环境审查基础上额外执行：
+
+1. **回顾上月新增规则**：新增的 Linter 规则是否有效拦截了目标问题，是否有误报
+2. **检查规则冲突**：是否有规则互相冲突或产生死循环（PDF 踩坑指南: "Agent 修了一个错误又触发另一个"）
+3. **评估新 bad pattern**：是否有新的需要新增规则的问题（按 `convention-to-rule-mapping.md` 流程）
+4. **更新对照表**：确认 `convention-to-rule-mapping.md` 所有规则状态正确，无遗漏
+
+执行结果记录在 `progress.txt` 中，格式：
+```
+[timestamp] audit | monthly-rule-review | done | 月度规则回顾: 通过/问题描述
+```

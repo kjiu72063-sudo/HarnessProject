@@ -51,7 +51,7 @@ exclude_lines = [
 line-length = 120
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "I", "UP", "B"]
+select = ["E", "F", "W", "I", "UP", "B", "T20"]
 ignore = ["E501"]
 
 [tool.mypy]

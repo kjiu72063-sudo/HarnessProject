@@ -1,5 +1,6 @@
 last_updated: 2026-08-17
 status: active
+owner: @K总
 
 # 编码规范
 
@@ -25,6 +26,15 @@ Anthropic 总结的 Agent 长时间运行时的三种典型翻车姿势，编码
 - Pydantic 模型用于请求/响应校验
 - FastAPI 路由函数使用 async def
 - LangGraph Node 是纯函数: 接收 State 返回 State
+
+## 日志规范（Anthropic 上下文窗口污染缓解）
+
+PDF Anthropic 案例的关键 Harness 设计——Agent 运行时上下文窗口是稀缺资源，过多日志输出会污染上下文，导致 Agent 无法聚焦关键信息。
+
+- **最小化控制台输出**：Node 执行时只输出关键状态变更（阶段进入/退出、错误），不输出中间数据
+- **日志写入文件**：结构化日志写入 `logs/` 目录，不直接打印到 stdout
+- **grep 友好的错误格式**：`ERROR: [模块] [原因]` 单行格式，便于 Agent 用 grep 快速定位
+- **预计算聚合统计**：输出"5 个测试失败，3 个在 routes 层"而非原始堆栈；Agent 需要详情时再查文件
 
 ## 踩坑记录规则
 

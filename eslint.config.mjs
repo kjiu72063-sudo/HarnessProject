@@ -20,6 +20,8 @@ export default defineConfig([
     },
     rules: {
       'import/no-cycle': ['error', { ignoreExternal: true }],
+      'max-lines': ['error', { max: 300, skipComments: true, skipBlankLines: true }],
+      'max-lines-per-function': ['error', { max: 50, skipComments: true, skipBlankLines: true }],
     },
   },
   globalIgnores([

@@ -84,6 +84,54 @@ check_doc_freshness() {
 }
 run_check "Doc Freshness (max 60 days)" "check_doc_freshness"
 
+# 9. 文件大小 + Python 函数长度检查（PDF: 单文件 ≤ 300 行, 单方法 ≤ 50 行）
+check_file_size() {
+  local max_file=300
+  local max_func=50
+  local found_violation=0
+
+  for f in $(find src/ -name '*.ts' -o -name '*.tsx' 2>/dev/null) $(find server/ -name '*.py' -not -path '*/__pycache__/*' -not -path '*/tests/*' 2>/dev/null); do
+    lines=$(wc -l < "$f")
+    if [ "$lines" -gt "$max_file" ]; then
+      echo "  ❌ $f: ${lines} 行 (上限 ${max_file})"
+      echo "  ✅ FIX: 拆分为更小的模块/组件"
+      echo "  📖 See: docs/conventions/coding.md"
+      found_violation=1
+    fi
+  done
+
+  python3 -c "
+import ast, os, sys
+max_func = ${max_func}
+violations = []
+for root, dirs, files in os.walk('server'):
+    dirs[:] = [d for d in dirs if d not in ('__pycache__', 'tests', '.venv')]
+    for fname in files:
+        if not fname.endswith('.py'): continue
+        fpath = os.path.join(root, fname)
+        with open(fpath) as f:
+            source = f.read()
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            continue
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                end = getattr(node, 'end_lineno', node.lineno)
+                func_lines = end - node.lineno + 1
+                if func_lines > max_func:
+                    violations.append(f'  ❌ {fpath}:{node.lineno} {node.name} ({func_lines} 行, 上限 {max_func})')
+if violations:
+    print('\n'.join(violations))
+    print('  ✅ FIX: 抽取私有方法或将职责下沉到 Service / Domain')
+    print('  📖 See: docs/conventions/coding.md')
+    sys.exit(1)
+" || found_violation=1
+
+  return $found_violation
+}
+run_check "File & Function Size (max 300 lines / 50 lines per function)" "check_file_size"
+
 echo ""
 echo "=========================================="
 echo "  Results: ${PASS} passed, ${FAIL} failed"
