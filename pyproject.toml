@@ -24,4 +24,55 @@ dev = [
     "httpx>=0.27.0",
     "ruff>=0.7.0",
     "mypy>=1.13.0",
+    "import-linter>=2.13",
+    "pytest-cov>=7.1.0",
+    "pytest-asyncio>=0.24.0",
 ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["server"]
+
+[tool.coverage.run]
+source = ["server"]
+omit = ["**/__pycache__/**", "**/tests/**"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+exclude = ["tests/", "\\.venv/"]
+
+[tool.importlinter]
+root_package = "server"
+
+[[tool.importlinter.contracts]]
+name = "Routes cannot import models directly"
+type = "forbidden"
+source_modules = ["server.routes"]
+forbidden_modules = ["server.models"]
+
+[[tool.importlinter.contracts]]
+name = "Nodes cannot import routes"
+type = "forbidden"
+source_modules = ["server.nodes"]
+forbidden_modules = ["server.routes"]

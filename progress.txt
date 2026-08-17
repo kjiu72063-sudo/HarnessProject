@@ -14,3 +14,10 @@
 [2026-08-17T10:58Z] init | F001 | passing | 项目初始化与骨架搭建完成
 [2026-08-17T11:30Z] stage-01 | harness-journal | done | 开发日志目录创建完成: 10个阶段, 20个文档, 记录真实开发顺序与产出
 [2026-08-17T11:45Z] stage-01 | pitfalls-kb | done | 踩坑知识库建立: docs/conventions/pitfalls.md (P001-P004), AGENTS.md 补常见问题段, coding.md 补踩坑记录规则
+[2026-08-17T12:30Z] stage-02 | pdf-audit | done | PDF原文审计: 发现阶段1信息层2缺口+阶段2约束层整层缺失
+[2026-08-17T12:30Z] stage-02 | constraint-layer | done | 约束层搭建: dependency-cruiser(前端分层) + import-linter(后端分层) + ruff(后端Lint) + pytest-cov(覆盖率≥80%) + verify.sh全闸门
+[2026-08-17T12:30Z] stage-02 | verify-gate | done | verify.sh 7项全通过: ts-check + eslint + depcruise + ruff + mypy + import-linter + pytest-cov(100%)
+[2026-08-17T12:30Z] stage-02 | coding-agent-start | done | 编码Agent启动脚本: PDF 5步标准流程(pwd→gitlog→featurelist→verify→开发)
+[2026-08-17T12:30Z] stage-02 | design-template | done | 设计文档模板: docs/design/_template.md (Status流转 Draft→Approved→InProgress→Implemented)
+[2026-08-17T12:30Z] stage-02 | testing-md | done | 测试规范: docs/conventions/testing.md (含覆盖率阈值和Agent自验证规则)
+[2026-08-17T12:30Z] stage-02 | convention-mapping | done | 约定→机械规则对照表: docs/conventions/convention-to-rule-mapping.md

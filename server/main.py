@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from server.routes import projects, agent_sessions
-from server.config.settings import settings
+
+from server.routes import agent_sessions, projects
 
 app = FastAPI(
     title="Harness Platform API",

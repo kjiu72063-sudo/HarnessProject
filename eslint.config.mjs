@@ -29,5 +29,7 @@ export default defineConfig([
     'scripts/**',
     '.venv/**',
     'server/**',
+    '.dependency-cruiser.cjs',
+    'vite.config.ts',
   ]),
 ]);

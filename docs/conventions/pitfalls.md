@@ -56,3 +56,36 @@ status: active
 | 修复方案 | 从 `.gitignore` 中移除匹配 `progress.txt` 的规则；确认 `git status` 能看到该文件 |
 | 关联文件 | `.gitignore` |
 | 预防规则 | `progress.txt`、`feature_list.json` 是 Harness 持久化记忆文件，必须纳入版本控制；初始化后检查 `git status` 确认这两个文件未被忽略 |
+
+## P005 — dependency-cruiser v18 `message` 属性已改为 `comment`
+
+| 字段 | 内容 |
+|---|---|
+| 阶段 | stage-02 / 约束层搭建 |
+| 错误特征 | `data/forbidden/0 must NOT have additional properties` + `must have required property 'module'` |
+| 根因 | dependency-cruiser v18 的 JSON schema 中，自定义规则的错误信息字段从 `message` 改为 `comment`；使用旧字段 `message` 会触发 schema 校验失败 |
+| 修复方案 | 将配置中所有 `message:` 改为 `comment:`；comment 字段支持多行字符串，可包含 ❌/✅/📖 三要素公式 |
+| 关联文件 | `.dependency-cruiser.cjs` |
+| 预防规则 | 升级 dependency-cruiser 大版本后，先跑 `npx depcruise src/ --config .dependency-cruiser.cjs` 验证配置 schema |
+
+## P006 — ESLint 扫描 `.dependency-cruiser.cjs` 报 `no-undef`
+
+| 字段 | 内容 |
+|---|---|
+| 阶段 | stage-02 / 约束层搭建 |
+| 错误特征 | ESLint 报 `no-undef`，指向 `.dependency-cruiser.cjs` 中的 `module` 变量 |
+| 根因 | `.dependency-cruiser.cjs` 是 CommonJS 配置文件，使用了 `module.exports` 但不在 ESLint 的 globalIgnores 中 |
+| 修复方案 | 在 `eslint.config.mjs` 的 `globalIgnores` 中添加 `.dependency-cruiser.cjs` 和 `vite.config.ts` |
+| 关联文件 | `eslint.config.mjs` |
+| 预防规则 | 新增 `.cjs`/`.mjs`/`.ts` 配置文件时，同步更新 ESLint `globalIgnores`；P002 的预防规则扩展为：globalIgnores 至少包含 `dist/**`、`node_modules/**`、`.venv/**`、`server/**`、所有 `.*.cjs`/`vite.config.ts` |
+
+## P007 — import-linter 不支持独立 `.importlinter.toml` 文件
+
+| 字段 | 内容 |
+|---|---|
+| 阶段 | stage-02 / 约束层搭建 |
+| 错误特征 | `Could not find .importlinter.toml` 或 `section '' already exists` |
+| 根因 | import-linter v2.x 的配置必须放在 `pyproject.toml` 的 `[tool.importlinter]` 段中，不支持独立 `.importlinter.toml` 文件；TOML 的 `[[importlinter.contracts]]` 语法在独立文件中无效 |
+| 修复方案 | 将 import-linter 配置写入 `pyproject.toml`，使用 `[tool.importlinter]` 和 `[[tool.importlinter.contracts]]` 格式；运行命令为 `uv run lint-imports`（不带 `--config` 参数） |
+| 关联文件 | `pyproject.toml` |
+| 预防规则 | Python 工具链配置统一写入 `pyproject.toml`，不使用独立的 `.xxx.toml` 文件；参考 PDF 原文的 `pom.xml` 集中配置理念 |

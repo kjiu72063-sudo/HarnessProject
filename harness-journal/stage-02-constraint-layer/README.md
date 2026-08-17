@@ -1,0 +1,78 @@
+# 阶段2 — 约束层搭建
+
+> 状态：✅ 已完成
+
+## 触发原因
+
+基于 PDF 原文审计发现：阶段2 约束层整层缺失。AGENTS.md 写了 9 条硬性规则，但没有任何一条被机械化执行。PDF 原文核心哲学："如果不能机械化地强制执行，Agent 就会偏离"。
+
+## 执行内容
+
+### 01 - 前端分层依赖检查（等价于 PDF 的 ArchUnit）
+- 工具: dependency-cruiser v18.2.0
+- 配置: `.dependency-cruiser.cjs`
+- 规则: 前端禁直接 import 后端 + 禁循环依赖
+- 错误信息格式: PDF 三要素公式（❌什么错了 ✅怎么修 📖去哪看）
+
+### 02 - 后端分层依赖检查
+- 工具: import-linter v2.13
+- 配置: `pyproject.toml [tool.importlinter]`
+- 规则: routes 禁直接 import models + nodes 禁 import routes
+
+### 03 - 后端 Lint（等价于 PDF 的 Checkstyle）
+- 工具: ruff
+- 配置: `pyproject.toml [tool.ruff]`
+- 规则: E/F/W/I/UP/B 规则族
+- 修复: 自动修复了 3 个 import 排序问题
+
+### 04 - 后端类型检查
+- 工具: mypy
+- 配置: `pyproject.toml [tool.mypy]`
+
+### 05 - 覆盖率闸门（等价于 PDF 的 JaCoCo ≥ 80%）
+- 工具: pytest-cov
+- 配置: `pyproject.toml [tool.coverage.report] fail_under = 80`
+- 基础测试: `server/tests/test_api.py` (5个) + `server/tests/test_settings.py` (2个)
+- 当前覆盖率: 100%
+
+### 06 - verify 全闸门脚本
+- 脚本: `scripts/verify.sh`
+- 等价于: PDF 中的 `mvn -B clean verify`
+- 7项检查: ts-check + eslint + depcruise + ruff + mypy + import-linter + pytest-cov
+- 任何一项失败即整体失败
+
+### 07 - 编码 Agent 会话启动脚本
+- 脚本: `scripts/coding-agent-start.sh`
+- PDF 原文规定的 5 步标准流程:
+  1. pwd 确认工作目录
+  2. 读取 git log + progress.txt
+  3. 读取 feature_list.json 选功能
+  4. 运行 verify 闸门 + 端到端测试
+  5. 确认正常后开始开发
+
+### 08 - 阶段1 信息层缺口修复
+- 创建 `docs/design/_template.md` — PDF 设计文档模板（含 Status 流转）
+- 创建 `docs/conventions/testing.md` — 测试规范（AGENTS.md 导航表原本引用但文件不存在）
+- 创建 `docs/conventions/convention-to-rule-mapping.md` — 约定→机械规则对照表
+
+### 09 - 踩坑记录
+- P005: dependency-cruiser v18 的 `message` 属性已改为 `comment`
+- P006: ESLint 扫描 `.dependency-cruiser.cjs` 报 `no-undef`
+- P007: import-linter 不支持 `.importlinter.toml` 独立文件，必须放在 pyproject.toml
+
+## 产出物
+- `.dependency-cruiser.cjs` — 前端分层依赖检查配置
+- `pyproject.toml` — 后端 ruff/mypy/pytest-cov/import-linter 配置
+- `scripts/verify.sh` — 全链路闸门脚本
+- `scripts/coding-agent-start.sh` — 编码 Agent 启动脚本
+- `server/tests/test_api.py` — API 基础测试 (5个)
+- `server/tests/test_settings.py` — 配置基础测试 (2个)
+- `docs/design/_template.md` — 设计文档模板
+- `docs/conventions/testing.md` — 测试规范
+- `docs/conventions/convention-to-rule-mapping.md` — 约定→机械规则对照表
+
+## 验证结果
+- verify.sh 7 项全部通过
+- 覆盖率 100%（≥ 80% 阈值）
+- 分层依赖: 前端 0 违规, 后端 2 合约全部 KEPT
+- test_run 服务探活通过

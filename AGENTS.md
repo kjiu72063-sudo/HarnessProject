@@ -22,8 +22,10 @@
 | 了解 LangGraph State 设计 | docs/architecture/state-design.md |
 | 了解 API 接口规范 | docs/reference/api-spec.md |
 | 了解编码规范 | docs/conventions/coding.md |
+| 了解约定→机械规则对照表 | docs/conventions/convention-to-rule-mapping.md |
 | 了解踩坑记录与排查 | docs/conventions/pitfalls.md |
 | 了解测试规范 | docs/conventions/testing.md |
+| 了解设计文档模板 | docs/design/_template.md |
 | 了解当前迭代任务 | docs/plans/current-sprint.md |
 | 了解功能列表 | feature_list.json |
 | 了解最近进展 | progress.txt |
@@ -40,6 +42,7 @@
 7. 不修改 .coze 中的 sub_id
 8. POST/PUT 路由请求体必须用 Pydantic BaseModel，禁止裸参数 [P003]
 9. `progress.txt` 和 `feature_list.json` 必须纳入 Git，不可被 .gitignore 排除 [P004]
+10. 所有代码变更必须通过 `scripts/verify.sh` 全闸门（类型检查+Lint+分层依赖+覆盖率≥80%）
 
 ## 常见问题和预防
 
@@ -51,6 +54,9 @@
 | P002 | `no-undef` 指向 `.venv/` | ESLint globalIgnores 必须排除 .venv 和 server |
 | P003 | POST 返回 `422` | 路由参数必须用 Pydantic Body 模型 |
 | P004 | `progress.txt` 无法提交 | 检查 .gitignore 通配规则误匹配 |
+| P005 | dependency-cruiser `must NOT have additional properties` | v18 的 `message` 改为 `comment` |
+| P006 | `no-undef` 指向 `.dependency-cruiser.cjs` | ESLint globalIgnores 需排除配置文件 |
+| P007 | `Could not find .importlinter.toml` | import-linter 配置必须放 pyproject.toml |
 
 新增踩坑时按 `docs/conventions/coding.md` 的「踩坑记录规则」执行。
 
@@ -67,6 +73,10 @@
 │   └── schemas/        # Pydantic schema
 ├── docs/               # 结构化知识库
 ├── scripts/            # 构建与启动脚本
+│   ├── dev.sh          # 双栈开发启动
+│   ├── verify.sh       # 全链路闸门（等价 mvn verify）
+│   ├── coding-agent-start.sh  # 编码 Agent 会话启动（5步标准流程）
+│   └── ...
 ├── progress.txt        # 持久化进度记忆
 ├── feature_list.json   # 功能列表与状态
 ├── harness-journal/    # 开发日志（记录真实开发顺序与产出，与项目运行无关）

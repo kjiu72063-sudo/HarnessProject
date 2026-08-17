@@ -11,6 +11,9 @@
     "lint:style": "stylelint \"src/**/*.css\"",
     "start": "bash ./scripts/start.sh",
     "ts-check": "tsc -p tsconfig.json",
+    "verify": "bash ./scripts/verify.sh",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "validate": "pnpm dlx concurrently --group --names lint-tsc,lint-build,lint-style \"pnpm ts-check\" \"pnpm lint:build\" \"pnpm lint:style\""
   },
   "dependencies": {
@@ -26,8 +29,10 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "4.3.4",
+    "@vitest/coverage-v8": "^4.1.10",
     "autoprefixer": "^10.4.20",
     "coze-coding-dev-sdk": "^0.7.24",
+    "dependency-cruiser": "^18.2.0",
     "esbuild": "^0.24.2",
     "eslint": "^9",
     "eslint-plugin-import": "^2.32.0",
@@ -40,7 +45,8 @@
     "tsx": "^4.19.2",
     "typescript": "^5.6.0",
     "typescript-eslint": "^8",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vitest": "^4.1.10"
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
