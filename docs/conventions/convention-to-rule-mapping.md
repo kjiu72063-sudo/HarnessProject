@@ -25,7 +25,7 @@ PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次�
 | 前端禁 as any | no-explicit-any | ESLint recommended → verify.sh #2 | ✅ 已机械化 | #3 |
 | POST 用 Pydantic Body | 路由参数必须 Pydantic Body | 文档约束 [P003] | ⚠️ 人工审查 | #8 |
 | API 必须有类型定义 | Pydantic schema + TS 类型 | FastAPI 自动校验 + mypy | ⚠️ 人工审查 | #4 |
-| LangGraph Node 纯函数 | 接收 State 返回 State | — | ⬜ 待机械化 | #5 |
+| LangGraph Node 纯函数 | 接收 State 返回 State | — | ⬜ 待机械化 (F002) | #5 |
 | 测试覆盖率 ≥ 80% | --cov-fail-under=80 | pytest-cov → verify.sh #9 | ✅ 已机械化 | #10 |
 | Python 版本 ≥ 3.12 | requires-python >= 3.12 | pyproject.toml + check_tech_stack_alignment → #12 | ✅ 已机械化 | #12 |
 | pnpm 版本 ≥ 9 | engines pnpm >= 9 | package.json engines（pnpm install 时强制） | ✅ 已机械化 | — |
