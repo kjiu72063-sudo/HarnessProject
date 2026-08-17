@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Harness Platform - Verify 闸门
 # 等价于 PDF 中的 `mvn -B clean verify` 全链路
-# 编译检查 + 分层依赖检查 + Lint + 类型检查 + 覆盖率 ≥ 80%
+# 12 项: 类型检查 + Lint + CSS Lint + 单元测试 + 分层依赖 + 覆盖率 ≥ 80% + 文档新鲜度 + 文件大小 + 技术栈基线一致性
 # 任何一项失败即整体失败，阻止代码合并
 
 set -euo pipefail
@@ -169,6 +169,48 @@ if violations:
   return $found_violation
 }
 run_check "File & Function Size (max 300 lines / 50 lines per function)" "check_file_size"
+
+# 12. 技术栈基线一致性检查（P008: AGENTS.md 声明版本 vs 实际安装版本）
+check_tech_stack_alignment() {
+  local found_mismatch=0
+
+  local agents_react pkg_react
+  agents_react=$(grep -oE 'React [0-9]+' AGENTS.md | head -1 | grep -oE '[0-9]+')
+  pkg_react=$(grep '"react":' package.json | head -1 | grep -oE '\^?[0-9]+' | head -1 | tr -d '^')
+  if [ -n "$agents_react" ] && [ -n "$pkg_react" ] && [ "$agents_react" != "$pkg_react" ]; then
+    echo "  ❌ AGENTS.md 声明 React $agents_react，但 package.json 实际安装 React $pkg_react"
+    echo "  ✅ FIX: 统一 AGENTS.md 基线与 package.json 实际版本"
+    echo "  📖 See: docs/conventions/pitfalls.md (P008)"
+    found_mismatch=1
+  fi
+
+  local agents_python pyproject_python
+  agents_python=$(grep -oE 'Python [0-9.]+' AGENTS.md | head -1 | grep -oE '[0-9.]+')
+  pyproject_python=$(grep 'requires-python' pyproject.toml | grep -oE '[0-9.]+')
+  if [ -n "$agents_python" ] && [ -n "$pyproject_python" ] && [ "$agents_python" != "$pyproject_python" ]; then
+    echo "  ❌ AGENTS.md 声明 Python $agents_python，但 pyproject.toml requires-python >= $pyproject_python"
+    echo "  ✅ FIX: 统一 AGENTS.md 基线与 pyproject.toml requires-python 版本"
+    echo "  📖 See: docs/conventions/pitfalls.md (P008)"
+    found_mismatch=1
+  fi
+
+  local agents_vite pkg_vite
+  agents_vite=$(grep -oE 'Vite [0-9]+' AGENTS.md | head -1 | grep -oE '[0-9]+')
+  pkg_vite=$(grep '"vite":' package.json | head -1 | grep -oE '\^?[0-9]+' | head -1 | tr -d '^')
+  if [ -n "$agents_vite" ] && [ -n "$pkg_vite" ] && [ "$agents_vite" != "$pkg_vite" ]; then
+    echo "  ❌ AGENTS.md 声明 Vite $agents_vite，但 package.json 实际安装 Vite $pkg_vite"
+    echo "  ✅ FIX: 统一 AGENTS.md 基线与 package.json 实际版本"
+    echo "  📖 See: docs/conventions/pitfalls.md (P008)"
+    found_mismatch=1
+  fi
+
+  if [ $found_mismatch -eq 0 ]; then
+    echo "  技术栈基线一致: React $agents_react / Python $agents_python / Vite $agents_vite"
+  fi
+
+  return $found_mismatch
+}
+run_check "Tech Stack Baseline Alignment (AGENTS.md vs actual)" "check_tech_stack_alignment"
 
 echo ""
 echo "=========================================="

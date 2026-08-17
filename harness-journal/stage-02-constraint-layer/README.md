@@ -38,7 +38,7 @@
 ### 06 - verify 全闸门脚本
 - 脚本: `scripts/verify.sh`
 - 等价于: PDF 中的 `mvn -B clean verify`
-- 11项检查: ts-check + eslint + vitest + stylelint + depcruise + ruff + mypy + import-linter + pytest-cov + doc-freshness + file-size
+- 12项检查: ts-check + eslint + vitest + stylelint + depcruise + ruff + mypy + import-linter + pytest-cov + doc-freshness + file-size + tech-stack-alignment
 - 任何一项失败即整体失败
 
 ### 07 - 编码 Agent 会话启动脚本
@@ -74,7 +74,7 @@
 ## 产出物
 - `.dependency-cruiser.cjs` — 前端分层依赖检查配置
 - `pyproject.toml` — 后端 ruff/mypy/pytest-cov/import-linter 配置
-- `scripts/verify.sh` — 全链路闸门脚本（11项）
+- `scripts/verify.sh` — 全链路闸门脚本（12项）
 - `scripts/coding-agent-start.sh` — 编码 Agent 启动脚本（含 e2e）
 - `server/tests/test_api.py` — API 基础测试 (5个)
 - `server/tests/test_settings.py` — 配置基础测试 (2个)
@@ -84,7 +84,7 @@
 - `docs/conventions/env-review.md` — 环境审查实践
 
 ## 验证结果
-- verify.sh 11 项全部通过
+- verify.sh 12 项全部通过
 - 覆盖率 100%（≥ 80% 阈值）
 - 分层依赖: 前端 0 违规, 后端 2 合约全部 KEPT
 - 文档新鲜度: 新文件跳过，已有文件全部在 60 天内
@@ -153,3 +153,21 @@ G11 暴露的设计盲区——五轮审计均聚焦 PDF 要求逐条对照，�
 - tsconfig.json、DESIGN.md、测试文件 → 全部一致
 
 审计同时确认：第七轮无新增流程未到项（除上述已分类），PDF 与当前设计无冲突。verify.sh 从 10 项扩展为 11 项，全通过，覆盖率 100%。
+
+### 17 - 第八轮交叉验证审计修复
+
+基于用户要求交叉验证其他未覆盖到的模块，逐项检查 .coze / .preview / index.html / .gitignore / .env.example / settings.py / 所有 `__init__.py` / harness-journal 目录结构 / verify.sh 头部注释之间的一致性。发现 1 个设计缺失（含两个子问题）：
+
+1. **AGENTS.md #12（P008）声明但未机械化执行 + verify.sh 头部注释过时**（G14）:
+   - **G14a（头部注释过时）**: verify.sh 第 4 行头部注释写「编译检查 + 分层依赖检查 + Lint + 类型检查 + 覆盖率 ≥ 80%」，但实际已有 11 项检查（含 CSS Lint、前端测试、文档新鲜度、文件大小）。与 G12 完全同构——文档描述与实际配置不一致。
+   - **G14b（规则 #12 未机械化）**: AGENTS.md 硬性规则 #12 声明「技术栈基线必须与 package.json / pyproject.toml 交叉验证 [P008]」，但 verify.sh 无对应检查。P008 恰恰是因为 5 轮人工审计均未发现版本漂移才暴露——仅靠 env-review.md 每周人工检查和「每次审计时」的人工约束，正是 PDF 核心哲学「如果不能机械化地强制执行，Agent 就会偏离」所警告的失败模式。修复：(a) verify.sh 新增第 12 项 `check_tech_stack_alignment` 函数，自动提取 AGENTS.md 声明的 React / Python / Vite 版本与 package.json / pyproject.toml 实际安装版本比对，不一致时按三要素格式报错；(b) verify.sh 头部注释更新为完整 12 项描述；(c) `testing.md` 验证流程表更新为 12 项；(d) `AGENTS.md` 硬性规则 #10 更新为「12 项」；(e) `convention-to-rule-mapping.md` 新增「技术栈基线一致性」行。
+
+交叉验证其他模块（无设计缺失）：
+- .env.example 与 settings.py 环境变量完全一致（4 个变量名 + 默认值 + env_prefix 匹配）
+- .gitignore 正确排除 .preview，且不误伤 progress.txt / feature_list.json（AGENTS.md 规则 #9 [P004] 满足）
+- 所有 server/ 下 `__init__.py` 为空文件，无逻辑代码
+- index.html 标准入口（lang=zh-CN，root div，src=/src/index.tsx）
+- .coze [dev] / [deploy] 脚本路径与实际 scripts/ 文件全部匹配
+- harness-journal 目录结构完整（23 个 .md 文件，8 个 stage 目录）
+
+审计同时确认：第八轮无新增流程未到项，PDF 与当前设计无冲突。verify.sh 从 11 项扩展为 12 项。

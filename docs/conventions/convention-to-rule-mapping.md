@@ -22,6 +22,7 @@ PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次�
 | 文件要短 | 单文件 ≤ 300 行 | ESLint max-lines + verify.sh 检查 | ✅ 已配置 |
 | 方法要短 | 单方法/函数 ≤ 50 行 | ESLint max-lines-per-function + verify.sh AST 检查 | ✅ 已配置 |
 | CSS 代码规范 | stylelint-config-standard | stylelint + verify.sh 闸门强制 | ✅ 已配置 |
+| 技术栈基线一致性 | AGENTS.md 声明版本 = 实际安装版本 | verify.sh check_tech_stack_alignment [P008] | ✅ 已配置 |
 
 ## 新增规则流程
 

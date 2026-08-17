@@ -18,7 +18,7 @@ owner: @K总
 - LangGraph Node 测试: 输入 State → 调用 Node → 断言输出 State
 
 ## 验证流程
-所有检查绑定到 `scripts/verify.sh`，一次执行（11 项），等价于 PDF 中的 `mvn verify` 闸门：
+所有检查绑定到 `scripts/verify.sh`，一次执行（12 项），等价于 PDF 中的 `mvn verify` 闸门：
 
 | # | 检查项 | 说明 |
 |---|---|---|
@@ -33,6 +33,7 @@ owner: @K总
 | 9 | `uv run pytest --cov --cov-fail-under=80` | 后端单元测试 + 覆盖率 ≥ 80% |
 | 10 | doc-freshness | 文档新鲜度（>60 天未更新则失败） |
 | 11 | file-size | 文件 ≤ 300 行 + Python 函数 ≤ 50 行 |
+| 12 | tech-stack-alignment | AGENTS.md 声明版本与 package.json / pyproject.toml 实际版本一致 [P008] |
 
 任何一项失败即整体失败。
 
