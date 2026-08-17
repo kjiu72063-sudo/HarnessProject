@@ -26,6 +26,7 @@
 | 了解当前迭代任务 | docs/plans/current-sprint.md |
 | 了解功能列表 | feature_list.json |
 | 了解最近进展 | progress.txt |
+| 了解开发日志与阶段产出 | harness-journal/README.md |
 
 ## 硬性规则（CI 会验证）
 
@@ -52,6 +53,7 @@
 ├── scripts/            # 构建与启动脚本
 ├── progress.txt        # 持久化进度记忆
 ├── feature_list.json   # 功能列表与状态
+├── harness-journal/    # 开发日志（记录真实开发顺序与产出，与项目运行无关）
 ├── .coze               # 平台配置
 └── .preview            # 预览端口声明
 ```

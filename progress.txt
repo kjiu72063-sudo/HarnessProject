@@ -12,3 +12,4 @@
 [2026-08-17T10:57Z] init | dev-scripts | done | dev.sh/build.sh/start.sh/prepare.sh 双栈脚本更新完成
 [2026-08-17T10:58Z] init | verify | done | 前端 200 + 后端 health ok + API 代理连通 + 端口 0.0.0.0 绑定
 [2026-08-17T10:58Z] init | F001 | passing | 项目初始化与骨架搭建完成
+[2026-08-17T11:30Z] stage-01 | harness-journal | done | 开发日志目录创建完成: 10个阶段, 20个文档, 记录真实开发顺序与产出

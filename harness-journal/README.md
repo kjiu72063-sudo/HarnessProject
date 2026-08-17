@@ -1,0 +1,63 @@
+# Harness Engineering 开发日志
+
+本目录独立于项目源码，专门记录 harness-platform 项目按 Harness Engineering 流程开发的真实过程。每个阶段的每个步骤都有对应文档，记录执行顺序、决策依据、产出物和验证结果。
+
+## 目录结构
+
+```
+harness-journal/
+├── README.md                          ← 你在这里
+├── stage-00-requirement/             ← 阶段0：需求与可行性
+│   ├── 01-feasibility-analysis.md       可行性判断
+│   ├── 02-feature-design.md            功能设计与原型草图
+│   └── 03-architecture-design.md       架构设计与技术方案
+├── stage-00-init-agent/              ← 阶段0：初始化 Agent
+│   ├── 01-project-structure.md         创建标准项目结构
+│   ├── 02-dependency-config.md         初始化依赖配置
+│   ├── 03-init-script.md               编写启动脚本
+│   ├── 04-progress-file.md             创建进度文件
+│   ├── 05-feature-list.md              创建功能列表
+│   └── 06-git-init.md                  初始化 Git 仓库
+├── stage-01-information-layer/       ← 阶段1：信息层
+│   ├── 01-agents-md.md                 编写 AGENTS.md
+│   ├── 02-docs-directory.md            创建 docs/ 目录结构
+│   └── 03-architecture-docs.md         编写架构文档
+├── stage-02-feature-breakdown/       ← 阶段2：功能拆分与设计（待执行）
+├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
+├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
+├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
+├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
+├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）
+└── stage-08-entropy/                 ← 阶段8：熵管理（待执行）
+```
+
+## 阶段说明
+
+Harness Engineering 流程在本项目中的实际执行顺序与标准 8 阶段的映射关系：
+
+| 实际顺序 | 阶段名称 | 对应 Harness 阶段 | 状态 |
+|---------|---------|------------------|------|
+| 0 | 需求与可行性 | 前置（文档中未显式定义） | ✅ 已完成 |
+| 0 | 初始化 Agent | 阶段0（Anthropic 两阶段模型-初始化） | ✅ 已完成 |
+| 1 | 信息层 | 阶段1（信息层） | ✅ 已完成 |
+| 2 | 功能拆分与设计 | 阶段2 | ⬜ 待执行 |
+| 3 | 设计审批 | 阶段2-审批 | ⬜ 待执行 |
+| 4 | 编码实现 | 阶段4 | ⬜ 待执行 |
+| 5 | 自校验与反馈循环 | 阶段5 | ⬜ 待执行 |
+| 6 | 合并与部署 | 阶段6 | ⬜ 待执行 |
+| 7 | 可观测性验证 | 阶段7 | ⬜ 待执行 |
+| 8 | 熵管理 | 阶段8 | ⬜ 待执行 |
+
+## 文档规范
+
+每个步骤文档包含以下字段：
+
+```
+## 步骤名称
+## 执行时间
+## 前置条件
+## 执行内容
+## 产出物
+## 验证结果
+## 备注
+```
