@@ -1,46 +1,66 @@
-# 项目上下文
+# AGENTS.md
 
-## 技术栈
+## 项目简介
 
-- **核心**: Vite 7, TypeScript, Express
-- **UI**: Tailwind CSS
+面向"一键开发应用"的元应用平台，基于 Harness Engineering 方法论 + LangGraph 编排引擎，用户输入需求 → Agent 按 8 阶段 Harness 流程生成可部署应用。
+
+## 技术栈基线（不允许擅自升级）
+
+- 前端: React 18 + TypeScript + Vite 7（不迁 Next.js）
+- 后端: Python 3.12 + FastAPI + LangGraph
+- 数据库: PostgreSQL
+- LLM: OpenAI ChatGPT（可插拔，首个实现）
+- 包管理: 前端 pnpm，后端 uv
+- UI: Tailwind CSS
+
+## 快速导航
+
+| 你想做什么 | 去哪里看 |
+|---|---|
+| 了解 Harness 8 阶段流程 | docs/architecture/harness-flow.md |
+| 了解前后端分层边界 | docs/architecture/boundaries.md |
+| 了解 LangGraph State 设计 | docs/architecture/state-design.md |
+| 了解 API 接口规范 | docs/reference/api-spec.md |
+| 了解编码规范 | docs/conventions/coding.md |
+| 了解测试规范 | docs/conventions/testing.md |
+| 了解当前迭代任务 | docs/plans/current-sprint.md |
+| 了解功能列表 | feature_list.json |
+| 了解最近进展 | progress.txt |
+
+## 硬性规则（CI 会验证）
+
+1. 前端调用后端 API 统一走相对路径 `/api/...`，禁止硬编码域名/IP/localhost
+2. 后端 Python 代码禁止裸 `print()`，统一用 `logging`
+3. 前端禁止 `as any` 和隐式 `any`
+4. 新增 API 必须有对应类型定义（Pydantic schema + TS 类型）
+5. LangGraph Node 必须是纯函数，接收 State 返回 State
+6. 端口: 前端 Vite 固定 5000，后端 FastAPI 固定 8000
+7. 不修改 .coze 中的 sub_id
 
 ## 目录结构
 
 ```
-├── scripts/            # 构建与启动脚本
-│   ├── build.sh        # 构建脚本
-│   ├── dev.sh          # 开发环境启动脚本
-│   ├── prepare.sh      # 预处理脚本
-│   └── start.sh        # 生产环境启动脚本
-├── server/             # 服务端逻辑
+├── src/                # 前端源码 (React + Vite)
+├── server/             # 后端源码 (Python + FastAPI + LangGraph)
+│   ├── graph/          # LangGraph 状态图定义
+│   ├── nodes/          # Harness 各阶段 Node 实现
+│   ├── models/         # 数据库模型
 │   ├── routes/         # API 路由
-│   ├── server.ts       # Express 服务入口
-│   └── vite.ts         # Vite 中间件集成
-├── src/                # 前端源码
-│   ├── index.css       # 全局样式
-│   ├── index.ts        # 客户端入口
-│   └── main.ts         # 主逻辑
-├── index.html          # 入口 HTML
-├── package.json        # 项目依赖管理
-├── tsconfig.json       # TypeScript 配置
-└── vite.config.ts      # Vite 配置
+│   ├── config/         # 配置
+│   └── schemas/        # Pydantic schema
+├── docs/               # 结构化知识库
+├── scripts/            # 构建与启动脚本
+├── progress.txt        # 持久化进度记忆
+├── feature_list.json   # 功能列表与状态
+├── .coze               # 平台配置
+└── .preview            # 预览端口声明
 ```
 
-## 包管理规范
+## 提交规范
 
-**仅允许使用 pnpm** 作为包管理器，**严禁使用 npm 或 yarn**。
-**常用命令**：
-- 安装依赖：`pnpm add <package>`
-- 安装开发依赖：`pnpm add -D <package>`
-- 安装所有依赖：`pnpm install`
-- 移除依赖：`pnpm remove <package>`
-
-## 开发规范
-
-- 使用 Tailwind CSS 进行样式开发
-
-### 编码规范
-
-- 默认按 TypeScript `strict` 心智写代码；优先复用当前作用域已声明的变量、函数、类型和导入，禁止引用未声明标识符或拼错变量名。
-- 禁止隐式 `any` 和 `as any`；函数参数、返回值、解构项、事件对象、Express `req`/`res`、`catch` 错误在使用前应有明确类型或先完成类型收窄，并清理未使用的变量和导入。
+- feat: 新功能
+- fix: 修复
+- refactor: 重构
+- docs: 文档
+- test: 测试
+- chore: 杂项

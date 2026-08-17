@@ -1,17 +1,17 @@
 #!/bin/bash
 set -Eeuo pipefail
 
-COZE_WORKSPACE_PATH="${COZE_WORKSPACE_PATH:-$(pwd)}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+cd "$PROJECT_DIR"
 
-cd "${COZE_WORKSPACE_PATH}"
-
-echo "Installing dependencies..."
+echo "Installing frontend dependencies..."
 pnpm install --prefer-frozen-lockfile --prefer-offline --loglevel debug --reporter=append-only
+
+echo "Installing backend dependencies..."
+uv sync 2>/dev/null || uv pip install -e .
 
 echo "Building frontend with Vite..."
 pnpm vite build
-
-echo "Bundling server with tsup..."
-pnpm tsup server/server.ts --format cjs --platform node --target node20 --outDir dist-server --no-splitting --no-minify --external vite
 
 echo "Build completed successfully!"

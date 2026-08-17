@@ -1,0 +1,82 @@
+[
+  {
+    "id": "F001",
+    "name": "项目初始化与骨架搭建",
+    "priority": 1,
+    "status": "passing",
+    "description": "Vite 前端 + FastAPI 后端 + PostgreSQL 数据库骨架",
+    "dependencies": []
+  },
+  {
+    "id": "F002",
+    "name": "LangGraph 编排引擎",
+    "priority": 2,
+    "status": "todo",
+    "description": "Harness 8 阶段 StateGraph 拓扑 + Conditional Edges + Cycles",
+    "dependencies": ["F001"]
+  },
+  {
+    "id": "F003",
+    "name": "可插拔 LLM 提供商层",
+    "priority": 3,
+    "status": "todo",
+    "description": "OpenAI ChatGPT 首个实现 + 抽象接口",
+    "dependencies": ["F002"]
+  },
+  {
+    "id": "F004",
+    "name": "约束管理层",
+    "priority": 4,
+    "status": "todo",
+    "description": "AGENTS.md 解析 + Linter 规则引擎 + 架构约束",
+    "dependencies": ["F002"]
+  },
+  {
+    "id": "F005",
+    "name": "代码执行沙箱",
+    "priority": 5,
+    "status": "todo",
+    "description": "Docker 隔离执行 mvn verify / git / 测试套件",
+    "dependencies": ["F002"]
+  },
+  {
+    "id": "F006",
+    "name": "前端平台 UI",
+    "priority": 6,
+    "status": "todo",
+    "description": "需求输入 + 流程监控 + 约束配置 + 产物管理",
+    "dependencies": ["F001"]
+  },
+  {
+    "id": "F007",
+    "name": "SSE 实时状态推送",
+    "priority": 7,
+    "status": "todo",
+    "description": "LangGraph Node 执行回调推送到前端",
+    "dependencies": ["F006"]
+  },
+  {
+    "id": "F008",
+    "name": "熵管理后台任务",
+    "priority": 8,
+    "status": "todo",
+    "description": "后台清理 Agent + Doc-Gardening Agent 定时任务",
+    "dependencies": ["F002"]
+  },
+  {
+    "id": "F009",
+    "name": "持久化记忆系统",
+    "priority": 9,
+    "status": "todo",
+    "description": "PostgreSQL 持久化 + LangGraph Checkpointer",
+    "dependencies": ["F002"]
+  },
+  {
+    "id": "F010",
+    "name": "多技术栈可插拔",
+    "priority": 10,
+    "status": "todo",
+    "description": "第二个技术栈模板（Node/NestJS）",
+    "dependencies": ["F004", "F005"]
+  }
+]
