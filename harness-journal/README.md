@@ -21,7 +21,8 @@ harness-journal/
 ├── stage-01-information-layer/       ← 阶段1：信息层
 │   ├── 01-agents-md.md                 编写 AGENTS.md
 │   ├── 02-docs-directory.md            创建 docs/ 目录结构
-│   └── 03-architecture-docs.md         编写架构文档
+│   ├── 03-architecture-docs.md         编写架构文档
+│   └── 04-pitfalls-knowledge-base.md   踩坑知识库建立
 ├── stage-02-feature-breakdown/       ← 阶段2：功能拆分与设计（待执行）
 ├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
 ├── stage-04-coding/                  ← 阶段4：编码实现（待执行）

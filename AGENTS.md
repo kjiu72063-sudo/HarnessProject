@@ -22,6 +22,7 @@
 | 了解 LangGraph State 设计 | docs/architecture/state-design.md |
 | 了解 API 接口规范 | docs/reference/api-spec.md |
 | 了解编码规范 | docs/conventions/coding.md |
+| 了解踩坑记录与排查 | docs/conventions/pitfalls.md |
 | 了解测试规范 | docs/conventions/testing.md |
 | 了解当前迭代任务 | docs/plans/current-sprint.md |
 | 了解功能列表 | feature_list.json |
@@ -37,6 +38,21 @@
 5. LangGraph Node 必须是纯函数，接收 State 返回 State
 6. 端口: 前端 Vite 固定 5000，后端 FastAPI 固定 8000
 7. 不修改 .coze 中的 sub_id
+8. POST/PUT 路由请求体必须用 Pydantic BaseModel，禁止裸参数 [P003]
+9. `progress.txt` 和 `feature_list.json` 必须纳入 Git，不可被 .gitignore 排除 [P004]
+
+## 常见问题和预防
+
+遇到报错先查 `docs/conventions/pitfalls.md`，按错误关键词搜索。已知踩坑索引：
+
+| 编号 | 错误关键词 | 一句话 |
+|---|---|---|
+| P001 | `ERR_PACKAGE_PATH_NOT_EXPORTED` | Vite 7 不兼容 plugin-react 6.x，锁定 4.3.4 |
+| P002 | `no-undef` 指向 `.venv/` | ESLint globalIgnores 必须排除 .venv 和 server |
+| P003 | POST 返回 `422` | 路由参数必须用 Pydantic Body 模型 |
+| P004 | `progress.txt` 无法提交 | 检查 .gitignore 通配规则误匹配 |
+
+新增踩坑时按 `docs/conventions/coding.md` 的「踩坑记录规则」执行。
 
 ## 目录结构
 

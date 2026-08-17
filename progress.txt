@@ -13,3 +13,4 @@
 [2026-08-17T10:58Z] init | verify | done | 前端 200 + 后端 health ok + API 代理连通 + 端口 0.0.0.0 绑定
 [2026-08-17T10:58Z] init | F001 | passing | 项目初始化与骨架搭建完成
 [2026-08-17T11:30Z] stage-01 | harness-journal | done | 开发日志目录创建完成: 10个阶段, 20个文档, 记录真实开发顺序与产出
+[2026-08-17T11:45Z] stage-01 | pitfalls-kb | done | 踩坑知识库建立: docs/conventions/pitfalls.md (P001-P004), AGENTS.md 补常见问题段, coding.md 补踩坑记录规则
