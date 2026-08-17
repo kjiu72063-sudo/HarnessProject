@@ -66,6 +66,8 @@ echo ""
 
 # Step 4: 启动开发服务器 + 运行基础端到端测试
 echo -e "${GREEN}[Step 4/5] 环境验证${NC}"
+
+# 4a. 运行 verify 闸门（静态检查 + 单测 + 覆盖率）
 echo "运行 verify 闸门..."
 if bash "$SCRIPT_DIR/verify.sh"; then
 echo -e "${GREEN}  ✅ 闸门通过${NC}"
@@ -73,6 +75,25 @@ else
 echo -e "${RED}  ❌ 闸门未通过 - 请先修复上述问题${NC}"
 echo "  提示: 查阅 docs/conventions/pitfalls.md 搜索错误关键词"
 exit 1
+fi
+
+# 4b. 启动 dev server + 基础端到端测试（PDF 原文要求）
+echo ""
+echo "启动开发服务器 + 端到端测试..."
+PORT=$(grep 'expose_port' .preview 2>/dev/null | grep -o '[0-9]*' || echo "5000")
+if curl -sf "http://localhost:${PORT}/api/health" | grep -q '"status"' 2>/dev/null; then
+echo -e "${GREEN}  ✅ Dev server 已运行，健康检查通过${NC}"
+else
+echo "  Dev server 未运行，尝试启动..."
+bash "$SCRIPT_DIR/dev.sh" &
+sleep 3
+if curl -sf "http://localhost:${PORT}/api/health" | grep -q '"status"' 2>/dev/null; then
+echo -e "${GREEN}  ✅ Dev server 启动成功，健康检查通过${NC}"
+else
+echo -e "${RED}  ❌ Dev server 启动失败或健康检查未通过${NC}"
+echo "  提示: 检查端口 ${PORT} 是否被占用，查看 dev.log 日志"
+exit 1
+fi
 fi
 echo ""
 

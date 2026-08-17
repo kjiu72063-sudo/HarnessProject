@@ -23,6 +23,7 @@
 | 了解 API 接口规范 | docs/reference/api-spec.md |
 | 了解编码规范 | docs/conventions/coding.md |
 | 了解约定→机械规则对照表 | docs/conventions/convention-to-rule-mapping.md |
+| 了解环境审查实践 | docs/conventions/env-review.md |
 | 了解踩坑记录与排查 | docs/conventions/pitfalls.md |
 | 了解测试规范 | docs/conventions/testing.md |
 | 了解设计文档模板 | docs/design/_template.md |

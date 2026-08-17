@@ -57,7 +57,32 @@ run_check "Backend MyPy Type Check" "uv run mypy server/ --config-file pyproject
 run_check "Backend Architecture (import-linter)" "uv run lint-imports"
 
 # 7. 后端单元测试 + 覆盖率（等价于 JaCoCo ≥ 80%）
-run_check "Backend Tests + Coverage ≥ 80%" "uv run pytest server/ --cov=server --cov-report=term-missing --cov-fail-under=80"
+run_check "Backend Tests + Coverage >= 80%" "uv run pytest server/ --cov=server --cov-report=term-missing --cov-fail-under=80"
+
+# 8. 文档新鲜度检查（PDF CI 中的 Doc Freshness step）
+check_doc_freshness() {
+  local max_days=60
+  local found_stale=0
+  for f in $(find docs/ -name '*.md' -not -name '_template.md'); do
+    if [ -d .git ]; then
+      last_mod=$(git log -1 --format=%ct -- "$f" 2>/dev/null)
+      if [ -z "$last_mod" ]; then
+        echo "  ⚠️  $f 无 git 历史（新文件），跳过"
+        continue
+      fi
+      now=$(date +%s)
+      days_old=$(( (now - last_mod) / 86400 ))
+      if [ "$days_old" -gt "$max_days" ]; then
+        echo "  ❌ $f 已 ${days_old} 天未更新，可能已过期"
+        echo "  ✅ FIX: 检查内容是否与代码一致，更新后提交"
+        echo "  📖 See: docs/conventions/pitfalls.md"
+        found_stale=1
+      fi
+    fi
+  done
+  return $found_stale
+}
+run_check "Doc Freshness (max 60 days)" "check_doc_freshness"
 
 echo ""
 echo "=========================================="

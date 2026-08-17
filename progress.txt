@@ -21,3 +21,9 @@
 [2026-08-17T12:30Z] stage-02 | design-template | done | 设计文档模板: docs/design/_template.md (Status流转 Draft→Approved→InProgress→Implemented)
 [2026-08-17T12:30Z] stage-02 | testing-md | done | 测试规范: docs/conventions/testing.md (含覆盖率阈值和Agent自验证规则)
 [2026-08-17T12:30Z] stage-02 | convention-mapping | done | 约定→机械规则对照表: docs/conventions/convention-to-rule-mapping.md
+[2026-08-17T13:15Z] stage-02 | pdf-audit-2 | done | PDF第二轮审计: 4个设计缺失(G1失败模式/G2文档新鲜度/G3 e2e测试/G4环境审查) + 8项流程未到(非缺失) + 无冲突
+[2026-08-17T13:15Z] stage-02 | fix-G1 | done | Agent三大失败模式写入coding.md知识库
+[2026-08-17T13:15Z] stage-02 | fix-G2 | done | 文档新鲜度检查加入verify.sh第8项(>60天未更新则失败)
+[2026-08-17T13:15Z] stage-02 | fix-G3 | done | coding-agent-start.sh Step4补dev server启动+curl健康检查
+[2026-08-17T13:15Z] stage-02 | fix-G4 | done | 环境审查实践: docs/conventions/env-review.md (每周30分钟4项检查)
+[2026-08-17T13:15Z] stage-02 | verify-8 | done | verify.sh 8项全通过: 新增doc-freshness检查
