@@ -44,16 +44,19 @@ run_check "Frontend TypeScript Check" "pnpm ts-check"
 # 2. 前端 ESLint（等价于 Checkstyle）
 run_check "Frontend ESLint" "pnpm lint"
 
-# 3. 前端分层依赖检查（等价于 ArchUnit）
+# 3. 前端单元测试（等价于 JUnit）— passWithNoTests 直到前端测试文件存在
+run_check "Frontend Unit Tests (Vitest)" "pnpm vitest run --passWithNoTests"
+
+# 4. 前端分层依赖检查（等价于 ArchUnit）
 run_check "Frontend Architecture (dependency-cruiser)" "npx depcruise src/ --config .dependency-cruiser.cjs"
 
-# 4. 后端 Ruff Lint（等价于 Checkstyle）
+# 5. 后端 Ruff Lint（等价于 Checkstyle）
 run_check "Backend Ruff Lint" "uv run ruff check server/"
 
-# 5. 后端 MyPy 类型检查
+# 6. 后端 MyPy 类型检查
 run_check "Backend MyPy Type Check" "uv run mypy server/ --config-file pyproject.toml"
 
-# 6. 后端分层依赖检查（等价于 ArchUnit）+ 三要素错误信息
+# 7. 后端分层依赖检查（等价于 ArchUnit）+ 三要素错误信息
 check_import_linter() {
   local output
   output=$(uv run lint-imports 2>&1)
@@ -88,10 +91,10 @@ check_import_linter() {
 }
 run_check "Backend Architecture (import-linter)" "check_import_linter"
 
-# 7. 后端单元测试 + 覆盖率（等价于 JaCoCo ≥ 80%）
+# 8. 后端单元测试 + 覆盖率（等价于 JaCoCo ≥ 80%）
 run_check "Backend Tests + Coverage >= 80%" "uv run pytest server/ --cov=server --cov-report=term-missing --cov-fail-under=80"
 
-# 8. 文档新鲜度检查（PDF CI 中的 Doc Freshness step）
+# 9. 文档新鲜度检查（PDF CI 中的 Doc Freshness step）
 check_doc_freshness() {
   local max_days=60
   local found_stale=0
@@ -116,7 +119,7 @@ check_doc_freshness() {
 }
 run_check "Doc Freshness (max 60 days)" "check_doc_freshness"
 
-# 9. 文件大小 + Python 函数长度检查（PDF: 单文件 ≤ 300 行, 单方法 ≤ 50 行）
+# 10. 文件大小 + Python 函数长度检查（PDF: 单文件 ≤ 300 行, 单方法 ≤ 50 行）
 check_file_size() {
   local max_file=300
   local max_func=50

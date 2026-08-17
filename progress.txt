@@ -42,3 +42,7 @@
 [2026-08-17T15:00Z] stage-02 | fix-G11 | done | AGENTS.md React 18→19 + App.tsx UI→React 19 + pyproject.toml requires-python >=3.11→>=3.12 + convention-mapping Python≥3.11→≥3.12
 [2026-08-17T15:00Z] stage-02 | fix-journal-s06 | done | journal section 06 描述「8项检查」更正为「9项检查」
 [2026-08-17T15:00Z] stage-02 | verify-9-v3 | done | verify.sh 9项全通过: 技术栈基线一致性修复完成
+[2026-08-17T15:30Z] stage-02 | pitfall-P008 | done | 踩坑记录: AGENTS.md声明版本与实际安装不一致, 硬性规则#12+env-review每周检查#5
+[2026-08-17T15:30Z] stage-02 | pdf-audit-6 | done | PDF第六轮审计: 1个设计缺失(G12 verify.sh缺前端测试) + 无新增流程未到 + 无冲突
+[2026-08-17T15:30Z] stage-02 | fix-G12 | done | verify.sh新增第3项pnpm vitest run --passWithNoTests + testing.md验证流程更新为10项表格 + AGENTS.md规则#10更新为10项
+[2026-08-17T15:30Z] stage-02 | verify-10 | done | verify.sh 10项全通过: 新增前端单元测试(Vitest), 覆盖率100%

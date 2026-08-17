@@ -90,3 +90,14 @@ owner: @K总
 | 修复方案 | 将 import-linter 配置写入 `pyproject.toml`，使用 `[tool.importlinter]` 和 `[[tool.importlinter.contracts]]` 格式；运行命令为 `uv run lint-imports`（不带 `--config` 参数） |
 | 关联文件 | `pyproject.toml` |
 | 预防规则 | Python 工具链配置统一写入 `pyproject.toml`，不使用独立的 `.xxx.toml` 文件；参考 PDF 原文的 `pom.xml` 集中配置理念 |
+
+## P008 — AGENTS.md 技术栈基线与实际安装版本不一致
+
+| 字段 | 内容 |
+|---|---|
+| 阶段 | stage-02 / 第五轮 PDF 审计 |
+| 错误特征 | AGENTS.md 声明 `React 18`，但 `package.json` 实际安装 `react: ^19.2.8`；AGENTS.md 声明 `Python 3.12`，但 `pyproject.toml` 为 `requires-python = ">=3.11"`，允许 3.11 |
+| 根因 | 平台 Vite 模板默认安装 React 19，AGENTS.md 按原始设计写 React 18；五轮审计均聚焦 PDF 要求逐条对照，从未交叉验证声明基线与实际依赖是否一致。AGENTS.md 是 Agent 读取的权威信息源，声明版本与实际安装不一致会导致 Agent 编写不兼容的代码 |
+| 修复方案 | (a) AGENTS.md `React 18` → `React 19`；(b) `src/App.tsx` UI 显示 `React 18` → `React 19`；(c) `pyproject.toml` `requires-python` 从 `>=3.11` 收紧为 `>=3.12`；(d) `convention-to-rule-mapping.md` `Python ≥ 3.11` → `≥ 3.12` |
+| 关联文件 | `AGENTS.md`、`package.json`、`pyproject.toml`、`src/App.tsx`、`docs/conventions/convention-to-rule-mapping.md` |
+| 预防规则 | AGENTS.md 技术栈基线必须与 `package.json`/`pyproject.toml` 实际安装版本交叉验证；每次审计必须包含"声明版本 vs 实际版本一致性检查"步骤；平台模板安装的版本可能与设计文档声明不同，初始化后必须同步基线 |

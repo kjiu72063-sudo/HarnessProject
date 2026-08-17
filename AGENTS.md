@@ -43,8 +43,9 @@
 7. 不修改 .coze 中的 sub_id
 8. POST/PUT 路由请求体必须用 Pydantic BaseModel，禁止裸参数 [P003]
 9. `progress.txt` 和 `feature_list.json` 必须纳入 Git，不可被 .gitignore 排除 [P004]
-10. 所有代码变更必须通过 `scripts/verify.sh` 全闸门（类型检查+Lint+分层依赖+覆盖率≥80%+文件大小+文档新鲜度）
+10. 所有代码变更必须通过 `scripts/verify.sh` 全闸门（10项: 类型检查+Lint+前端测试+分层依赖+覆盖率≥80%+文件大小+文档新鲜度）
 11. 单文件 ≤ 300 行；单函数/方法 ≤ 50 行（ESLint + verify.sh 强制）
+12. AGENTS.md 技术栈基线必须与 `package.json`/`pyproject.toml` 实际安装版本一致，初始化后及每次审计时交叉验证 [P008]
 
 ## 常见问题和预防
 
@@ -59,6 +60,7 @@
 | P005 | dependency-cruiser `must NOT have additional properties` | v18 的 `message` 改为 `comment` |
 | P006 | `no-undef` 指向 `.dependency-cruiser.cjs` | ESLint globalIgnores 需排除配置文件 |
 | P007 | `Could not find .importlinter.toml` | import-linter 配置必须放 pyproject.toml |
+| P008 | AGENTS.md 声明版本与实际安装不一致 | 技术栈基线必须与 package.json/pyproject.toml 交叉验证 |
 
 新增踩坑时按 `docs/conventions/coding.md` 的「踩坑记录规则」执行。
 

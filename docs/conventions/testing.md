@@ -18,10 +18,22 @@ owner: @K总
 - LangGraph Node 测试: 输入 State → 调用 Node → 断言输出 State
 
 ## 验证流程
-- 所有测试绑定到 `scripts/verify.sh`，一次执行
-- 前端: `pnpm ts-check` + `pnpm lint` + `pnpm test`
-- 后端: `ruff check` + `mypy` + `pytest --cov`
-- 任何一项失败即整体失败（等价于 PDF 中的 mvn verify 闸门）
+所有检查绑定到 `scripts/verify.sh`，一次执行（10 项），等价于 PDF 中的 `mvn verify` 闸门：
+
+| # | 检查项 | 说明 |
+|---|---|---|
+| 1 | `pnpm ts-check` | 前端 TypeScript 类型检查 |
+| 2 | `pnpm lint` | 前端 ESLint（含 max-lines / max-lines-per-function / import/no-cycle） |
+| 3 | `pnpm vitest run --passWithNoTests` | 前端单元测试（无测试文件时通过，有测试时强制执行） |
+| 4 | `npx depcruise` | 前端分层依赖检查 |
+| 5 | `uv run ruff check` | 后端 Lint（含 T20 print 检查） |
+| 6 | `uv run mypy` | 后端类型检查 |
+| 7 | `uv run lint-imports` | 后端分层依赖检查（含三要素错误信息） |
+| 8 | `uv run pytest --cov --cov-fail-under=80` | 后端单元测试 + 覆盖率 ≥ 80% |
+| 9 | doc-freshness | 文档新鲜度（>60 天未更新则失败） |
+| 10 | file-size | 文件 ≤ 300 行 + Python 函数 ≤ 50 行 |
+
+任何一项失败即整体失败。
 
 ## Agent 自我验证规则
 PDF 原文: "Agent 写完代码就标记为完成，却没有做端到端测试" 是三大失败模式之一。

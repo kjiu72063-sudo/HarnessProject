@@ -38,7 +38,7 @@
 ### 06 - verify 全闸门脚本
 - 脚本: `scripts/verify.sh`
 - 等价于: PDF 中的 `mvn -B clean verify`
-- 9项检查: ts-check + eslint + depcruise + ruff + mypy + import-linter + pytest-cov + doc-freshness + file-size
+- 10项检查: ts-check + eslint + vitest + depcruise + ruff + mypy + import-linter + pytest-cov + doc-freshness + file-size
 - 任何一项失败即整体失败
 
 ### 07 - 编码 Agent 会话启动脚本
@@ -74,7 +74,7 @@
 ## 产出物
 - `.dependency-cruiser.cjs` — 前端分层依赖检查配置
 - `pyproject.toml` — 后端 ruff/mypy/pytest-cov/import-linter 配置
-- `scripts/verify.sh` — 全链路闸门脚本（9项）
+- `scripts/verify.sh` — 全链路闸门脚本（10项）
 - `scripts/coding-agent-start.sh` — 编码 Agent 启动脚本（含 e2e）
 - `server/tests/test_api.py` — API 基础测试 (5个)
 - `server/tests/test_settings.py` — 配置基础测试 (2个)
@@ -84,7 +84,7 @@
 - `docs/conventions/env-review.md` — 环境审查实践
 
 ## 验证结果
-- verify.sh 9 项全部通过
+- verify.sh 10 项全部通过
 - 覆盖率 100%（≥ 80% 阈值）
 - 分层依赖: 前端 0 违规, 后端 2 合约全部 KEPT
 - 文档新鲜度: 新文件跳过，已有文件全部在 60 天内
@@ -124,3 +124,17 @@
 附加修正: journal section 06 描述行仍写「8项检查」（第四轮仅修正了产出物段，遗漏 section 06），更正为「9项检查」。
 
 审计同时确认：第五轮无新增流程未到项，PDF 与当前设计无冲突。verify.sh 9 项全通过，覆盖率 100%。
+
+### 14 - 第五轮踩坑记录 P008
+
+G11 暴露的设计盲区——五轮审计均聚焦 PDF 要求逐条对照，从未交叉验证声明基线与实际依赖是否一致。记录为踩坑 P008：
+
+- **P008 — AGENTS.md 技术栈基线与实际安装版本不一致**：写入 `docs/conventions/pitfalls.md`；AGENTS.md 硬性规则新增 #12（技术栈基线必须与 `package.json`/`pyproject.toml` 交叉验证，标注 `[P008]`）；AGENTS.md 踩坑索引新增 P008 行；`docs/conventions/env-review.md` 每周检查清单新增第 5 项（技术栈基线与实际安装版本交叉验证）。
+
+### 15 - 第六轮 PDF 审计修复
+
+基于 PDF 原文第六轮逐项对照 + P008 教训（声明 vs 实际交叉验证），首次将 `docs/conventions/testing.md` 声明的验证流程与 `verify.sh` 实际执行项逐一比对，发现 1 个设计缺失：
+
+1. **verify.sh 缺少前端单元测试步骤**（G12）: `testing.md` 验证流程段声明前端包含 `pnpm ts-check` + `pnpm lint` + `pnpm test`，但 `verify.sh` 从未执行 `pnpm test`（Vitest）。Vitest 已安装（`package.json` devDependencies）、test script 已定义（`"test": "vitest run"`），但验证闸门不执行它。同时 `testing.md` 验证流程描述与 `verify.sh` 实际项数不一致（testing.md 只列了 6 项，verify.sh 实际 9 项，缺 depcruise/import-linter/doc-freshness/file-size）。修复：(a) `verify.sh` 新增第 3 项 `pnpm vitest run --passWithNoTests`（当前无前端测试文件，`--passWithNoTests` 使其通过；有测试时自动执行）；(b) `testing.md` 验证流程段更新为完整 10 项表格，与 verify.sh 完全一致；(c) `AGENTS.md` 硬性规则 #10 更新为「10项」。
+
+审计同时确认：第六轮无新增流程未到项，PDF 与当前设计无冲突。verify.sh 从 9 项扩展为 10 项，全通过，覆盖率 100%。
