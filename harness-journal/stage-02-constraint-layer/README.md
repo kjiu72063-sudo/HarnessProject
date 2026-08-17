@@ -38,7 +38,7 @@
 ### 06 - verify 全闸门脚本
 - 脚本: `scripts/verify.sh`
 - 等价于: PDF 中的 `mvn -B clean verify`
-- 10项检查: ts-check + eslint + vitest + depcruise + ruff + mypy + import-linter + pytest-cov + doc-freshness + file-size
+- 11项检查: ts-check + eslint + vitest + stylelint + depcruise + ruff + mypy + import-linter + pytest-cov + doc-freshness + file-size
 - 任何一项失败即整体失败
 
 ### 07 - 编码 Agent 会话启动脚本
@@ -74,7 +74,7 @@
 ## 产出物
 - `.dependency-cruiser.cjs` — 前端分层依赖检查配置
 - `pyproject.toml` — 后端 ruff/mypy/pytest-cov/import-linter 配置
-- `scripts/verify.sh` — 全链路闸门脚本（10项）
+- `scripts/verify.sh` — 全链路闸门脚本（11项）
 - `scripts/coding-agent-start.sh` — 编码 Agent 启动脚本（含 e2e）
 - `server/tests/test_api.py` — API 基础测试 (5个)
 - `server/tests/test_settings.py` — 配置基础测试 (2个)
@@ -84,7 +84,7 @@
 - `docs/conventions/env-review.md` — 环境审查实践
 
 ## 验证结果
-- verify.sh 10 项全部通过
+- verify.sh 11 项全部通过
 - 覆盖率 100%（≥ 80% 阈值）
 - 分层依赖: 前端 0 违规, 后端 2 合约全部 KEPT
 - 文档新鲜度: 新文件跳过，已有文件全部在 60 天内
@@ -138,3 +138,18 @@ G11 暴露的设计盲区——五轮审计均聚焦 PDF 要求逐条对照，�
 1. **verify.sh 缺少前端单元测试步骤**（G12）: `testing.md` 验证流程段声明前端包含 `pnpm ts-check` + `pnpm lint` + `pnpm test`，但 `verify.sh` 从未执行 `pnpm test`（Vitest）。Vitest 已安装（`package.json` devDependencies）、test script 已定义（`"test": "vitest run"`），但验证闸门不执行它。同时 `testing.md` 验证流程描述与 `verify.sh` 实际项数不一致（testing.md 只列了 6 项，verify.sh 实际 9 项，缺 depcruise/import-linter/doc-freshness/file-size）。修复：(a) `verify.sh` 新增第 3 项 `pnpm vitest run --passWithNoTests`（当前无前端测试文件，`--passWithNoTests` 使其通过；有测试时自动执行）；(b) `testing.md` 验证流程段更新为完整 10 项表格，与 verify.sh 完全一致；(c) `AGENTS.md` 硬性规则 #10 更新为「10项」。
 
 审计同时确认：第六轮无新增流程未到项，PDF 与当前设计无冲突。verify.sh 从 9 项扩展为 10 项，全通过，覆盖率 100%。
+
+### 16 - 第七轮交叉验证审计修复
+
+基于用户要求交叉验证其他未覆盖模块，逐项检查所有声明与实际配置、脚本行为、文档描述之间的一致性。发现 1 个设计缺失：
+
+1. **verify.sh 全闸门缺少 stylelint（CSS Lint）**（G13）: 项目已完整配置 stylelint（`stylelint.config.mjs` extends `stylelint-config-standard`，`package.json` 有 `"lint:style"` 脚本和 `stylelint ^16.4.0` + `stylelint-config-standard ^38.0.0` 依赖，`pnpm lint:style` 运行成功），`validate.sh` 运行的 `pnpm validate` 也包含它，但 `verify.sh`（等价 `mvn -B clean verify` 全闸门）从未执行 stylelint。与 G12 完全同构——已配置的机械规则没进全闸门。`convention-to-rule-mapping.md` 无 CSS Lint 行，`testing.md` 验证流程表（G12 刚更新为 10 项）也不含 stylelint。修复：(a) `verify.sh` 新增第 4 项 `pnpm lint:style`；(b) `testing.md` 验证流程表更新为 11 项；(c) `AGENTS.md` 硬性规则 #10 更新为「11项」；(d) `convention-to-rule-mapping.md` 新增「CSS 代码规范」行。
+
+交叉验证其他模块（无设计缺失）：
+- Express 依赖未使用（模板残留）→ 流程未到（熵管理 F008）
+- start.sh 不提供静态文件 → 流程未到（F006 前端 UI 未实现）
+- init.sh/coding-agent-start.sh 内嵌 Python print() → 非 server/ 应用代码，规则 #2 精神针对运行时日志
+- api-spec.md 接口多于实际实现 → 流程未到（F002-F010）
+- tsconfig.json、DESIGN.md、测试文件 → 全部一致
+
+审计同时确认：第七轮无新增流程未到项（除上述已分类），PDF 与当前设计无冲突。verify.sh 从 10 项扩展为 11 项，全通过，覆盖率 100%。

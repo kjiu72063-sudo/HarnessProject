@@ -21,6 +21,7 @@ PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次�
 | pnpm 版本 ≥ 9 | package.json engines | package.json 约束 | ✅ 已配置 |
 | 文件要短 | 单文件 ≤ 300 行 | ESLint max-lines + verify.sh 检查 | ✅ 已配置 |
 | 方法要短 | 单方法/函数 ≤ 50 行 | ESLint max-lines-per-function + verify.sh AST 检查 | ✅ 已配置 |
+| CSS 代码规范 | stylelint-config-standard | stylelint + verify.sh 闸门强制 | ✅ 已配置 |
 
 ## 新增规则流程
 

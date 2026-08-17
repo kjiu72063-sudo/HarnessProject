@@ -46,3 +46,6 @@
 [2026-08-17T15:30Z] stage-02 | pdf-audit-6 | done | PDF第六轮审计: 1个设计缺失(G12 verify.sh缺前端测试) + 无新增流程未到 + 无冲突
 [2026-08-17T15:30Z] stage-02 | fix-G12 | done | verify.sh新增第3项pnpm vitest run --passWithNoTests + testing.md验证流程更新为10项表格 + AGENTS.md规则#10更新为10项
 [2026-08-17T15:30Z] stage-02 | verify-10 | done | verify.sh 10项全通过: 新增前端单元测试(Vitest), 覆盖率100%
+[2026-08-17T16:00Z] stage-02 | cross-validate | done | 交叉验证所有未覆盖模块: tsconfig/DESIGN/测试文件/scripts全部一致, Express未使用(流程未到F008), start.sh无静态文件(流程未到F006)
+[2026-08-17T16:00Z] stage-02 | fix-G13 | done | verify.sh新增第4项pnpm lint:style(stylelint) + testing.md验证表更新为11项 + convention-mapping新增CSS行 + AGENTS.md规则#10更新为11项
+[2026-08-17T16:00Z] stage-02 | verify-11 | done | verify.sh 11项全通过: 新增CSS Lint(stylelint), 覆盖率100%
