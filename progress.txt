@@ -55,3 +55,6 @@
 [2026-08-17T17:00Z] stage-02 | fix-G15 | done | ESLint新增no-restricted-syntax拦截fetch硬编码URL(PDF禁裸HTTP机械化) + convention-mapping移除错误[P001]引用(实际P001是plugin-react兼容性) + 更新实现方式为ESLint+AGENTS.md
 [2026-08-17T17:30Z] stage-02 | root-cause | done | 根治方案: (1)convention-mapping引入三级状态(✅已机械化/⚠️人工审查/⬜待机械化) (2)补齐5条AGENTS.md规则映射行 (3)verify.sh新增#13git-tracking+#14port-consistency(14项) (4)AGENTS.md新增#13审计闭环校验 (5)env-review新增闭合校验步骤 (6)coding.md过早宣布胜利递归内省
 [2026-08-17T18:00Z] stage-02 | fix-G17 | done | harness-journal/README.md新增版本更正记录段(React18→19, Python≥3.11→≥3.12)，不修改历史文件本身。上下文工程: 历史文档过时值需有顶层更正标注
+[2026-08-17T18:30Z] stage-02 | fix-G16 | done | convention-to-rule-mapping ⬜行"LangGraph Node纯函数"添加(F002)功能ID标注 + journal验证结果段"12项"→"14项"
+[2026-08-17T18:30Z] stage-02 | round-12 | done | 第十二轮审计收敛: 规则#13闭合校验三步全过 + 残留扫描零命中 + 版本一致性四维验证通过。约束层审计正式闭合(G1-G17收敛至零发现)
+[2026-08-17T19:00Z] stage-02 | handoff | done | 交接准备: AGENTS.md新增"当前阶段与下一步"段 + progress.txt补齐G16/R12记录 + 创建项目组织者提示词 docs/handbook/orchestrator-prompt.md。约束层完成，原型图未开发(PDF门控缺口)

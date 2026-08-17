@@ -4,9 +4,14 @@
 
 面向"一键开发应用"的元应用平台，基于 Harness Engineering 方法论 + LangGraph 编排引擎，用户输入需求 → Agent 按 8 阶段 Harness 流程生成可部署应用。
 
-## 技术栈基线（不允许擅自升级）
+## 当前阶段与下一步
 
-- 前端: React 19 + TypeScript + Vite 7（不迁 Next.js）
+- **已完成**: 阶段0初始化 + 阶段1信息层 + 阶段2约束层(12轮审计收敛，verify.sh 14项全通过)
+- **缺口**: 原型图未开发(PDF阶段1"原型确认"门控未通过，跳过违反结构化执行)
+- **下一步**: 原型图→原型确认→功能拆分→F002后端→F003 LLM→F006前端
+- **新会话**: 先读本文件→progress.txt→feature_list.json→docs/plans/current-sprint.md
+
+## 技术栈基线（不允许擅自升级）- 前端: React 19 + TypeScript + Vite 7（不迁 Next.js）
 - 后端: Python 3.12 + FastAPI + LangGraph
 - 数据库: PostgreSQL
 - LLM: OpenAI ChatGPT（可插拔，首个实现）
@@ -91,9 +96,4 @@
 
 ## 提交规范
 
-- feat: 新功能
-- fix: 修复
-- refactor: 重构
-- docs: 文档
-- test: 测试
-- chore: 杂项
+feat / fix / refactor / docs / test / chore
