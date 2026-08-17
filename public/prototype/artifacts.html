@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://lf-code-agent.coze.cn/obj/x-ai-cn/fonts/google/google-all-fonts.css" rel="stylesheet"/>
+
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/jquery/jquery-3.7.1.min.js"></script>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/lucide/lucide-1.11.0.min.js"></script>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/tailwindcss/tailwindcss-browser-4.2.4.min.js"></script>
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-primary:              #3B82F6;
+      --color-primary-container:    #1E3A5F;
+      --color-on-primary:           #ffffff;
+      --color-background:                 #0F1115;
+      --color-surface-container-lowest:   #0F1115;
+      --color-surface:                    #1A1D24;
+      --color-surface-container:          #252830;
+      --color-surface-container-high:     #2A2D35;
+      --color-surface-container-highest:  #32363F;
+      --color-on-surface:           #FFFFFF;
+      --color-on-surface-variant:   #9CA3AF;
+      --color-success:  #10B981;
+      --color-error:    #EF4444;
+      --color-warning:  #F59E0B;
+      --color-outline:          #374151;
+      --color-outline-variant:  #4B5563;
+      --radius-sm:   0.25rem;
+      --radius-md:   0.375rem;
+      --radius-lg:   0.5rem;
+      --radius-xl:   0.75rem;
+      --radius-2xl:  1rem;
+      --radius-full: 9999px;
+      --shadow-card:   0 2px 8px rgba(0,0,0,0.15);
+      --shadow-float:  0 10px 25px rgba(0,0,0,0.2);
+      --shadow-dialog: 0 25px 50px rgba(0,0,0,0.3);
+      --font-sans: "Inter", "Noto Sans SC", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('error', function (e) {
+      const img = e.target;
+      if (img.tagName !== 'IMG' || img.dataset.fallback) return;
+      img.dataset.fallback = '1';
+    }, true);
+  </script>
+</head>
+
+<body class="bg-background text-on-surface font-sans">
+
+  <!-- @nav:start -->
+  <header class="bg-surface sticky top-0 z-40 h-14 flex items-center justify-between px-5 border-b border-outline/20">
+    <div class="flex items-center gap-2.5">
+      <i data-lucide="cpu" class="text-primary w-5 h-5"></i>
+      <span class="font-bold text-base tracking-tight">Harness Platform</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="text-xs text-on-surface-variant font-mono">v0.1.0</span>
+      <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">初</div>
+    </div>
+  </header>
+
+  <div class="flex" style="height: calc(100vh - 3.5rem)">
+    <aside class="w-52 shrink-0 bg-surface border-r border-outline/20 overflow-y-auto">
+      <div class="p-3 space-y-0.5">
+        <a href="requirement.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-medium text-sm transition-colors">
+          <i data-lucide="message-square-plus" class="w-4 h-4"></i>需求输入
+        </a>
+        <a href="pipeline.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-medium text-sm transition-colors">
+          <i data-lucide="git-branch" class="w-4 h-4"></i>流程监控
+        </a>
+        <a href="constraints.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-medium text-sm transition-colors">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>约束配置
+        </a>
+        <a href="artifacts.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md bg-primary/10 text-primary font-medium text-sm" aria-current="page">
+          <i data-lucide="package" class="w-4 h-4"></i>产物管理
+        </a>
+      </div>
+    </aside>
+
+    <!-- @main-content:start -->
+    <main class="flex-1 min-w-0 overflow-y-auto bg-background p-6">
+      <div class="space-y-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-2xl font-bold">产物管理</h1>
+            <p class="text-sm text-on-surface-variant mt-0.5">查看生成的应用代码、文件结构和质量闸门结果</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btn-download-all" class="bg-surface-container text-on-surface border-none px-4 py-2 rounded-md text-sm font-medium hover:bg-surface-container-high active:scale-[0.98] transition-all inline-flex items-center gap-2">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>下载全部
+            </button>
+            <button id="btn-deploy" class="bg-primary text-on-primary px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 active:scale-[0.98] transition-all inline-flex items-center gap-2">
+              <i data-lucide="rocket" class="w-3.5 h-3.5"></i>部署
+            </button>
+          </div>
+        </div>
+
+        <!-- 项目概览卡片 -->
+        <div class="grid grid-cols-3 gap-4">
+          <div class="bg-surface rounded-lg shadow-card p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="files" class="w-4 h-4 text-primary"></i>
+              <span class="text-xs text-on-surface-variant">总文件数</span>
+            </div>
+            <span class="text-2xl font-bold text-on-surface">47</span>
+            <span class="text-xs text-on-surface-variant ml-1">files</span>
+          </div>
+          <div class="bg-surface rounded-lg shadow-card p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="code-2" class="w-4 h-4 text-primary"></i>
+              <span class="text-xs text-on-surface-variant">代码行数</span>
+            </div>
+            <span class="text-2xl font-bold text-on-surface">2,831</span>
+            <span class="text-xs text-on-surface-variant ml-1">lines</span>
+          </div>
+          <div class="bg-surface rounded-lg shadow-card p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="test-tubes" class="w-4 h-4 text-success"></i>
+              <span class="text-xs text-on-surface-variant">测试覆盖率</span>
+            </div>
+            <span class="text-2xl font-bold text-success">100%</span>
+          </div>
+        </div>
+
+        <!-- 文件树 -->
+        <div class="bg-surface rounded-lg shadow-card overflow-hidden">
+          <div class="px-5 py-3.5 border-b border-outline/20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="folder-tree" class="w-4 h-4 text-primary"></i>
+              <span class="text-sm font-semibold text-on-surface">文件结构</span>
+            </div>
+            <span class="text-xs text-on-surface-variant">team-task-app/</span>
+          </div>
+          <div class="px-5 py-3 font-mono text-xs space-y-1.5">
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="folder" class="w-3.5 h-3.5 text-warning"></i>
+              <span class="text-on-surface">src/</span>
+            </div>
+            <div class="pl-5 flex items-center gap-1.5">
+              <i data-lucide="folder" class="w-3.5 h-3.5 text-warning"></i>
+              <span class="text-on-surface">components/</span>
+            </div>
+            <div class="pl-10 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-primary"></i>
+              <span class="text-on-surface">TaskBoard.tsx</span>
+              <span class="text-on-surface-variant ml-auto">124 行</span>
+            </div>
+            <div class="pl-10 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-primary"></i>
+              <span class="text-on-surface">TaskCard.tsx</span>
+              <span class="text-on-surface-variant ml-auto">67 行</span>
+            </div>
+            <div class="pl-10 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-primary"></i>
+              <span class="text-on-surface">ApiStatus.tsx</span>
+              <span class="text-on-surface-variant ml-auto">31 行</span>
+            </div>
+            <div class="pl-5 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-primary"></i>
+              <span class="text-on-surface">App.tsx</span>
+              <span class="text-on-surface-variant ml-auto">48 行</span>
+            </div>
+            <div class="pl-5 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-primary"></i>
+              <span class="text-on-surface">main.tsx</span>
+              <span class="text-on-surface-variant ml-auto">12 行</span>
+            </div>
+            <div class="flex items-center gap-1.5 mt-1">
+              <i data-lucide="folder" class="w-3.5 h-3.5 text-warning"></i>
+              <span class="text-on-surface">server/</span>
+            </div>
+            <div class="pl-5 flex items-center gap-1.5">
+              <i data-lucide="folder" class="w-3.5 h-3.5 text-warning"></i>
+              <span class="text-on-surface">graph/</span>
+            </div>
+            <div class="pl-10 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-success"></i>
+              <span class="text-on-surface">definition.py</span>
+              <span class="text-on-surface-variant ml-auto">89 行</span>
+            </div>
+            <div class="pl-10 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-success"></i>
+              <span class="text-on-surface">edges.py</span>
+              <span class="text-on-surface-variant ml-auto">42 行</span>
+            </div>
+            <div class="pl-5 flex items-center gap-1.5">
+              <i data-lucide="folder" class="w-3.5 h-3.5 text-warning"></i>
+              <span class="text-on-surface">nodes/</span>
+            </div>
+            <div class="pl-10 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-success"></i>
+              <span class="text-on-surface">initializer.py</span>
+              <span class="text-on-surface-variant ml-auto">35 行</span>
+            </div>
+            <div class="pl-10 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-success"></i>
+              <span class="text-on-surface">information_layer.py</span>
+              <span class="text-on-surface-variant ml-auto">48 行</span>
+            </div>
+            <div class="pl-5 flex items-center gap-1.5">
+              <i data-lucide="folder" class="w-3.5 h-3.5 text-warning"></i>
+              <span class="text-on-surface">schemas/</span>
+            </div>
+            <div class="pl-10 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-success"></i>
+              <span class="text-on-surface">harness_state.py</span>
+              <span class="text-on-surface-variant ml-auto">56 行</span>
+            </div>
+            <div class="pl-5 flex items-center gap-1.5">
+              <i data-lucide="folder" class="w-3.5 h-3.5 text-warning"></i>
+              <span class="text-on-surface">routes/</span>
+            </div>
+            <div class="pl-10 flex items-center gap-1.5">
+              <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-success"></i>
+              <span class="text-on-surface">harness.py</span>
+              <span class="text-on-surface-variant ml-auto">38 行</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- verify.sh 闸门结果 -->
+        <div class="bg-surface rounded-lg shadow-card overflow-hidden">
+          <div class="px-5 py-3.5 border-b border-outline/20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-success"></i>
+              <span class="text-sm font-semibold text-on-surface">verify.sh 闸门结果</span>
+            </div>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-sm text-xs font-medium bg-success/15 text-success">14 / 14 通过</span>
+          </div>
+          <div class="divide-y divide-outline-variant/30">
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-success"></i>
+                <span class="text-sm text-on-surface">TypeScript 类型检查</span>
+              </div>
+              <span class="text-xs text-on-surface-variant font-mono">0.8s</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-success"></i>
+                <span class="text-sm text-on-surface">ESLint 代码规范</span>
+              </div>
+              <span class="text-xs text-on-surface-variant font-mono">1.2s</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-success"></i>
+                <span class="text-sm text-on-surface">Vitest 前端测试</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-success font-mono">5/5</span>
+                <span class="text-xs text-on-surface-variant font-mono">0.6s</span>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-success"></i>
+                <span class="text-sm text-on-surface">Stylelint CSS 规范</span>
+              </div>
+              <span class="text-xs text-on-surface-variant font-mono">0.3s</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-success"></i>
+                <span class="text-sm text-on-surface">dependency-cruiser 分层</span>
+              </div>
+              <span class="text-xs text-on-surface-variant font-mono">0.5s</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-success"></i>
+                <span class="text-sm text-on-surface">ruff + mypy 后端检查</span>
+              </div>
+              <span class="text-xs text-on-surface-variant font-mono">1.1s</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-success"></i>
+                <span class="text-sm text-on-surface">pytest-cov 覆盖率</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-success font-mono">100%</span>
+                <span class="text-xs text-on-surface-variant font-mono">2.1s</span>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-success"></i>
+                <span class="text-sm text-on-surface">import-linter 分层</span>
+              </div>
+              <span class="text-xs text-on-surface-variant font-mono">0.4s</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-success"></i>
+                <span class="text-sm text-on-surface">文档新鲜度 / 文件大小 / 技术栈 / Git / 端口</span>
+              </div>
+              <span class="text-xs text-on-surface-variant font-mono">5.3s</span>
+            </div>
+          </div>
+          <div class="px-5 py-3 bg-surface-container/30 flex items-center justify-between">
+            <span class="text-sm font-semibold text-success">全部通过</span>
+            <span class="text-xs text-on-surface-variant font-mono">总耗时 12.3s</span>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- @main-content:end -->
+  </div>
+  <!-- @nav:end -->
+
+  <script>
+    lucide.createIcons();
+
+    $(function() {
+      // 下载全部
+      $('#btn-download-all').on('click', function() {
+        console.log('需要调用第三方接口实现下载功能');
+      });
+
+      // 部署
+      $('#btn-deploy').on('click', function() {
+        console.log('需要调用部署接口实现部署功能');
+      });
+    });
+  </script>
+</body>
+
+</html>

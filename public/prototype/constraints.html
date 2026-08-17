@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://lf-code-agent.coze.cn/obj/x-ai-cn/fonts/google/google-all-fonts.css" rel="stylesheet"/>
+
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/jquery/jquery-3.7.1.min.js"></script>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/lucide/lucide-1.11.0.min.js"></script>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/tailwindcss/tailwindcss-browser-4.2.4.min.js"></script>
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-primary:              #3B82F6;
+      --color-primary-container:    #1E3A5F;
+      --color-on-primary:           #ffffff;
+      --color-background:                 #0F1115;
+      --color-surface-container-lowest:   #0F1115;
+      --color-surface:                    #1A1D24;
+      --color-surface-container:          #252830;
+      --color-surface-container-high:     #2A2D35;
+      --color-surface-container-highest:  #32363F;
+      --color-on-surface:           #FFFFFF;
+      --color-on-surface-variant:   #9CA3AF;
+      --color-success:  #10B981;
+      --color-error:    #EF4444;
+      --color-warning:  #F59E0B;
+      --color-outline:          #374151;
+      --color-outline-variant:  #4B5563;
+      --radius-sm:   0.25rem;
+      --radius-md:   0.375rem;
+      --radius-lg:   0.5rem;
+      --radius-xl:   0.75rem;
+      --radius-2xl:  1rem;
+      --radius-full: 9999px;
+      --shadow-card:   0 2px 8px rgba(0,0,0,0.15);
+      --shadow-float:  0 10px 25px rgba(0,0,0,0.2);
+      --shadow-dialog: 0 25px 50px rgba(0,0,0,0.3);
+      --font-sans: "Inter", "Noto Sans SC", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('error', function (e) {
+      const img = e.target;
+      if (img.tagName !== 'IMG' || img.dataset.fallback) return;
+      img.dataset.fallback = '1';
+    }, true);
+  </script>
+</head>
+
+<body class="bg-background text-on-surface font-sans">
+
+  <!-- @nav:start -->
+  <header class="bg-surface sticky top-0 z-40 h-14 flex items-center justify-between px-5 border-b border-outline/20">
+    <div class="flex items-center gap-2.5">
+      <i data-lucide="cpu" class="text-primary w-5 h-5"></i>
+      <span class="font-bold text-base tracking-tight">Harness Platform</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="text-xs text-on-surface-variant font-mono">v0.1.0</span>
+      <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">初</div>
+    </div>
+  </header>
+
+  <div class="flex" style="height: calc(100vh - 3.5rem)">
+    <aside class="w-52 shrink-0 bg-surface border-r border-outline/20 overflow-y-auto">
+      <div class="p-3 space-y-0.5">
+        <a href="requirement.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-medium text-sm transition-colors">
+          <i data-lucide="message-square-plus" class="w-4 h-4"></i>需求输入
+        </a>
+        <a href="pipeline.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-medium text-sm transition-colors">
+          <i data-lucide="git-branch" class="w-4 h-4"></i>流程监控
+        </a>
+        <a href="constraints.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md bg-primary/10 text-primary font-medium text-sm" aria-current="page">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>约束配置
+        </a>
+        <a href="artifacts.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-medium text-sm transition-colors">
+          <i data-lucide="package" class="w-4 h-4"></i>产物管理
+        </a>
+      </div>
+    </aside>
+
+    <!-- @main-content:start -->
+    <main class="flex-1 min-w-0 overflow-y-auto bg-background p-6">
+      <div class="space-y-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-2xl font-bold">约束配置</h1>
+            <p class="text-sm text-on-surface-variant mt-0.5">管理 AGENTS.md 规则、Linter 参数和架构约束</p>
+          </div>
+          <button id="btn-verify-all" class="bg-primary text-on-primary px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 active:scale-[0.98] transition-all inline-flex items-center gap-2">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i>运行全闸门
+          </button>
+        </div>
+
+        <!-- AGENTS.md 硬性规则 -->
+        <div class="bg-surface rounded-lg shadow-card overflow-hidden">
+          <div class="px-5 py-3.5 border-b border-outline/20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="scroll-text" class="w-4 h-4 text-primary"></i>
+              <span class="text-sm font-semibold text-on-surface">AGENTS.md 硬性规则</span>
+            </div>
+            <span class="text-xs text-on-surface-variant">14 条规则</span>
+          </div>
+          <div class="divide-y divide-outline-variant/30">
+            <div class="px-5 py-3 flex items-center justify-between hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-mono text-on-surface-variant w-6">R1</span>
+                <span class="text-sm text-on-surface">前端 API 走相对路径 <code class="text-xs font-mono text-primary/80 bg-primary/10 px-1 rounded">/api/...</code></span>
+              </div>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-success/15 text-success">已机械化</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-mono text-on-surface-variant w-6">R2</span>
+                <span class="text-sm text-on-surface">后端禁止裸 <code class="text-xs font-mono text-primary/80 bg-primary/10 px-1 rounded">print()</code></span>
+              </div>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-success/15 text-success">已机械化</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-mono text-on-surface-variant w-6">R3</span>
+                <span class="text-sm text-on-surface">前端禁止 <code class="text-xs font-mono text-primary/80 bg-primary/10 px-1 rounded">as any</code></span>
+              </div>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-success/15 text-success">已机械化</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-mono text-on-surface-variant w-6">R4</span>
+                <span class="text-sm text-on-surface">新增 API 必须有 Pydantic schema + TS 类型</span>
+              </div>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-warning/15 text-warning">人工审查</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-mono text-on-surface-variant w-6">R5</span>
+                <span class="text-sm text-on-surface">LangGraph Node 必须是纯函数</span>
+              </div>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-warning/15 text-warning">人工审查</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-mono text-on-surface-variant w-6">R10</span>
+                <span class="text-sm text-on-surface">verify.sh 全闸门 14 项必须通过</span>
+              </div>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-success/15 text-success">已机械化</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-mono text-on-surface-variant w-6">R11</span>
+                <span class="text-sm text-on-surface">单文件 ≤300 行 / 单函数 ≤50 行</span>
+              </div>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-success/15 text-success">已机械化</span>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-mono text-on-surface-variant w-6">R13</span>
+                <span class="text-sm text-on-surface">审计闭合校验：规则→执行必须闭环</span>
+              </div>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-success/15 text-success">已机械化</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Linter 配置 -->
+        <div class="bg-surface rounded-lg shadow-card overflow-hidden">
+          <div class="px-5 py-3.5 border-b border-outline/20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="wrench" class="w-4 h-4 text-primary"></i>
+              <span class="text-sm font-semibold text-on-surface">Linter 规则引擎</span>
+            </div>
+          </div>
+          <div class="divide-y divide-outline-variant/30">
+            <div class="px-5 py-3.5 hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="layers" class="w-4 h-4 text-on-surface-variant"></i>
+                  <span class="text-sm font-medium text-on-surface">dependency-cruiser</span>
+                  <span class="text-xs text-on-surface-variant font-mono">v18.2.0</span>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-success/15 text-success">启用</span>
+              </div>
+              <div class="pl-6 text-xs text-on-surface-variant space-y-1">
+                <div>前端分层: src/ 禁直接 import 后端代码</div>
+                <div>禁循环依赖</div>
+              </div>
+            </div>
+            <div class="px-5 py-3.5 hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="file-code-2" class="w-4 h-4 text-on-surface-variant"></i>
+                  <span class="text-sm font-medium text-on-surface">import-linter</span>
+                  <span class="text-xs text-on-surface-variant font-mono">v2.13</span>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-success/15 text-success">启用</span>
+              </div>
+              <div class="pl-6 text-xs text-on-surface-variant space-y-1">
+                <div>routes 禁直接 import models</div>
+                <div>nodes 禁 import routes</div>
+              </div>
+            </div>
+            <div class="px-5 py-3.5 hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="scan-line" class="w-4 h-4 text-on-surface-variant"></i>
+                  <span class="text-sm font-medium text-on-surface">ruff</span>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-success/15 text-success">启用</span>
+              </div>
+              <div class="pl-6 text-xs text-on-surface-variant">
+                <div>规则族: E/F/W/I/UP/B/T20</div>
+              </div>
+            </div>
+            <div class="px-5 py-3.5 hover:bg-surface-container/30 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="shield-alert" class="w-4 h-4 text-on-surface-variant"></i>
+                  <span class="text-sm font-medium text-on-surface">ESLint</span>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-success/15 text-success">启用</span>
+              </div>
+              <div class="pl-6 text-xs text-on-surface-variant space-y-1">
+                <div>no-restricted-syntax: 拦截 fetch 硬编码 URL</div>
+                <div>max-lines: 300 / max-lines-per-function: 50</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 一致性校验结果 -->
+        <div class="bg-surface rounded-lg shadow-card overflow-hidden">
+          <div class="px-5 py-3.5 border-b border-outline/20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="badge-check" class="w-4 h-4 text-success"></i>
+              <span class="text-sm font-semibold text-on-surface">最近一次全闸门校验</span>
+            </div>
+            <span class="text-xs text-on-surface-variant font-mono">2 分钟前</span>
+          </div>
+          <div class="px-5 py-4">
+            <div class="grid grid-cols-2 gap-3">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">ts-check</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">eslint</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">vitest</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">stylelint</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">depcruise</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">ruff</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">mypy</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">import-linter</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">pytest-cov (100%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">doc-freshness</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">file-size</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">tech-stack-align</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">git-tracking</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-success"></i>
+                <span class="text-xs text-on-surface">port-consistency</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-outline/20 flex items-center justify-between">
+              <span class="text-sm font-semibold text-success">14 / 14 全通过</span>
+              <span class="text-xs text-on-surface-variant font-mono">耗时 12.3s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- @main-content:end -->
+  </div>
+  <!-- @nav:end -->
+
+  <script>
+    lucide.createIcons();
+
+    $(function() {
+      // 运行全闸门
+      $('#btn-verify-all').on('click', function() {
+        console.log('触发 verify.sh 全闸门检查');
+      });
+    });
+  </script>
+</body>
+
+</html>
