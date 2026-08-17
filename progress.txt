@@ -51,3 +51,5 @@
 [2026-08-17T16:00Z] stage-02 | verify-11 | done | verify.sh 11项全通过: 新增CSS Lint(stylelint), 覆盖率100%
 [2026-08-17T16:30Z] stage-02 | cross-validate-2 | done | 交叉验证未覆盖模块: .coze/.preview/index.html/.gitignore/.env.example/settings.py/__init__.py全部一致, 无设计缺失
 [2026-08-17T16:30Z] stage-02 | fix-G14 | done | verify.sh头部注释更新为12项 + 新增第12项check_tech_stack_alignment(React/Python/Vite声明版本vs实际版本比对[P008]) + testing.md/AGENTS.md/convention-mapping同步更新
+[2026-08-17T17:00Z] stage-02 | cross-validate-3 | done | 交叉验证架构文档/跨文档引用/PDF机械规则表: vite.config/tailwind/postcss/feature_list/sprint/boundaries/state-design/harness-flow/api-spec/template/env-review/coding/pitfalls全部一致
+[2026-08-17T17:00Z] stage-02 | fix-G15 | done | ESLint新增no-restricted-syntax拦截fetch硬编码URL(PDF禁裸HTTP机械化) + convention-mapping移除错误[P001]引用(实际P001是plugin-react兼容性) + 更新实现方式为ESLint+AGENTS.md

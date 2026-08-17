@@ -171,3 +171,26 @@ G11 暴露的设计盲区——五轮审计均聚焦 PDF 要求逐条对照，�
 - harness-journal 目录结构完整（23 个 .md 文件，8 个 stage 目录）
 
 审计同时确认：第八轮无新增流程未到项，PDF 与当前设计无冲突。verify.sh 从 11 项扩展为 12 项。
+
+### 18 - 第九轮交叉验证审计修复
+
+基于用户要求交叉验证其他未覆盖到的模块，逐项检查架构文档与实际代码一致性、跨文档引用完整性、PDF「把主观品味翻译成机械规则」表 5 项逐一对照。发现 1 个设计缺失（含两个子问题）：
+
+1. **「禁裸HTTP」仅文档约束未机械化 + convention-to-rule-mapping 交叉引用错误**（G15）:
+   - **G15a（规则未机械化）**: PDF「把主观品味翻译成机械规则」表明确列出 5 项应机械化的规则：方法≤50行、文件≤300行、禁print、禁裸HTTP、覆盖率≥80%。前 4 项已在 G5/G6 中机械化，覆盖率在 verify.sh #9 强制，但「禁裸HTTP」（禁止前端硬编码 http/https URL）仅在 AGENTS.md 硬性规则 #1 中作为人工约束存在，ESLint 未配置对应规则。`convention-to-rule-mapping.md` 将其标记为「✅ 已配置」但实现方式为「AGENTS.md 硬性规则 #1」——文档约束（人工审查），非机械化执行。与 G12/G13/G14 完全同构——声明已配置但没进闸门。修复：在 `eslint.config.mjs` 添加 `no-restricted-syntax` 规则，拦截 `fetch('http://...')` / `fetch('https://...')` 模式（选择器 `CallExpression[callee.name='fetch'] Literal[value=/^https?/]`），错误信息使用三要素公式。当前 `src/App.tsx` 使用 `fetch('/api/health')` 相对路径，不受影响。
+   - **G15b（交叉引用错误）**: `convention-to-rule-mapping.md`「前端不硬编码域名/IP」行标注 `[P001]`，但 P001 是 `@vitejs/plugin-react` 与 Vite 7 不兼容问题，与硬编码 URL 无关。AGENTS.md 硬性规则 #1 本身也不带 `[P001]` 标注。修复：移除错误的 `[P001]` 标注，实现方式更新为「ESLint no-restricted-syntax + AGENTS.md 硬性规则 #1」。
+
+交叉验证其他模块（无设计缺失）：
+- vite.config.ts: port 5000 / host 0.0.0.0 / proxy /api → 127.0.0.1:8000，与 AGENTS.md 规则 #6 一致
+- tailwind.config.js / postcss.config.js: 标准配置，content 路径正确
+- feature_list.json vs current-sprint.md: 10 个功能 ID/名称/状态完全一致（F001 passing, F002-F010 todo）
+- boundaries.md vs import-linter 合约: 依赖方向 `routes → schemas → models → config` 与合约「Routes cannot import models directly」一致（链式依赖不等于直接 import）
+- state-design.md: HarnessState TypedDict 定义完整，status: draft（流程未到 F002）
+- harness-flow.md: 8 阶段流程与 journal 阶段映射一致
+- api-spec.md: 接口多于实际实现（流程未到，第七轮已分类）
+- _template.md: 设计文档模板含 Status 流转（Draft → Approved → In Progress → Implemented）
+- env-review.md: 5 项周检查 + 4 项月回顾，与 AGENTS.md 规则 #12 [P008] 一致
+- coding.md: 三大失败模式 + 编码规范 + 日志规范 + 踩坑记录规则，完整
+- pitfalls.md: P001-P008 全部正确，无错误引用
+
+审计同时确认：第九轮无新增流程未到项，PDF 与当前设计无冲突。verify.sh 仍为 12 项（新增的 ESLint 规则属于第 2 项 ESLint 内部，无需新增闸门项）。

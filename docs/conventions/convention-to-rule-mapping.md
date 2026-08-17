@@ -9,7 +9,7 @@ PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次�
 | 团队口头约定 | 机械化规则 | 实现方式 | 状态 |
 |---|---|---|---|
 | 前端不直接调后端代码 | 前端 src/ 禁止 import server/ | dependency-cruiser 自定义规则 | ✅ 已配置 |
-| 前端不硬编码域名/IP | 前端禁止 localhost/IP/域名 | AGENTS.md 硬性规则 #1 [P001] | ✅ 已配置 |
+| 前端不硬编码域名/IP | 前端禁止 localhost/IP/域名 | ESLint no-restricted-syntax + AGENTS.md 硬性规则 #1 | ✅ 已配置 |
 | routes 不直接操作数据库 | server.routes 禁止 import server.models | import-linter forbidden contract + 三要素注释 | ✅ 已配置 |
 | Node 不操作 HTTP 响应 | server.nodes 禁止 import server.routes | import-linter forbidden contract + 三要素注释 | ✅ 已配置 |
 | 禁止循环依赖 | 任何模块间循环依赖 | dependency-cruiser + ESLint import/no-cycle | ✅ 已配置 |

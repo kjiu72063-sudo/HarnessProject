@@ -22,6 +22,10 @@ export default defineConfig([
       'import/no-cycle': ['error', { ignoreExternal: true }],
       'max-lines': ['error', { max: 300, skipComments: true, skipBlankLines: true }],
       'max-lines-per-function': ['error', { max: 50, skipComments: true, skipBlankLines: true }],
+      'no-restricted-syntax': ['error', {
+        selector: "CallExpression[callee.name='fetch'] Literal[value=/^https?/]",
+        message: '❌ 禁止硬编码 URL（http/https），使用相对路径 /api/... ✅ FIX: 改为 fetch(\'/api/...\') 📖 See: docs/architecture/boundaries.md',
+      }],
     },
   },
   globalIgnores([
