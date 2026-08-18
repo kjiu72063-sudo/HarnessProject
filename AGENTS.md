@@ -11,6 +11,7 @@
 - **下一步**: F002修订→F003修订→F006修订→跨文档同步→设计审批→编码
 - **原型确认**: 4页面(需求输入/流程监控/约束配置/产物管理)已通过，K总认为可先走通第一版再迭代。后续功能需求记入feature_list.json排期
 - **WorkBuddy评审**: 发现单体Agent反模式(L1自己调skill产出=自己干非委派) + 设计文档16项缺陷。K总确认: 回退点=设计闸门不回退代码, "skill≠agent"作为F011基础约束, 人类介入粒度=默认通过仅可疑拦截
+- **L1职责边界**: L1只做流程检查(产出存在/journal写入/约束遵守), 不做内容质量判定。内容质量校验必须委派L3设计校验Agent。修订后必须重新校验, 不得以任何理由跳过。
 - **方案文档**: harness-journal/stage-02-feature-breakdown/02-agent-society-and-revision-plan.md
 - **新会话**: 先读本文件→progress.txt→feature_list.json→docs/plans/current-sprint.md→harness-journal/README.md(必读!最近3条journal)
 
