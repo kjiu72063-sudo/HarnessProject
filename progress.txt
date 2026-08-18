@@ -85,3 +85,4 @@
 [2026-08-18T04:00Z] stage-02 | F011-r2-review | done | L3聚焦校验F011 Round2: Part A #7已修复(计数7→8+补列L3校验独立性约束), Part B无新问题, Part C范围精确, 结论通过可推进Approved
 [2026-08-18T05:00Z] stage-02 | F002-revision-r1 | done | F002修订Round1完成: 6项致命缺陷全修复(纯函数→委派桩/HITL布尔→interrupt/循环无终止→预算/熵管理矛盾→横切/阶段编号→0-7/tech_stack→TechStackSpec)+新增F011引用, 199行, Status: Draft
 [2026-08-18T05:15Z] stage-02 | F002-review-delegation | done | L1流程验收F002修订通过, 委派L3校验Agent(Part A 6项缺陷修复验证+Part B 7维度全量检查)
+[2026-08-18T06:00Z] stage-02 | F002-review | done | L3校验F002修订版: Part A 5项已修复+1项部分修复(#6 TechStackSpec未覆盖uv), Part B发现6项新引入缺陷(概念3+跨文档3: DRR长循环预算检查缺失/state-design.md同步待办缺失/boundaries.md同步待办缺失/POST-resume缺Pydantic模型/TechStackSpec未覆盖uv/route_feedback_loop绕过标志位), 结论需修订后重审

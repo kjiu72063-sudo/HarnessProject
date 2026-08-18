@@ -43,7 +43,9 @@ harness-journal/
 │   ├── 13-f011-re-review-result-and-r2-delegation.md  回退Draft + Round2委派
 │   ├── 14-f011-revision-r2.md          F011 修订 Round 2（缺陷#7修复）
 │   ├── 15-f011-r2-review.md            F011 Round2 L3校验通过
-│   └── 16-f011-approved-and-f002-start.md  F011 Approved + F002修订启动
+│   ├── 16-f011-approved-and-f002-start.md  F011 Approved + F002修订启动
+│   ├── 17-f002-revision-r1.md         F002 修订 Round 1（6项致命缺陷修复）
+│   └── 18-f002-review.md              F002 修订 L3校验（6项新引入缺陷，需修订后重审）
 ├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
 ├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
