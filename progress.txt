@@ -65,3 +65,6 @@
 [2026-08-17T21:30Z] stage-02 | feature-breakdown | done | Sprint1设计文档: F002 LangGraph编排引擎 + F003 LLM提供商层 + F006 前端UI, 交叉检查通过, 待审批
 [2026-08-17T22:00Z] stage-02 | workbuddy-review | done | WorkBuddy评审: 发现单体Agent反模式(我即样本) + 设计文档16项缺陷(致命3+跨文档4+概念3+F006专项3+F003专项3)
 [2026-08-17T22:30Z] stage-02 | agent-society-plan | done | Agent社会架构方案: L0-L3分层 + ControllerSpec流程 + F011新增 + F002/F003/F006修订计划 + orchestrator-prompt升级 + 标准引导模板, 待K总审批
+[2026-08-17T23:00Z] stage-02 | orchestrator-upgrade | done | orchestrator-prompt.md升级: 冷启动加harness-journal(5步) + 禁止自执行skill + 委派桩定义 + 子管控者约束 + L1工具白名单
+[2026-08-17T23:00Z] stage-02 | agent-registry | done | Agent Registry创建: 5角色(project-controller/design-writer/design-reviewer/coder/test-reviewer) + 标准引导模板 + 4个L3角色模板
+[2026-08-17T23:00Z] stage-02 | F011-controller-spec | done | F011 Controller Spec产出: 10条验收标准 + L3设计编写Agent完整启动提示词, 待K总开会话委派

@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "updated": "2026-08-17",
+  "description": "Agent 社会角色注册表。L1 查此表找到目标角色的 Prompt 模板路径和工具白名单。",
+  "standard_bootstrap": {
+    "description": "标准引导模板，L2 自动注入每份 L3 提示词",
+    "template_path": "docs/handbook/prompts/_bootstrap.md"
+  },
+  "agents": [
+    {
+      "role": "project-controller",
+      "level": "L1",
+      "description": "项目管控：拆解/路由/验收/更新记忆。不干活。",
+      "tools": ["read_file", "write_file", "edit_file", "exec_shell", "grep_file", "glob_file"],
+      "prompt_template": "docs/handbook/orchestrator-prompt.md",
+      "prohibitions": [
+        "不得自执行 skill 产出内容",
+        "不得直接编写业务代码",
+        "不得直接编写设计文档"
+      ]
+    },
+    {
+      "role": "design-writer",
+      "level": "L3",
+      "description": "按 Controller Spec 编写设计文档。只做设计编写，不做编码、不做校验。",
+      "tools": ["read_file", "write_file", "edit_file", "grep_file", "glob_file"],
+      "prompt_template": "docs/handbook/prompts/design-writer.md",
+      "prohibitions": [
+        "不得自行调用 skill",
+        "不得修改 sub_id",
+        "不得跳过 harness-journal 记录",
+        "不得修改 AGENTS.md 硬性规则"
+      ]
+    },
+    {
+      "role": "design-reviewer",
+      "level": "L3",
+      "description": "独立审阅设计文档，输出缺陷清单。只读不写（除 journal 和 progress）。",
+      "tools": ["read_file", "write_file", "grep_file", "glob_file"],
+      "prompt_template": "docs/handbook/prompts/design-reviewer.md",
+      "prohibitions": [
+        "不得修改被审阅的设计文档",
+        "不得自行调用 skill",
+        "不得修改 sub_id"
+      ]
+    },
+    {
+      "role": "coder",
+      "level": "L3",
+      "description": "按设计文档实现代码，跑 verify.sh。只做编码，不做设计。",
+      "tools": ["read_file", "write_file", "edit_file", "exec_shell", "grep_file", "glob_file"],
+      "prompt_template": "docs/handbook/prompts/coder.md",
+      "prohibitions": [
+        "不得自行调用 skill",
+        "不得跳过 verify.sh",
+        "不得修改 sub_id",
+        "不得修改 AGENTS.md 硬性规则"
+      ]
+    },
+    {
+      "role": "test-reviewer",
+      "level": "L3",
+      "description": "审查测试覆盖率和质量。只读不写（除 journal 和 progress）。",
+      "tools": ["read_file", "write_file", "exec_shell", "grep_file", "glob_file"],
+      "prompt_template": "docs/handbook/prompts/test-reviewer.md",
+      "prohibitions": [
+        "不得修改被审阅的代码",
+        "不得自行调用 skill",
+        "不得修改 sub_id"
+      ]
+    }
+  ]
+}

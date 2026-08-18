@@ -29,7 +29,8 @@ harness-journal/
 ├── stage-02-constraint-layer/        ← 阶段2：约束层搭建（✅ 已完成）
 ├── stage-02-feature-breakdown/       ← 阶段2：功能拆分与设计（进行中）
 │   ├── 01-design-docs.md               Sprint1 设计文档编写（F002/F003/F006 Draft）
-│   └── 02-agent-society-and-revision-plan.md  Agent 社会架构方案与设计文档修订计划
+│   ├── 02-agent-society-and-revision-plan.md  Agent 社会架构方案与设计文档修订计划
+│   └── 03-f011-delegation.md           F011 设计编写委派 L3 Agent
 ├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
 ├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
