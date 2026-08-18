@@ -27,7 +27,9 @@ harness-journal/
 │   ├── 06-prototype-generation.md       原型HTML生成执行
 │   └── 07-prototype-confirmation.md     原型确认决策
 ├── stage-02-constraint-layer/        ← 阶段2：约束层搭建（✅ 已完成）
-├── stage-02-feature-breakdown/       ← 阶段2：功能拆分与设计（待执行）
+├── stage-02-feature-breakdown/       ← 阶段2：功能拆分与设计（进行中）
+│   ├── 01-design-docs.md               Sprint1 设计文档编写（F002/F003/F006 Draft）
+│   └── 02-agent-society-and-revision-plan.md  Agent 社会架构方案与设计文档修订计划
 ├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
 ├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
@@ -45,7 +47,7 @@ Harness Engineering 流程在本项目中的实际执行顺序与标准 8 阶段
 | 0 | 需求与可行性 | 前置（文档中未显式定义） | ✅ 已完成 |
 | 0 | 初始化 Agent | 阶段0（Anthropic 两阶段模型-初始化） | ✅ 已完成 |
 | 1 | 信息层 | 阶段1（信息层） | ✅ 已完成 |
-| 2 | 功能拆分与设计 | 阶段2 | ⬜ 待执行 |
+| 2 | 功能拆分与设计 | 阶段2 | 🔄 进行中 |
 | 3 | 设计审批 | 阶段2-审批 | ⬜ 待执行 |
 | 4 | 编码实现 | 阶段4 | ⬜ 待执行 |
 | 5 | 自校验与反馈循环 | 阶段5 | ⬜ 待执行 |

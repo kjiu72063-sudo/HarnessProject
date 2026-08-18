@@ -6,11 +6,13 @@
 
 ## 当前阶段与下一步
 
-- **已完成**: 阶段0初始化 + 阶段1信息层(含原型确认通过) + 阶段2约束层(12轮审计收敛，verify.sh 14项全通过)
-- **当前**: Task 2 功能拆分 → 设计文档审批
-- **下一步**: 设计文档审批→F002后端→F003 LLM→F006前端
+- **已完成**: 阶段0初始化 + 阶段1信息层(含原型确认通过) + 阶段2约束层(12轮审计收敛，verify.sh 14项全通过) + Sprint1设计文档Draft(F002/F003/F006)
+- **当前**: Agent 社会架构方案待审批 → 设计文档修订
+- **下一步**: 方案审批→F011新增→F002/F003/F006修订→跨文档同步→设计审批→编码
 - **原型确认**: 4页面(需求输入/流程监控/约束配置/产物管理)已通过，K总认为可先走通第一版再迭代。后续功能需求记入feature_list.json排期
-- **新会话**: 先读本文件→progress.txt→feature_list.json→docs/plans/current-sprint.md
+- **WorkBuddy评审**: 发现单体Agent反模式(L1自己调skill产出=自己干非委派) + 设计文档16项缺陷。K总确认: 回退点=设计闸门不回退代码, "skill≠agent"作为F011基础约束, 人类介入粒度=默认通过仅可疑拦截
+- **方案文档**: harness-journal/stage-02-feature-breakdown/02-agent-society-and-revision-plan.md
+- **新会话**: 先读本文件→progress.txt→feature_list.json→docs/plans/current-sprint.md→harness-journal/README.md(必读!最近3条journal)
 
 ## 技术栈基线（不允许擅自升级）- 前端: React 19 + TypeScript + Vite 7（不迁 Next.js）
 - 后端: Python 3.12 + FastAPI + LangGraph
@@ -44,7 +46,7 @@
 2. 后端 Python 代码禁止裸 `print()`，统一用 `logging`
 3. 前端禁止 `as any` 和隐式 `any`
 4. 新增 API 必须有对应类型定义（Pydantic schema + TS 类型）
-5. LangGraph Node 必须是纯函数，接收 State 返回 State
+5. LangGraph Node 是委派桩/状态转换器：接收 State → 委派 Agent Runtime 执行 → 返回更新后的 State。Node 本身不含业务逻辑。（待 F011/F002 修订后正式生效，当前为修订方向）
 6. 端口: 前端 Vite 固定 5000，后端 FastAPI 固定 8000
 7. 不修改 .coze 中的 sub_id
 8. POST/PUT 路由请求体必须用 Pydantic BaseModel，禁止裸参数 [P003]

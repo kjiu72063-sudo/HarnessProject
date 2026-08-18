@@ -78,5 +78,13 @@
     "status": "todo",
     "description": "第二个技术栈模板（Node/NestJS）",
     "dependencies": ["F004", "F005"]
+  },
+  {
+    "id": "F011",
+    "name": "Agent Runtime 与编排治理",
+    "priority": 1.5,
+    "status": "todo",
+    "description": "Agent Registry + Controller Spec + 标准引导模板 + skill≠agent约束 + 6闸门actor分配 + 循环预算",
+    "dependencies": ["F001"]
   }
 ]

@@ -63,3 +63,5 @@
 [2026-08-17T20:30Z] stage-01 | prototype-generation | done | 原型HTML生成: 骨架+DesignToken填充+4页面+画板配置, check_page 0错误0警告, 待用户确认
 [2026-08-17T21:00Z] stage-01 | prototype-confirmed | done | 原型确认通过: K总审阅4页面, 决策"先走通第一版再迭代", 后续功能需求记入feature_list排期不阻塞门控
 [2026-08-17T21:30Z] stage-02 | feature-breakdown | done | Sprint1设计文档: F002 LangGraph编排引擎 + F003 LLM提供商层 + F006 前端UI, 交叉检查通过, 待审批
+[2026-08-17T22:00Z] stage-02 | workbuddy-review | done | WorkBuddy评审: 发现单体Agent反模式(我即样本) + 设计文档16项缺陷(致命3+跨文档4+概念3+F006专项3+F003专项3)
+[2026-08-17T22:30Z] stage-02 | agent-society-plan | done | Agent社会架构方案: L0-L3分层 + ControllerSpec流程 + F011新增 + F002/F003/F006修订计划 + orchestrator-prompt升级 + 标准引导模板, 待K总审批
