@@ -40,8 +40,10 @@ harness-journal/
 │   ├── 10-l1-scope-violation-correction.md  L1跳过L3校验纠正 + 规则固化
 │   ├── 11-f011-re-review-delegation.md  F011修订版补审委派
 │   ├── 12-f011-re-review.md             F011 L3补审（6项全修复+1项新缺陷#7）
-│   └── 13-f011-re-review-result-and-r2-delegation.md  回退Draft + Round2委派
-│   └── 14-f011-revision-r2.md          F011 修订 Round 2（缺陷#7修复）
+│   ├── 13-f011-re-review-result-and-r2-delegation.md  回退Draft + Round2委派
+│   ├── 14-f011-revision-r2.md          F011 修订 Round 2（缺陷#7修复）
+│   ├── 15-f011-r2-review.md            F011 Round2 L3校验通过
+│   └── 16-f011-approved-and-f002-start.md  F011 Approved + F002修订启动
 ├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
 ├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
