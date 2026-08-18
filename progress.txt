@@ -91,3 +91,4 @@
 [2026-08-18T07:15Z] stage-02 | F002-r2-review-delegation | done | L1流程验收通过, 委派L3校验Agent聚焦校验F002 R2(Part A 6项缺陷修复验证+Part B修订影响+Part C范围确认)
 [2026-08-18T08:00Z] stage-02 | F002-r2-review | done | L3聚焦校验F002 R2: Part A 6项R1缺陷全修复, Part B发现1项新跨文档缺陷(route_loop_budget比较运算符>=与F011§6的>不一致,循环预算减少20%), Part C范围确认通过, 结论需修订后重审
 [2026-08-18T08:15Z] stage-02 | F002-r2-review-decision | done | L1接受需修订结论, 产出R3修订ControllerSpec(6条验收标准)+L3启动提示词, 委派L3修订1项运算符不一致缺陷
+[2026-08-18T09:00Z] stage-02 | F002-revision-r3 | done | F002修订Round3完成: route_loop_budget比较运算符>=改为>与F011 §6规则3对齐, 225行, Status: Draft

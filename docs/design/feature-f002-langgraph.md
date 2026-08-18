@@ -179,7 +179,7 @@ def route_loop_budget(state: HarnessState) -> str:
     两种循环共用同一 current_iteration 计数器（详见 F011 §6 共享预算设计决策）。
     超限时先设置 human_intervention 标志位再路由到逃生口。
     """
-    if state["current_iteration"] >= state["max_iterations"]:
+    if state["current_iteration"] > state["max_iterations"]:
         state["human_intervention"] = True
         return "human_intervention"
     return "next_stage"
@@ -222,3 +222,4 @@ def route_loop_budget(state: HarnessState) -> str:
 
 - Round 1（2026-08-18）：修复 6 项致命缺陷（纯函数矛盾→委派桩/HITL布尔路由→interrupt机制/循环无终止→预算保护/熵管理矛盾→横切/阶段编号不自洽→0-7/tech_stack缺校验→TechStackSpec）+ 新增 F011 引用段，详见 17-f002-revision-r1.md。
 - Round 2（2026-08-18）：修复 L3 校验发现的 6 项缺陷（#1 DRR长循环预算检查→route_loop_budget共用函数/#2 state-design.md同步待办/#3 boundaries.md同步待办/#4 ResumeRequest BaseModel+gate参数说明/#5 TechStackSpec双包管理器/#6 标志位设置一致性），详见 20-f002-revision-r2.md。
+- Round 3（2026-08-18）：修复跨文档缺陷——route_loop_budget 比较运算符 `>=` 改为 `>`，与 F011 §6 规则 3（`current_iteration > max_iterations`）对齐。详见 24-f002-revision-r3.md。
