@@ -32,7 +32,9 @@ harness-journal/
 │   ├── 02-agent-society-and-revision-plan.md  Agent 社会架构方案与设计文档修订计划
 │   ├── 03-f011-delegation.md           F011 设计编写委派 L3 Agent
 │   ├── 04-f011-design.md               F011 设计文档编写（L3 产出）
-│   └── 05-f011-acceptance-and-review-delegation.md  F011 L1验收通过 + 设计校验委派
+│   ├── 05-f011-acceptance-and-review-delegation.md  F011 L1验收通过 + 设计校验委派
+│   ├── 06-f011-review.md               F011 L3校验Agent审阅（6项缺陷）
+│   └── 07-f011-review-decision-and-revision-delegation.md  L1决策 + 修订委派
 ├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
 ├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
