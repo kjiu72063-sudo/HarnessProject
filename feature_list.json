@@ -19,7 +19,7 @@
     "id": "F003",
     "name": "可插拔 LLM 提供商层",
     "priority": 3,
-    "status": "todo",
+    "status": "approved",
     "description": "OpenAI ChatGPT 首个实现 + 抽象接口",
     "dependencies": ["F002"]
   },
