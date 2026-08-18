@@ -74,6 +74,8 @@ Agent Registry 是持久化的角色注册表，L1 查此表找到目标角色�
 }
 ```
 
+> `prompt_template` 路径遵循 `docs/handbook/prompts/{role}.md` 模式。L1 角色 project-controller 为例外，使用 `docs/handbook/orchestrator-prompt.md`（历史命名，已在 `agent-registry.json` 中正确配置）。
+
 **当前注册角色**（与 `agent-registry.json` 对齐）：
 
 | role | level | tools 数量 | 核心职责 |
@@ -164,7 +166,11 @@ L2 自动注入每份 L3 提示词的模板内容（文件：`docs/handbook/prom
 | 审查通过 | 阶段6 合并部署 | Agent 或人类 | 默认 Agent，可疑时升级人类 |
 | 验收通过 | 阶段7 可观测性 | 人类(K总) | interrupt + 等待人工确认 |
 
-**实现机制**：人类闸门用 LangGraph `interrupt_before` + `Command(resume=...)` 实现暂停/恢复；自动闸门用 conditional edge 路由函数判断，无需 interrupt。审查通过闸门的"可疑升级"：Agent 审查发现异常模式（如覆盖率骤降、测试大量失败）时设置 `human_intervention = True` 转入逃生口。
+**实现机制**：采用多节点 interrupt_before 拓扑——每个人类闸门节点独立设置 `interrupt_before` + `Command(resume=...)` 实现暂停/恢复，闸门位置明确、调试方便。自动闸门用 conditional edge 路由函数判断，无需 interrupt。
+
+> 跨文档同步待办：`state-design.md` 第 54 行 `interrupt_before=["human_interrupt"]` 为单一节点设计，需在跨文档同步阶段更新为多节点拓扑，与 F011 §5 对齐。
+
+审查通过闸门的"可疑升级"触发维度：覆盖率下降幅度、失败测试比例、新增代码与测试比例失衡等。具体阈值由 F002 编码实现时定义（如覆盖率下降 > 10%、失败测试比例 > 30%）。F011 仅定义升级机制和触发维度，不固定阈值。Agent 审查发现异常模式时设置 `human_intervention = True` 转入逃生口。
 
 ### 6. 循环预算机制
 
@@ -177,6 +183,8 @@ max_iterations: int       # [NEW] 默认 5，可按功能复杂度调整
 current_iteration: int    # [NEW] 初始 0
 ```
 
+**设计决策**：反馈循环（阶段5）和 DRR 长循环（阶段7）共用同一循环预算（`max_iterations` / `current_iteration`）。理由：(1) 简化状态管理，无需区分循环类型的独立计数器；(2) 总预算可控——无论哪种循环消耗，总迭代次数有上限；(3) 两种循环不会同时运行（流程是线性的）。
+
 **运行规则**：
 
 1. 每次进入反馈循环（阶段5 失败→修复→回到写代码）时 `current_iteration += 1`
@@ -184,6 +192,7 @@ current_iteration: int    # [NEW] 初始 0
 3. 当 `current_iteration > max_iterations` 时，设置 `human_intervention = True`
 4. `human_intervention = True` 触发逃生口：流程暂停，等待人工介入决策（继续/放弃/调整预算）
 5. 人工介入后将 `current_iteration` 重置为 0，可调整 `max_iterations`
+6. 当 `issue_resolved=True` 或循环正常退出（如测试通过不再需要反馈循环）时，`current_iteration` 重置为 0。循环预算是 per-loop 的，不跨循环累积。
 
 **与现有字段的关系**：复用 `state-design.md` 已有的 `human_intervention: bool` 和 `feedback_log: list[dict]`，不新增布尔字段。`feedback_log` 记录每次循环的迭代上下文。
 
@@ -251,3 +260,10 @@ current_iteration: int    # [NEW] 初始 0
 - `docs/handbook/agent-registry.json` 已创建（5 角色定义）
 - `docs/handbook/orchestrator-prompt.md` 已升级（冷启动 5 步 + 硬约束 + 工具白名单）
 - `docs/handbook/prompts/_bootstrap.md` 已创建（标准引导模板）
+- 跨文档同步待办：`boundaries.md` 第 15 行 server/nodes/ 描述需从"纯函数"更新为"委派桩/状态转换器"，与 AGENTS.md 规则 #5 和 F011 §4 对齐。此修复在跨文档同步阶段执行，不在 F011 文档内修改 boundaries.md。
+
+---
+
+## 修订记录
+
+- Round 1（2026-08-18）：修复 L3 校验 Agent 发现的 6 项缺陷（致命1 + 跨文档2 + 概念3），详见 06-f011-review.md。
