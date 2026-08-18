@@ -1,4 +1,4 @@
-last_updated: 2026-08-17
+last_updated: 2026-08-18
 status: Draft
 owner: @K总
 
@@ -25,10 +25,11 @@ owner: @K总
 - `src/pages/ArtifactsPage.tsx` — 产物管理页
 - `src/components/Sidebar.tsx` — 侧边栏导航
 - `src/components/Header.tsx` — 顶栏
-- `src/components/StageNode.tsx` — 流程阶段节点
-- `src/components/DiamondNode.tsx` — 菱形决策节点
-- `src/components/LogPanel.tsx` — 实时日志面板
-- `src/components/StatusBadge.tsx` — 状态灯（琥珀/绿/红 + Lucide 图标）
+- `src/components/DAGView.tsx` — DAG 流程图视图（@xyflow/react Type 1 只读）
+- `src/components/StageNode.tsx` — 流程阶段节点（DAGView 内使用）
+- `src/components/DiamondNode.tsx` — 菱形决策节点（DAGView 内使用）
+- `src/components/LogPanel.tsx` — 日志面板
+- `src/components/StatusBadge.tsx` — 状态灯（石墨灰/琥珀/翡翠绿/警示红 + Lucide 图标）
 - `src/api/client.ts` — API 调用封装（fetch + 相对路径 /api/...）
 - `src/api/harness.ts` — Harness 相关 API（start/getState/stream）
 - `src/api/projects.ts` — 项目管理 API
@@ -45,10 +46,11 @@ owner: @K总
 - RecentProjects: 近期生成列表
 
 #### 流程监控页 (PipelinePage)
-- StageTimeline: 8 阶段垂直拓扑线
+- DAGView: 8 阶段节点 + 回环边 + 闸门决策点（@xyflow/react Type 1 只读）
 - StageNode × 8: 阶段节点（状态灯 + 标题 + 描述 + 进度条）
 - DiamondNode × 6: 菱形决策点（通过/待执行/失败）
-- LogPanel: 等宽字体实时日志 + 状态摘要
+- 回环边: 贝塞尔曲线 + 虚线 + 标签（"反馈循环"/"DRR 长循环"）
+- LogPanel: 等宽字体日志 + 状态摘要
 - 扫描线动画（CSS animation，进行中节点）
 
 #### 约束配置页 (ConstraintsPage)
@@ -85,7 +87,7 @@ export const getHarnessState = (sessionId: string) =>
 ### 状态管理
 使用 React 内置 useState/useEffect，不引入额外状态库：
 - 需求输入页：表单本地状态
-- 流程监控页：session_id → 轮询 getHarnessState（每 2s）→ 更新各 StageNode 状态
+- 流程监控页：session_id → 轮询 getHarnessState（每 2s）→ 更新 DAGView 各节点状态（F007 将替换为 SSE 实时推送）
 - 约束配置页：一次性获取约束列表 + 闸门结果
 - 产物管理页：一次性获取产物列表 + 闸门结果
 
@@ -96,7 +98,7 @@ export const getHarnessState = (sessionId: string) =>
 interface HarnessState {
   project_id: string;
   project_name: string;
-  tech_stack: TechStack;
+  tech_stack: TechStackSpec;
   agents_md: string;
   rules: Rule[];
   boundaries: string;
@@ -109,16 +111,33 @@ interface HarnessState {
   feedback_log: FeedbackEntry[];
   current_stage: string;
   human_intervention: boolean;
+  max_iterations: number;
+  current_iteration: number;
+  token_usage_total: TokenUsage;
+}
+
+interface TechStackSpec {
+  frontend: string;
+  backend: string;
+  database: string;
+  llm: string;
+  frontend_package_manager: string;
+  backend_package_manager: string;
+}
+
+interface TokenUsage {
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
 }
 
 type StageStatus = 'pending' | 'running' | 'passed' | 'failed';
-type TechStack = 'react-fastapi' | 'next-prisma' | 'taro-miniprogram' | 'custom';
 ```
 
 ### 设计规范（DESIGN.md 执行）
 - 配色: 深炭灰 #0F1115 / 石墨灰 #1A1D24 / 工程蓝 #3B82F6 / 琥珀 #F59E0B / 翡翠绿 #10B981 / 警示红 #EF4444
 - 字体: Inter + Noto Sans SC (正文), JetBrains Mono (代码/日志)
-- 状态灯: 三色 + Lucide 图标双重编码（色盲安全）
+- 状态灯: 四色对应四状态（pending=石墨灰 #4B5563 / running=琥珀 #F59E0B / passed=翡翠绿 #10B981 / failed=警示红 #EF4444）+ Lucide 图标双重编码（色盲安全）
 - 动效: ease-out 150-200ms, 扫描线动画(进行中), 日志逐行淡入
 - 禁忌: 无装饰性图片/无emoji/无蓝紫渐变/无毛玻璃/无弹性动画
 
@@ -129,11 +148,11 @@ type TechStack = 'react-fastapi' | 'next-prisma' | 'taro-miniprogram' | 'custom'
 - 4 个页面按原型视觉还原（DESIGN.md 配色/字体/动效一致）
 - 侧边栏导航 4 页面间跳转正常，当前页高亮
 - 需求输入页：表单可填写 + 技术栈可选中 + 启动按钮跳转流程监控页
-- 流程监控页：8 阶段拓扑完整展示 + 日志面板 + 状态灯三色
+- 流程监控页：DAG 视图展示 8 阶段 + 回环边 + 闸门决策点 + 日志面板 + 状态灯四色
 - 约束配置页：规则列表 + Linter 列表 + 闸门结果展示
 - 产物管理页：统计卡片 + 文件树 + 闸门详情
 - API 调用走相对路径 `/api/...`，无硬编码域名
-- TS 类型与后端 Pydantic schema 对应
+- TS HarnessState 与 F002/F003 修订后字段对齐（TechStackSpec + max_iterations + current_iteration + token_usage_total + TokenUsage 接口）
 - 禁止 as any 和隐式 any（ESLint 强制）
 - 单文件 ≤ 300 行 / 单函数 ≤ 50 行
 - 测试覆盖率 ≥ 80%
@@ -146,3 +165,10 @@ type TechStack = 'react-fastapi' | 'next-prisma' | 'taro-miniprogram' | 'custom'
 - F003 LLM 提供商层（间接依赖，F002 内部调用）
 - DESIGN.md 设计规范
 - 原型 4 页面（.cozeproj/prototype/web/）
+
+> **跨文档同步待办**: state-design.md 需在跨文档同步阶段更新 HarnessState 字段，与 F002（TechStackSpec + max_iterations + current_iteration）、F003（token_usage_total）和 F006（前端 TS 类型对齐）一致。
+
+---
+
+## 修订记录
+- Round 1（2026-08-18）：修复 3 项缺陷（#1 StageTimeline→DAGView @xyflow/react Type 1 只读含回环边+闸门决策点/#2 TS HarnessState 对齐 F002/F003 修订后字段 TechStackSpec+max_iterations+current_iteration+token_usage_total+TokenUsage 接口，删除旧 TechStack 枚举/#3 实时机制矛盾修正：轮询→F007 SSE 替换 + LogPanel 去掉"实时" + StatusBadge 三色→四色对应四状态），详见 33-f006-revision-r1.md。
