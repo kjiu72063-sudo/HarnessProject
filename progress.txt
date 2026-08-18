@@ -96,3 +96,4 @@
 [2026-08-18T09:30Z] stage-02 | F002-approved | done | L3 R3校验通过(缺陷链闭合), F002 Status→Approved, feature_list F002=approved
 [2026-08-18T09:35Z] stage-02 | F003-revision-delegation | done | L1产出F003修订ControllerSpec(10条验收标准, 3项缺陷)+L3启动提示词, 委派L3设计编写Agent修订
 [2026-08-18T10:00Z] stage-02 | F002-r3-review | done | L3聚焦校验F002 R3: Part A 运算符>=→>已修复(与F011§6规则3一致), Part B 4项全通过, Part C 3项全通过, 无新引入缺陷, 结论通过可推进Approved. F002缺陷链闭合(初始→6缺陷→R1→6新缺陷→R2→1新缺陷→R3→通过)
+[2026-08-18T10:30Z] stage-02 | F003-revision-r1 | done | F003修订Round1完成: 修复3项缺陷(#1零改动扩展措辞修正/#2 Token用量落State: HarnessState新增token_usage_total+complete_with_state累加/#3错误处理统一: 新增LLMError+工厂/OpenAIProvider统一raise+Node try/except捕获设human_intervention), 182行, Status: Draft
