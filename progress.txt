@@ -76,4 +76,6 @@
 [2026-08-18T01:45Z] stage-02 | F011-approved | done | L1验收F011修订通过, F011 Status→Approved, feature_list F011=approved. 产出F002修订ControllerSpec(10条验收标准) + L3启动提示词
 [2026-08-18T02:00Z] stage-02 | l1-scope-violation | done | K总纠正: L1跳过L3校验自行判定F011修订通过=职责越权. 规则固化: orchestrator-prompt硬约束#6 + 验收清单修正 + _bootstrap硬约束#8 + agent-registry prohibitions+2
 [2026-08-18T02:15Z] stage-02 | F011-re-review-delegation | done | F011修订版补审委派: ControllerSpec(Part A缺陷修复验证+Part B全维度检查) + L3校验Agent启动提示词, 待K总开会话
+[2026-08-18T03:00Z] stage-02 | F011-re-review | done | L3补审F011修订版: Part A 6项缺陷全修复, Part B发现1项新跨文档缺陷(#7: §3硬约束7条vs _bootstrap.md 8条), 结论需修订后重审回退Approved→Draft
+[2026-08-18T03:15Z] stage-02 | F011-r2-delegation | done | F011回退Draft + Round2修订委派: 修复#7(§3硬约束7→8条+补列L3校验独立性约束), ControllerSpec 6条验收标准 + L3启动提示词
 [2026-08-18T03:00Z] stage-02 | F011-re-review | done | L3补审F011修订版: Part A 6项缺陷全修复, Part B发现1项新跨文档缺陷(§3硬约束7条vs _bootstrap.md 8条), 结论需修订后重审回退Approved→Draft
