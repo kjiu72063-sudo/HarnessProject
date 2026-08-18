@@ -34,8 +34,9 @@ harness-journal/
 │   ├── 04-f011-design.md               F011 设计文档编写（L3 产出）
 │   ├── 05-f011-acceptance-and-review-delegation.md  F011 L1验收通过 + 设计校验委派
 │   ├── 06-f011-review.md               F011 L3校验Agent审阅（6项缺陷）
-│   └── 07-f011-review-decision-and-revision-delegation.md  L1决策 + 修订委派
-│   └── 08-f011-revision-r1.md          F011 修订 Round 1（6项缺陷修复）
+│   ├── 07-f011-review-decision-and-revision-delegation.md  L1决策 + 修订委派
+│   ├── 08-f011-revision-r1.md          F011 修订 Round 1（6项缺陷修复）
+│   └── 09-f011-approved-and-f002-delegation.md  F011 Approved + F002修订委派
 ├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
 ├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
