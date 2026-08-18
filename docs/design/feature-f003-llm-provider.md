@@ -136,6 +136,8 @@ LLM_TIMEOUT: int = 30              # 超时秒数
 ### 与 F002 Node 的集成
 Node 通过 `get_llm_provider()` 获取实例并调用，使用 try/except LLMError 捕获后设 human_intervention：
 
+> **meta 层 vs runtime 层说明**: 本示例为 **meta 层简化展示**，仅展示 LLM Provider 的调用接口和 state 写入方式。**runtime 层**（F011 §9 meta 层 vs runtime 层）Agent Runtime 就绪后，LLM 调用应在 L3 Agent 内执行，Node 仅做委派（通过 `agent_runtime.delegate()` 构造 Controller Spec 调用 L3 Agent）和状态更新（F002 Node 委派桩规范，AGENTS.md 规则 #5）。`complete_with_state` 方法在 runtime 层由 L3 Agent 内部调用，非 Node 直接调用。
+
 ```python
 async def information_layer(state: HarnessState) -> dict:
     llm = get_llm_provider()
@@ -176,7 +178,10 @@ async def information_layer(state: HarnessState) -> dict:
 - openai Python SDK
 - OPENAI_API_KEY 环境变量
 
+> **跨文档同步待办**: boundaries.md 需在跨文档同步阶段新增 `server/llm/` 目录及依赖方向（`nodes → llm → schemas, config`），参照 F002/F011 的 boundaries.md 同步待办格式。
+
 ---
 
 ## 修订记录
 - Round 1（2026-08-18）：修复 3 项缺陷（#1 "零改动扩展"措辞修正为接口层零改动+实现层需新增子类/#2 Token 用量落 State: HarnessState 新增 token_usage_total + complete_with_state 累加 + Node 集成示例展示写入/#3 错误处理统一: 新增 LLMError 自定义异常 + 工厂函数/OpenAIProvider 统一 raise LLMError + Node try/except 捕获后设 human_intervention），详见 28-f003-revision-r1.md。
+- Round 2（2026-08-18）：修复 L3 校验发现的 2 项跨文档缺陷（#1 Node 集成示例添加 meta 层 vs runtime 层说明注释，引用 F011 §9 和 F002 委派桩规范/#2 依赖段添加 boundaries.md 跨文档同步待办: server/llm/ 目录+依赖方向），详见 31-f003-revision-r2.md。
