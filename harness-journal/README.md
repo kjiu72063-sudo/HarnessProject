@@ -53,7 +53,8 @@ harness-journal/
 │   ├── 23-f002-r2-review-result-and-r3-delegation.md  F002 R2校验结果+R3修订委派
 │   ├── 24-f002-revision-r3.md         F002 修订 Round 3（运算符>=→>修复，L3产出）
 │   ├── 25-f002-r3-review-delegation.md  F002 R3 L1流程验收+校验委派
-│   └── 26-f002-r3-review.md           F002 R3 L3校验通过（运算符已修复，无新缺陷，可推进Approved）
+│   ├── 26-f002-r3-review.md           F002 R3 L3校验通过（运算符已修复，无新缺陷，可推进Approved）
+│   └── 27-f002-approved-and-f003-delegation.md  F002 Approved + F003修订委派
 ├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
 ├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）

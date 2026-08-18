@@ -1,5 +1,5 @@
 last_updated: 2026-08-18
-status: Draft
+status: Approved
 owner: @K总
 
 # Feature: LangGraph 编排引擎 (F002)

@@ -11,7 +11,7 @@
     "id": "F002",
     "name": "LangGraph 编排引擎",
     "priority": 2,
-    "status": "todo",
+    "status": "approved",
     "description": "Harness 8 阶段 StateGraph 拓扑 + Conditional Edges + Cycles",
     "dependencies": ["F001"]
   },
