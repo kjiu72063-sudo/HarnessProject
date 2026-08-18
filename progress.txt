@@ -90,3 +90,4 @@
 [2026-08-18T07:00Z] stage-02 | F002-revision-r2 | done | F002修订Round2完成: 修复L3校验6项缺陷(#1 DRR长循环预算检查→route_loop_budget共用函数/#2 state-design.md同步待办/#3 boundaries.md同步待办/#4 ResumeRequest BaseModel+gate参数/#5 TechStackSpec双包管理器/#6 标志位设置一致性), 224行, Status: Draft
 [2026-08-18T07:15Z] stage-02 | F002-r2-review-delegation | done | L1流程验收通过, 委派L3校验Agent聚焦校验F002 R2(Part A 6项缺陷修复验证+Part B修订影响+Part C范围确认)
 [2026-08-18T08:00Z] stage-02 | F002-r2-review | done | L3聚焦校验F002 R2: Part A 6项R1缺陷全修复, Part B发现1项新跨文档缺陷(route_loop_budget比较运算符>=与F011§6的>不一致,循环预算减少20%), Part C范围确认通过, 结论需修订后重审
+[2026-08-18T08:15Z] stage-02 | F002-r2-review-decision | done | L1接受需修订结论, 产出R3修订ControllerSpec(6条验收标准)+L3启动提示词, 委派L3修订1项运算符不一致缺陷
