@@ -10,7 +10,7 @@
 2. 读 progress.txt — 历史进度（重点 stage-04 段，末 5 行）
 3. 读 feature_list.json — 功能状态
 4. 读 docs/plans/current-sprint.md — Sprint 范围
-5. 读 harness-journal/README.md → 深入最近 journal（29 → 31 → 32；29 是被审 coder 记录，31 是 L1 交接，32 是 L1 流程验收与本次委派）
+5. 读 harness-journal/README.md → 深入最近 journal（29 → 31 → 32 → 33；29 是被审 coder 记录，31 是 L1 交接，32 是 L1 流程验收与本次委派【内容性结论经 33 作废】，33 是 L1 越界更正段——**必读**：你的全部内容结论独立作出，不得锚定 L1 任何结论）
 
 ## 硬约束 8 条
 
@@ -32,7 +32,7 @@
 见 `docs/handbook/controller-specs/settings-cleanup-test-review.md`（完整内容请打开该文件读取）。
 
 被审提交：**5e736d2**（基线 331e7f6，恰 4 文件 +71/-3）。审查重点 8 项，其中 2 项需独立裁定：
-- Spec 标准 5 口径裁定复核（L1 journal 32 已裁定接受"源码零命中"口径，你独立复核是否接受）
+- Spec 标准 5 口径独立裁定（无先在结论——L1 曾越界作出"接受"裁定已作废，见 journal 33；该口径是否可接受由你独立裁定）
 - journal 29 自报真实性与 P011 新实证证据链（3 条新实证，含 L1 发现的 6f8789d 平台自动提交）
 
 **关键知悉**：当前 HEAD=6f8789d（平台 hookspath 自动提交，混入 assets/ 2 个范围外文件，非 coder 产物，被审对象零变动）。验收 diff 必须锚定 331e7f6..5e736d2，勿把 6f8789d 计入被审范围；同时需独立确认 6f8789d 对被审对象零改动。
@@ -43,7 +43,8 @@
 - 规范裁决: docs/conventions/coding.md「后端 (Python)」settings 命名条目
 - 规范: docs/conventions/testing.md
 - 环境陷阱: docs/conventions/pitfalls.md P009/P010/P011
-- L1 流程验收: harness-journal/stage-04-coding/32-f014-acceptance-and-test-review-delegation.md
+- L1 流程验收: harness-journal/stage-04-coding/32-f014-acceptance-and-test-review-delegation.md（内容性结论已作废，仅流程事实可参考）
+- L1 越界更正段（必读）: harness-journal/stage-04-coding/33-l1-boundary-violation-correction.md
 - 审查方法参考: journal 05/08/12（F002 证据标准）、journal 16（F003 单轮收敛参照）
 
 ## 第五部分：journal 编号

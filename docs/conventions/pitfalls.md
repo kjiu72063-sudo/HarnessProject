@@ -1,4 +1,4 @@
-last_updated: 2026-08-17
+last_updated: 2026-08-19
 status: active
 owner: @K总
 
@@ -134,3 +134,13 @@ owner: @K总
 | 修复方案 | 无需"修复"，属平台既定行为；提交前用 `git status` + `git diff --cached` 逐行核实暂存内容与预期改动一致，避免误判"有未提交改动被追踪"或把非预期文件一并提交 |
 | 关联文件 | `.git/config`（平台托管，勿改） |
 | 预防规则 | 所有 Agent 提交前强制执行 `git diff --cached --stat` 核对文件清单与 Controller Spec 范围一致；发现暂存区含范围外文件先unstage再提交 |
+## P012 — L1 管控 Agent 流程验收时越界自测内容质量（复发型边界违规）
+
+| 字段 | 内容 |
+|---|---|
+| 阶段 | stage-04 / F014 验收（journal 33 更正段；首发先例 F002 验收 journal 04，2026-08-19 换任后复发） |
+| 错误特征 | L1 在流程验收中执行内容测验并呈报内容结论：① 自行 grep 源码复核 Controller Spec 验收标准并以「独立复核通过」呈报；② 呈报「LLM_* 字段逐字不变 ✅」等内容结论且系转述 coder 自报证据冒充已核实；③ 对 coder 标注"备 L1 裁定"的 Spec 口径歧义作出「接受」合规裁定 |
+| 根因 | Controller Spec 多条验收标准形似 checklist，L1 误把「逐条核对」当流程职责；coder 报告"备 L1 裁定"字样诱导 L1 在内容歧义上署名；AGENTS.md 既有边界规则为原则句式，防复发强度不足（换任后复发实证） |
+| 修复方案 | 越界结论立即作废并在下一号 journal 立更正段（先例 journal 28(f)）；内容项全部移交 L3 校验 Agent 独立验证；委派 Controller Spec / 启动提示词改为去锚定表述（「无先在结论，不得锚定 L1」） |
+| 关联文件 | AGENTS.md「L1职责边界」（判定测试+黑名单）、docs/handbook/controller-specs/settings-cleanup-test-review.md、harness-journal/stage-04-coding/33-l1-boundary-violation-correction.md |
+| 预防规则 | L1 验收表只允许四类行：产出存在 / journal 与 progress 写入 / 约束遵守（行数等）/ verify.sh 复跑 PASS-FAIL，其余一律移交 L3；L1 起草审查 Controller Spec 时必须含「独立验证、不得引用 L1/coder 结论」条款；内容歧义只记录事实、不裁定 |
