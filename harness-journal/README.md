@@ -102,6 +102,7 @@ harness-journal/
 │   └── 26-task5-review-acceptance-sprint1-complete.md   Task5审查验收通过→done + Sprint1收官总结（4任务审查链全景/最终形态提交/S1-I1裁决项/K总最终验收闸门就绪）
 │   └── 27-sprint1-final-acceptance-approved.md          K总最终验收通过决策记录（Sprint1全闸门闭环/裁决S1不阻塞/验收后执行清单）
 │   └── 28-sprint1-accepted-and-cross-doc-sync.md       跨文档同步批次(a)-(f)执行+Sprint2规划+settings命名裁决+F014清理微任务委派（29预留coder）
+│   └── 31-l1-handoff.md                                L1换任交接journal（前任L1任期决策链全景/教训强化/F014进行中状态/新任L1第一件事指引，K总决策换任）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）

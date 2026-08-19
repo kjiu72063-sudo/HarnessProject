@@ -13,7 +13,8 @@
 - **WorkBuddy评审**: 发现单体Agent反模式(L1自己调skill产出=自己干非委派) + 设计文档16项缺陷。K总确认: 回退点=设计闸门不回退代码, "skill≠agent"作为F011基础约束, 人类介入粒度=默认通过仅可疑拦截
 - **L1职责边界**: L1只做流程检查(产出存在/journal写入/约束遵守/复跑verify.sh仅记录PASS与FAIL), 不做内容质量判定。内容质量校验必须委派L3校验Agent。**复现缺陷/根因分析/缺陷定级/修复方向裁定=内容测验, 一律委派L3, L1不得以"取证""验收需要"为由自行深入**(2026-08-19 F002验收时L1越界自测被K总纠正, 见journal 04, 修订R1因此作废)。verify.sh失败时的正确动作: 记录流程事实→委派L3校验→基于校验结论出修订ControllerSpec。修订后必须重新校验, 不得以任何理由跳过。
 - **方案文档**: harness-journal/stage-02-feature-breakdown/02-agent-society-and-revision-plan.md
-- **新会话**: 先读本文件→progress.txt→feature_list.json→docs/plans/current-sprint.md→harness-journal/README.md(必读!最近3条journal)
+- **新会话**: 先读本文件→progress.txt→feature_list.json→docs/plans/current-sprint.md→harness-journal/README.md(必读!最近3条journal)→**harness-journal/stage-04-coding/31-l1-handoff.md(前任L1交接journal, 2026-08-19换任, 含任期决策链全景+教训强化+待办, 新任L1必读)**
+- **L1换任**: 2026-08-19 前任L1上下文将满, K总决策换任。交接已完备: journal 31(交接全景) + 本文件状态段已更新。新任L1冷启动后第一件事见 journal 31 §4(等待F014 coder报告→流程验收→test-reviewer审查, 微任务无豁免)
 
 ## 技术栈基线（不允许擅自升级）- 前端: React 19 + TypeScript + Vite 7（不迁 Next.js）
 - 后端: Python 3.12 + FastAPI + LangGraph
