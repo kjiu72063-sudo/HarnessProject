@@ -107,7 +107,8 @@ def test_resume_walks_all_gates_to_completion():
     assert data["state"]["current_stage"] == "completed"
 
 
-def test_resume_rejected_gate_loops_and_budget_escape():
+def test_resume_rejected_gate_increments_iteration_and_returns_to_acceptance():
+    """验收驳回 → DRR 长循环：回到 coding_agent 再走到验收门，iteration 递增。"""
     session_id = start_session("p-loop")
 
     response = client.post(
@@ -115,16 +116,19 @@ def test_resume_rejected_gate_loops_and_budget_escape():
     )
     assert response.json()["next"] == ["prototype_confirmation"]
 
-    response = client.post(
+    client.post(
         f"/api/harness/{session_id}/resume", json={"gate": "prototype_confirmation", "decision": True}
     )
-    response = client.post(
+    client.post(
         f"/api/harness/{session_id}/resume", json={"gate": "design_approval", "decision": True}
     )
+    before = client.get(f"/api/harness/{session_id}/state").json()["state"]["current_iteration"]
     response = client.post(
-        f"/api/harness/{session_id}/resume", json={"gate": "acceptance_check", "decision": True}
+        f"/api/harness/{session_id}/resume", json={"gate": "acceptance_check", "decision": False}
     )
-    assert response.json()["status"] == "completed"
+    data = response.json()
+    assert data["next"] == ["acceptance_check"]
+    assert data["state"]["current_iteration"] == before + 1
 
 
 def test_resume_unknown_gate_returns_422():
@@ -148,6 +152,53 @@ def test_resume_unknown_session_returns_404():
         "/api/harness/nope/resume", json={"gate": "design_approval", "decision": True}
     )
     assert response.status_code == 404
+
+
+def drive_to_escape_hatch(session_id: str) -> None:
+    """驱动会话到逃生口：通过双闸门后连续驳回验收 6 次（iteration 6 > max 5）。"""
+    client.post(
+        f"/api/harness/{session_id}/resume", json={"gate": "prototype_confirmation", "decision": True}
+    )
+    client.post(
+        f"/api/harness/{session_id}/resume", json={"gate": "design_approval", "decision": True}
+    )
+    for _ in range(6):
+        client.post(
+            f"/api/harness/{session_id}/resume", json={"gate": "acceptance_check", "decision": False}
+        )
+    snapshot = client.get(f"/api/harness/{session_id}/state").json()
+    assert snapshot["next"] == ["human_intervention"], snapshot["next"]
+    assert snapshot["state"]["current_iteration"] == 6
+    assert snapshot["state"]["human_intervention"] is True
+
+
+def test_resume_human_intervention_continue_resets_budget_and_loops():
+    """逃生口「继续」：human_intervention 复位 + iteration 归零，回到编码循环再抵验收门。"""
+    session_id = start_session("p-continue")
+    drive_to_escape_hatch(session_id)
+
+    response = client.post(
+        f"/api/harness/{session_id}/resume", json={"gate": "human_intervention", "decision": True}
+    )
+    data = response.json()
+    assert data["next"] == ["acceptance_check"]
+    assert data["state"]["human_intervention"] is False
+    assert data["state"]["current_iteration"] == 0
+    assert data["status"] == "interrupted"
+
+
+def test_resume_human_intervention_abort_ends_session():
+    """逃生口「放弃」：流程终止，status=ended（区别于验收通过的 completed）。"""
+    session_id = start_session("p-abort")
+    drive_to_escape_hatch(session_id)
+
+    response = client.post(
+        f"/api/harness/{session_id}/resume", json={"gate": "human_intervention", "decision": False}
+    )
+    data = response.json()
+    assert data["status"] == "ended"
+    assert data["next"] == []
+    assert data["state"]["current_stage"] != "completed"
 
 
 def test_resume_missing_body_returns_422():
