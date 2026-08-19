@@ -8,13 +8,13 @@
 
 - **已完成**: 阶段0初始化 + 阶段1信息层(含原型确认通过) + 阶段2约束层(12轮审计收敛，verify.sh 14项全通过) + Sprint1设计文档全部Approved(F011+F002+F003+F006) + 跨文档同步(state-design.md/boundaries.md/harness-flow.md/convention-to-rule-mapping.md, L3校验通过) + 设计审批HITL闸门通过(2026-08-19, K总批准)
 - **当前**: **Sprint1最终验收通过(2026-08-20, K总, journal 27/28), 跨文档同步批次(a)-(f)已执行完毕**(journal 28): (a)api-spec.md对齐/api/harness/*; (b)F002设计"mypy strict"表述修正; (c)state-design.md回写resume {status}契约; (d)token_usage_total已存在确认; (e)settings命名规范裁决落coding.md+死配置清理微任务(F014)委派产出; (f)journal 15口径更正段。Sprint2规划已产出(current-sprint.md重写+feature_list.json新增F012/F013/F014)。
-- **下一步**: 1) K总开新会话派生L3 coder执行settings死配置清理微任务(启动提示词: docs/handbook/launch-prompts/settings-cleanup-launch.md, journal 29预留coder, 30预留审查; 微任务完成后仍需test-reviewer重审, 无豁免); 2) Sprint2任务排序由K总确认current-sprint.md后进入委派循环(F012 Playwright/F013会话列表API优先, F004/F005/F007-F010按current-sprint.md)。环境事实: 各会话沙箱环境漂移, uv sync网络受限时卡死(根因与替代构建法见pitfalls.md P009); UV_DEFAULT_INDEX残留时uv run会重写已提交lock(P010, 防护UV_FROZEN=1); 平台hookspath自动stage(P011, 提交前git diff --cached核对, F003审查产出a577463重复提交实证)
+- **下一步**: 1) K总开新会话派生test-reviewer审查F014死配置清理(启动提示词: docs/handbook/launch-prompts/settings-cleanup-test-review-launch.md, journal 30预留, 微任务无豁免; coder已交付提交5e736d2/journal 29, L1流程验收通过journal 32, 含Spec标准5口径裁定+P011新实证3条); 2) 审查通过后F014闭环(状态推进+P011三条新实证沉淀pitfalls)+功能编号映射裁决(F012/F013/F014在feature_list.json与委派链口径互换, 待K总裁决, journal 32 §5); 3) Sprint2任务排序由K总确认current-sprint.md后进入委派循环。环境事实: 各会话沙箱环境漂移, uv sync网络受限时卡死(根因与替代构建法见pitfalls.md P009); UV_DEFAULT_INDEX残留时uv run会重写已提交lock(P010, 防护UV_FROZEN=1); 平台hookspath自动stage(P011, 提交前git diff --cached核对, F003审查产出a577463重复提交实证)
 - **原型确认**: 4页面(需求输入/流程监控/约束配置/产物管理)已通过，K总认为可先走通第一版再迭代。后续功能需求记入feature_list.json排期
 - **WorkBuddy评审**: 发现单体Agent反模式(L1自己调skill产出=自己干非委派) + 设计文档16项缺陷。K总确认: 回退点=设计闸门不回退代码, "skill≠agent"作为F011基础约束, 人类介入粒度=默认通过仅可疑拦截
 - **L1职责边界**: L1只做流程检查(产出存在/journal写入/约束遵守/复跑verify.sh仅记录PASS与FAIL), 不做内容质量判定。内容质量校验必须委派L3校验Agent。**复现缺陷/根因分析/缺陷定级/修复方向裁定=内容测验, 一律委派L3, L1不得以"取证""验收需要"为由自行深入**(2026-08-19 F002验收时L1越界自测被K总纠正, 见journal 04, 修订R1因此作废)。verify.sh失败时的正确动作: 记录流程事实→委派L3校验→基于校验结论出修订ControllerSpec。修订后必须重新校验, 不得以任何理由跳过。
 - **方案文档**: harness-journal/stage-02-feature-breakdown/02-agent-society-and-revision-plan.md
 - **新会话**: 先读本文件→progress.txt→feature_list.json→docs/plans/current-sprint.md→harness-journal/README.md(必读!最近3条journal)→**harness-journal/stage-04-coding/31-l1-handoff.md(前任L1交接journal, 2026-08-19换任, 含任期决策链全景+教训强化+待办, 新任L1必读)**
-- **L1换任**: 2026-08-19 前任L1上下文将满, K总决策换任。交接已完备: journal 31(交接全景) + 本文件状态段已更新。新任L1冷启动后第一件事见 journal 31 §4(等待F014 coder报告→流程验收→test-reviewer审查, 微任务无豁免)
+- **L1换任**: 2026-08-19 前任L1上下文将满, K总决策换任。交接已完备: journal 31(交接全景) + 本文件状态段已更新。新任L1已冷启动并完成F014流程验收+test-reviewer委派(journal 32), 现等待审查报告
 
 ## 技术栈基线（不允许擅自升级）- 前端: React 19 + TypeScript + Vite 7（不迁 Next.js）
 - 后端: Python 3.12 + FastAPI + LangGraph
