@@ -92,6 +92,8 @@ harness-journal/
 │   ├── 16-f003-test-review.md          L3测试审查：通过（10项标准全过+4决策裁定+lock全量零漂移+回归14/14，0必须修复+1建议journal口径+1项L1裁决带回）→ 建议F003推进passing
 │   ├── 17-f003-acceptance-and-test-review-delegation.md  L1流程验收F003通过(14/14复跑)+L1口径更正+审查委派
 │   ├── 18-f003-passing-and-f006-delegation.md   F003推进passing(审查链16单轮收敛)+裁决带回入跨文档待办(e)(f)+F006编码委派(前端4页面+15组件+API客户端)
+│   ├── 19-f006-coding.md               coder F006 编码执行记录（4页面+DAGView+API客户端，83测试/97.66%行覆盖，verify.sh 14/14，后端环境P009替代法重建）
+│   ├── 20-f006-test-review.md          （预留：test-reviewer F006 审查）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）

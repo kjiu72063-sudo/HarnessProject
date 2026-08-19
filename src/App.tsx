@@ -1,66 +1,47 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useState } from 'react'
+import '@xyflow/react/dist/style.css'
+import { Header } from './components/Header'
+import { Sidebar, type PageId } from './components/Sidebar'
+import { getRecentSessions } from './lib/recentSessions'
+import { ArtifactsPage } from './pages/ArtifactsPage'
+import { ConstraintsPage } from './pages/ConstraintsPage'
+import { PipelinePage } from './pages/PipelinePage'
+import { RequirementPage } from './pages/RequirementPage'
 
-interface HealthResponse {
-  status: string;
-  service: string;
-}
+export function App() {
+  const [page, setPage] = useState<PageId>('requirement')
+  const [sessionId, setSessionId] = useState<string | null>(
+    () => getRecentSessions()[0]?.session_id ?? null,
+  )
+  const [navSeq, setNavSeq] = useState(0)
 
-function ApiStatus({ loading, health }: { loading: boolean; health: HealthResponse | null }) {
-  return (
-    <div className="mt-8 px-6 py-4 bg-[#1A1D24] rounded-lg border border-[#374151]">
-      <div className="flex items-center gap-3">
-        <span className="text-xs text-[#6B7280] font-mono">API STATUS</span>
-        {loading ? (
-          <span className="text-xs text-[#F59E0B] font-mono">connecting...</span>
-        ) : health ? (
-          <span className="text-xs text-[#10B981] font-mono">
-            {health.status} — {health.service}
-          </span>
-        ) : (
-          <span className="text-xs text-[#EF4444] font-mono">offline</span>
-        )}
-      </div>
-    </div>
-  );
-}
+  const handleNavigate = useCallback((target: PageId) => {
+    setPage(target)
+    setNavSeq((seq) => seq + 1)
+  }, [])
 
-export default function App() {
-  const [health, setHealth] = useState<HealthResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('/api/health')
-      .then((res) => res.json())
-      .then((data) => {
-        setHealth(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, []);
+  const handleSessionStarted = useCallback((startedSessionId: string) => {
+    setSessionId(startedSessionId)
+    setPage('pipeline')
+    setNavSeq((seq) => seq + 1)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-[#0F1115] text-white flex flex-col items-center justify-center">
-      <div className="flex flex-col items-center gap-6">
-        <div className="flex items-center gap-3">
-          <div className="w-3 h-3 rounded-full bg-[#F59E0B] animate-pulse" />
-          <h1 className="text-2xl font-bold tracking-tight">Harness Platform</h1>
-        </div>
-        <p className="text-sm text-[#6B7280] max-w-md text-center">
-          元应用开发平台 — 基于 Harness Engineering + LangGraph
-        </p>
-        <ApiStatus loading={loading} health={health} />
-        <div className="mt-4 grid grid-cols-4 gap-2 text-xs text-[#6B7280] font-mono">
-          <span>React 19</span>
-          <span>·</span>
-          <span>FastAPI</span>
-          <span>·</span>
-        </div>
-        <div className="text-xs text-[#6B7280] font-mono">
-          LangGraph · PostgreSQL · OpenAI
-        </div>
+    <div className="flex h-screen overflow-hidden bg-app-bg text-app-text">
+      <Sidebar active={page} onNavigate={handleNavigate} sessionActive={sessionId !== null} />
+      <div className="flex min-w-0 flex-1 flex-col">
+        <Header />
+        <main className="flex-1 overflow-y-auto">
+          {page === 'requirement' && (
+            <RequirementPage key={navSeq} onSessionStarted={handleSessionStarted} />
+          )}
+          {page === 'pipeline' && (
+            <PipelinePage key={navSeq} sessionId={sessionId} onNavigate={handleNavigate} />
+          )}
+          {page === 'constraints' && <ConstraintsPage key={navSeq} sessionId={sessionId} />}
+          {page === 'artifacts' && <ArtifactsPage key={navSeq} sessionId={sessionId} />}
+        </main>
       </div>
     </div>
-  );
+  )
 }
