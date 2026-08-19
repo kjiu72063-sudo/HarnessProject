@@ -90,6 +90,7 @@ harness-journal/
 │   ├── 14-f002-passing-and-f003-delegation.md   F002推进passing(审查链05→08→12收敛)+P010/P011沉淀+F003编码委派
 │   ├── 15-f003-coding.md               coder F003 编码执行记录（LLMProvider+OpenAI+工厂+5配置+21用例，verify.sh 14/14，openai显式声明lock路径B）
 │   ├── 16-*.md                                  [预留] test-reviewer F003 审查
+│   ├── 17-f003-acceptance-and-test-review-delegation.md  L1流程验收F003通过(14/14复跑)+L1口径更正+审查委派
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）
