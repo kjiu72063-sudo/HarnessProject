@@ -103,6 +103,7 @@ harness-journal/
 │   └── 27-sprint1-final-acceptance-approved.md          K总最终验收通过决策记录（Sprint1全闸门闭环/裁决S1不阻塞/验收后执行清单）
 │   └── 28-sprint1-accepted-and-cross-doc-sync.md       跨文档同步批次(a)-(f)执行+Sprint2规划+settings命名裁决+F014清理微任务委派（29预留coder）
 │   └── 29-settings-cleanup.md                          F014 settings死配置清理coder执行记录（删2死字段+测试断言同步，verify.sh 14/14，P011新实证2条+3次提交修正时序）
+│   └── 30-settings-cleanup-test-review.md              F014 settings死配置清理L3测试审查报告（8标准全过/0必须修复/1建议改进/口径独立裁定可接受/建议推进passing）
 │   └── 31-l1-handoff.md                                L1换任交接journal（前任L1任期决策链全景/教训强化/F014进行中状态/新任L1第一件事指引，K总决策换任）
 │   └── 32-f014-acceptance-and-test-review-delegation.md   新任L1流程验收F014通过+Spec标准5口径裁定+P011第3条实证(6f8789d)+test-reviewer审查委派（30预留）
 │   └── 33-l1-boundary-violation-correction.md       L1越界事故记录与整改（F014验收越界自测被K总纠正；journal 32更正段；边界判定测试+黑名单；委派产物去锚定修订；P012）
