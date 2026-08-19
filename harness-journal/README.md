@@ -98,7 +98,8 @@ harness-journal/
 │   ├── 22-f006-passing-and-task5-integration-delegation.md   F006推进passing（审查链20单轮收敛，Sprint1编码全passing）+ Task5集成验证委派记录
 │   ├── 23-task5-integration.md          Task5集成验证coder执行记录（双栈启动+端到端主路径走通+契约294断言一致，8标准全过，零缺陷零代码变更，交互验证边界如实声明）
 │   ├── 24-task5-integration-review.md   L3 test-reviewer Task5独立审查：通过（6项重点全过，端到端主路径独立走通，契约抽查5组一致，零代码变更核实，verify.sh 14/14，报告质量一致，0必须修复）
-│   └── 25-task5-acceptance-and-test-review-delegation.md   L1流程验收通过（3文档零代码变更/verify.sh 14-14复跑/双栈进程存活探测）+ test-reviewer 审查委派记录
+│   ├── 25-task5-acceptance-and-test-review-delegation.md   L1流程验收通过（3文档零代码变更/verify.sh 14-14复跑/双栈进程存活探测）+ test-reviewer 审查委派记录
+│   └── 26-task5-review-acceptance-sprint1-complete.md   Task5审查验收通过→done + Sprint1收官总结（4任务审查链全景/最终形态提交/S1-I1裁决项/K总最终验收闸门就绪）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）
