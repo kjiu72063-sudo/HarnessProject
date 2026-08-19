@@ -73,6 +73,12 @@ class TokenUsage(BaseModel):
     total_tokens: int
 ```
 
+## HITL 闸门 resume 契约（F002 实现口径，L3 报告 #6 回写）
+
+- 请求体 `ResumeRequest`：`gate: str`（待恢复闸门：prototype_confirmation / design_approval / acceptance_check / human_intervention）+ `decision: bool`（True=通过/继续，False=驳回/放弃）。
+- 后端通过 `Command(resume={"gate_decision": decision})` 将决策注入中断节点；`gate_decision` 是 **LangGraph resume payload 的内部字段**，不暴露在 API 响应中。
+- 响应体 `HarnessResumeResponse`：`{status, next, state}`（无 gate_decision 字段）。前端（F006）当前不消费 gate_decision，按 `{status}` 口径判断恢复结果。
+
 ## Graph 拓扑
 
 - 8 阶段 Node 序列（阶段 0-7）

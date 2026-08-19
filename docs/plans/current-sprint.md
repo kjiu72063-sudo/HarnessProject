@@ -1,19 +1,23 @@
-last_updated: 2026-08-17
-status: draft
+last_updated: 2026-08-19
+status: sprint1-closed
 owner: @K总
 
 # 当前迭代计划
 
-## Sprint 1: 最小闭环 (当前)
+## Sprint 1: 最小闭环 (已收官, K总最终验收通过 2026-08-19, journal 27)
 - [x] F001 项目初始化与骨架搭建
-- [ ] F002 LangGraph 编排引擎
-- [ ] F003 可插拔 LLM 提供商层 (OpenAI 首个实现)
-- [ ] F006 前端平台 UI (基础页面)
+- [x] F002 LangGraph 编排引擎 (passing, commit 1d54504, 审查链 05→08→12)
+- [x] F003 可插拔 LLM 提供商层 (passing, commit a775554, 审查 journal 16)
+- [x] F006 前端平台 UI (passing, commit 00eed47, 审查 journal 20)
+- [x] Task 5 集成验证 (done, journal 23/24 双通过, 零代码变更)
+- [ ] F012 Settings 死配置清理 (微任务已委派, journal 28)
 
 ## Sprint 2: 约束与反馈
 - [ ] F004 约束管理层
 - [ ] F005 代码执行沙箱
 - [ ] F007 SSE 实时状态推送
+- [ ] F013 Playwright DOM级端到端测试 (S1 裁决落地)
+- [ ] F014 API 会话列表端点
 
 ## Sprint 3: 持久化与熵管理
 - [ ] F008 熵管理后台任务

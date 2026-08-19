@@ -197,7 +197,7 @@ def route_loop_budget(state: HarnessState) -> str:
 - `POST /api/harness/start` 返回 session_id 且状态为 running
 - `GET /api/harness/{id}/state` 返回完整 HarnessState
 - SSE endpoint 可连接（F007 完整实现，本次仅建立连接+推送 stub 数据）
-- 所有 Node 为委派桩，不含业务逻辑（mypy strict 通过）
+- 所有 Node 为委派桩，不含业务逻辑（类型检查通过，项目 mypy 配置口径，非 --strict）
 - 测试覆盖率 ≥ 80%
 - verify.sh 14 项全通过
 - 依赖 F001（已实现）

@@ -86,5 +86,29 @@
     "status": "approved",
     "description": "Agent Registry + Controller Spec + 标准引导模板 + skill≠agent约束 + 6闸门actor分配 + 循环预算",
     "dependencies": ["F001"]
+  },
+  {
+    "id": "F012",
+    "name": "Settings 死配置清理",
+    "priority": 1.6,
+    "status": "todo",
+    "description": "跨文档同步批次(e)执行部分: 删除server/config/settings.py零消费方死配置(openai_api_key/openai_model)+测试同步, 微任务已委派journal 28",
+    "dependencies": ["F003"]
+  },
+  {
+    "id": "F013",
+    "name": "Playwright DOM级端到端测试",
+    "priority": 2.5,
+    "status": "todo",
+    "description": "S1裁决落地(Task5审查journal 24 S1): Playwright/Cypress覆盖4页面DOM级交互, Sprint2与F004排期统筹",
+    "dependencies": ["F006"]
+  },
+  {
+    "id": "F014",
+    "name": "API会话列表端点",
+    "priority": 5.5,
+    "status": "todo",
+    "description": "GET /api/harness/sessions列表端点, 消除前端localStorage最近会话限制(Task5审查建议+K总最终验收指示)",
+    "dependencies": ["F002"]
   }
 ]

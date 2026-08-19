@@ -26,6 +26,7 @@ Anthropic 总结的 Agent 长时间运行时的三种典型翻车姿势，编码
 - Pydantic 模型用于请求/响应校验
 - FastAPI 路由函数使用 async def
 - LangGraph Node 是纯函数: 接收 State 返回 State
+- settings 字段命名: 新增字段统一大写风格（如 LLM_PROVIDER，对齐 F003 已 Approved 契约）；F001 存量小写字段（app_name/api_prefix/database_url/backend_port）有真实消费方，保留不动；禁止新增无消费方的占位配置（2026-08-20 L1 裁决，见 journal 28）
 
 ## 日志规范（Anthropic 上下文窗口污染缓解）
 

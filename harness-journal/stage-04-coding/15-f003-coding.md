@@ -51,3 +51,11 @@
 7. **base.py Protocol 桩 `...` 加 `# pragma: no cover`**：Protocol 方法体永不执行，coverage 会误报未覆盖；不改共享 coverage 配置，仅本文件 pragma 注释（不改变设计文档签名）。
 8. **环境行为合规**：全程 UV_FROZEN=1 前置 uv 命令（P010，本会话无 UV_DEFAULT_INDEX 残留）；提交前已 `git diff --cached --stat` 核对暂存清单（P011，本会话同样出现自动 stage 行为，暂存区与 Spec 范围一致）；pypi 直连可达故未启用 P009 替代法。
 9. **范围外观察（带回不处理）**：无——本次未发现设计矛盾或范围外问题；上送第 3/4 条为现状差异说明，非缺陷。
+
+---
+
+## 更正段（L1 跨文档同步批次, 2026-08-19, journal 28）
+
+按 F003 test-reviewer 审查（journal 16 问题#1）与 L1 核实，本 journal 自报数据一处口径失实，按 journal 07 更正段先例（原文保留、追加更正）更正如下：
+
+1. **"单文件最大 66 行"口径失实** → 实测业务代码最大 69 行（base.py），含测试文件最大 223 行（test_llm_runtime_integration.py）。行数合规结论不受影响（两种口径均 ≤ 300），仅自报数字与实测不符。verify.sh 第 8 项（文件大小检查）以脚本实测为准。
