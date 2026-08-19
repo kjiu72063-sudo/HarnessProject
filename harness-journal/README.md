@@ -80,6 +80,9 @@ harness-journal/
 │   ├── 04-l1-boundary-violation-and-test-reviewer-delegation.md  K总纠正L1越界+教训固化+test-reviewer校验委派
 │   ├── 05-f002-test-review.md          F002 测试审查（L3 独立校验：需改进后重审，6项问题，2必须修复=依赖声明不自洽+.coverage入库）
 │   ├── 06-f002-review-acceptance-and-revision-r2-delegation.md  L1流程验收test-reviewer产出+修订R2委派（#1-#4，#5/#6排期，P009沉淀）
+│   ├── 07-f002-coding-revision-r2.md            coder修订R2执行记录（含journal 02三处失实更正段）
+│   ├── 08-*.md                                  [预留] test-reviewer 重审 R2
+│   ├── 09-f002-r2-acceptance-and-re-review-delegation.md  L1流程验收R2通过(verify.sh 14/14复跑)+重审委派
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）
