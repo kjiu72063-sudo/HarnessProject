@@ -106,3 +106,4 @@
 [2026-08-18T14:00Z] stage-02 | F003-approved | done | F003 Status→Approved, feature_list F003=approved. 产出F006修订ControllerSpec(3项缺陷: DAG视图/TS HarnessState漂移/实时机制矛盾+StatusBadge) + L3启动提示词, 委派L3设计编写Agent
 [2026-08-18T14:30Z] stage-02 | F006-revision-r1 | done | F006修订Round1完成: 修复3项缺陷(#1 StageTimeline→DAGView @xyflow/react Type1只读+回环边+闸门决策点/#2 TS HarnessState对齐F002/F003 TechStackSpec+max_iterations+current_iteration+token_usage_total+TokenUsage接口+删除旧TechStack枚举/#3 轮询→F007 SSE替换+LogPanel去"实时"+StatusBadge三色→四色), 174行, Status: Draft
 [2026-08-18T15:00Z] stage-02 | F006-r1-review-delegation | done | L1流程验收通过(journal编号冲突33→34已修正), 委派L3设计校验Agent全量校验F006 R1
+[2026-08-18T16:00Z] stage-02 | F006-r1-review | done | L3全量校验F006 R1: Part A 3项原缺陷全修复, Part B发现5项新引入缺陷(概念3+跨文档2: #1石墨灰同名异值/#2缺boundaries.md同步待办/#3 DiamondNode三状态vs四状态/#4缺resumeHarness API封装/#5 TechStackSelector与TechStackSpec不匹配), 结论需修订后重审
