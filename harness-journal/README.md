@@ -60,7 +60,9 @@ harness-journal/
 │   ├── 30-f003-review.md            F003 R1 L3全量校验（3项修复+2项新跨文档缺陷，需修订后重审）
 │   ├── 31-f003-revision-r2.md       F003 修订 Round 2（2项跨文档缺陷修复，L3产出）
 │   ├── 32-f003-r2-review.md         F003 R2 L3聚焦校验（通过，F003→Approved）
-│   └── 33-f003-approved-and-f006-delegation.md  F003 Approved + F006修订委派
+│   ├── 33-f003-approved-and-f006-delegation.md  F003 Approved + F006修订委派
+│   ├── 34-f006-revision-r1.md       F006 修订 Round 1（3项缺陷修复，L3产出）
+│   └── 35-f006-r1-review-delegation.md  F006 R1 L1流程验收+校验委派
 ├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
 ├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
