@@ -112,3 +112,25 @@ owner: @K总
 | 修复方案 | 按 lock 钉版的等价环境构建法（test-reviewer 实测约 3 分钟）：`export UV_DEFAULT_INDEX=<镜像源>` → `uv venv` → `uv pip install -r <(uv export --frozen)` 或按 `uv.lock` 版本逐项 `uv pip install pkg==version`；或直接 `pip install` 镜像源可用时用系统 python 等效复跑并在记录中注明实际版本 |
 | 关联文件 | `uv.lock`、`pyproject.toml`、`scripts/verify.sh`（后端 4 项硬依赖 `uv run`） |
 | 预防规则 | 会话开始先探测：`command -v uv` 与镜像连通性，再决定验证路径；verify.sh 后端项在无 uv 会话不可直接复跑，用等效命令替代并如实记录环境；环境与版本必须写入 journal（各会话沙箱环境漂移，结论不得绑定单一会话环境） |
+
+## P010 — `UV_DEFAULT_INDEX` 环境变量下 `uv run`/`uv sync` 重写已提交 lock（R2 污染机制）
+
+| 字段 | 内容 |
+|---|---|
+| 阶段 | stage-04 / F002 R2-R3（journal 08/12） |
+| 错误特征 | 复跑 verify.sh（内含 `uv run`）后 `git diff` 显示 uv.lock 大量 URL 变更（实测 1627 处官方 URL → 镜像 URL）；无报错，静默发生，文件自动进入暂存区后极易随下次 commit 混入（R2 的 1602 处 aliyun 残留即此机制产物） |
+| 根因 | P009 替代法要求 export `UV_DEFAULT_INDEX=<镜像源>`；该变量残留于会话时，`uv run`/`uv sync` 会按当前环境 index 重写 lock 中的 registry/下载 URL（uv 默认行为，非 --frozen 模式下 lock 是"活文档"）。镜像变量与"保持已提交 lock 干净"存在隐性冲突 |
+| 修复方案 | 涉及已提交 lock 的任何 uv 命令统一前置 `UV_FROZEN=1`（test-reviewer 实测可完全阻止重写）；lock 一旦被污染按 F002 R3 路径 B 处理（恢复干净基线 → URL 全局替换 → `uv lock --check` + 全量哈希/版本对比验证）；提交前必查 `git diff -- uv.lock` |
+| 关联文件 | `uv.lock`、`scripts/verify.sh`、P009 |
+| 预防规则 | P009 替代法用完即unset变量；验证 lock 干净的机械检查（grep 镜像域名计数 + `uv lock --check`）纳入涉及 lock 变更的验收标准 |
+
+## P011 — 平台 git hookspath 导致文件修改后自动进入暂存区
+
+| 字段 | 内容 |
+|---|---|
+| 阶段 | stage-04 / F002 R2-R3（coder journal 11 + test-reviewer journal 12 双方独立实证） |
+| 错误特征 | Agent 未执行任何 `git add`，工作区文件修改后自动出现在暂存区（`git status` 显示 staged）；coder R2/R3 两次遇到，test-reviewer 全程未 add 也复现 |
+| 根因 | 平台级 `core.hookspath=/source/git-hooks` 配置的自动 stage 行为，非 Agent 操作 |
+| 修复方案 | 无需"修复"，属平台既定行为；提交前用 `git status` + `git diff --cached` 逐行核实暂存内容与预期改动一致，避免误判"有未提交改动被追踪"或把非预期文件一并提交 |
+| 关联文件 | `.git/config`（平台托管，勿改） |
+| 预防规则 | 所有 Agent 提交前强制执行 `git diff --cached --stat` 核对文件清单与 Controller Spec 范围一致；发现暂存区含范围外文件先unstage再提交 |

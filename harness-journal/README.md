@@ -87,6 +87,8 @@ harness-journal/
 │   ├── 11-f002-coding-revision-r3.md            coder修订R3执行记录（N1 lock路径B净化1602处URL→0残留；N2更正journal 07两处失实）
 │   ├── 12-f002-test-review-r3.md               L3重审R3：通过（N1净化语义全量验证+官方源artifact实测一致+N2更正准确+路径B决断合理+回归14/14）→ F002审查链收敛，建议推进passing
 │   ├── 13-f002-r3-acceptance-and-re-review-delegation.md  L1流程验收R3通过(verify.sh 14/14)+重审委派+范外观察记录
+│   ├── 14-f002-passing-and-f003-delegation.md   F002推进passing(审查链05→08→12收敛)+P010/P011沉淀+F003编码委派
+│   ├── 15-*.md                                  [预留] coder F003 编码执行记录
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）
