@@ -94,7 +94,8 @@ harness-journal/
 │   ├── 18-f003-passing-and-f006-delegation.md   F003推进passing(审查链16单轮收敛)+裁决带回入跨文档待办(e)(f)+F006编码委派(前端4页面+15组件+API客户端)
 │   ├── 19-f006-coding.md               coder F006 编码执行记录（4页面+DAGView+API客户端，83测试/97.66%行覆盖，verify.sh 14/14，后端环境P009替代法重建）
 │   ├── 20-f006-test-review.md          L3 test-reviewer F006 审查通过（13标准全过+7决策全裁合理+0必须修复，建议推进passing）
-│   └── 21-f006-acceptance-and-test-review-delegation.md   L1流程验收通过（49文件白名单合规/verify.sh 14-14复跑/基线勘误教训）+ test-reviewer 审查委派记录
+│   ├── 21-f006-acceptance-and-test-review-delegation.md   L1流程验收通过（49文件白名单合规/verify.sh 14-14复跑/基线勘误教训）+ test-reviewer 审查委派记录
+│   └── 22-f006-passing-and-task5-integration-delegation.md   F006推进passing（审查链20单轮收敛，Sprint1编码全passing）+ Task5集成验证委派记录
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）
