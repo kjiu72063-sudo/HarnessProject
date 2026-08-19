@@ -86,6 +86,7 @@ harness-journal/
 │   ├── 10-f002-r2-re-review-acceptance-and-revision-r3-delegation.md  R2重审流程验收通过+修订R3委派(N1 lock净化+N2 journal更正, 无代码变更)
 │   ├── 11-f002-coding-revision-r3.md            coder修订R3执行记录（N1 lock路径B净化1602处URL→0残留；N2更正journal 07两处失实）
 │   ├── 12-*.md                                  [预留] test-reviewer 重审 R3
+│   ├── 13-f002-r3-acceptance-and-re-review-delegation.md  L1流程验收R3通过(verify.sh 14/14)+重审委派+范外观察记录
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）
