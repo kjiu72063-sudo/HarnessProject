@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from server.routes import agent_sessions, projects
+from server.routes import agent_sessions, harness, projects
 
 app = FastAPI(
     title="Harness Platform API",
@@ -19,6 +19,7 @@ app.add_middleware(
 
 app.include_router(projects.router, prefix="/api", tags=["projects"])
 app.include_router(agent_sessions.router, prefix="/api", tags=["agent-sessions"])
+app.include_router(harness.router, prefix="/api", tags=["harness"])
 
 
 @app.get("/api/health")
