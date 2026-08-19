@@ -1,5 +1,5 @@
-last_updated: 2026-08-17
-status: draft
+last_updated: 2026-08-18
+status: active
 owner: @K总
 
 # LangGraph State 设计
@@ -11,7 +11,7 @@ class HarnessState(TypedDict):
     # 项目信息
     project_id: str
     project_name: str
-    tech_stack: dict
+    tech_stack: TechStackSpec  # [CHANGE] dict → TechStackSpec (F002)
 
     # 上下文层
     agents_md: str
@@ -39,16 +39,46 @@ class HarnessState(TypedDict):
     issue_type: str | None
     issue_resolved: bool
 
+    # 循环预算 (F011 §6 / F002)
+    max_iterations: int  # [NEW] 默认 5
+    current_iteration: int  # [NEW] 初始 0, per-loop 重置
+
+    # LLM 用量 (F003)
+    token_usage_total: TokenUsage  # [NEW] 累计 token 用量
+
     # 流程控制
     current_stage: str
     next_feature: str | None
     human_intervention: bool
 ```
 
+## TechStackSpec 定义 (F002)
+
+```python
+class TechStackSpec(BaseModel):
+    frontend: str        # 如 "React 19"
+    backend: str         # 如 "Python 3.12 + FastAPI"
+    database: str        # 如 "PostgreSQL"
+    llm: str             # 如 "OpenAI"
+    frontend_package_manager: str  # 如 "pnpm"
+    backend_package_manager: str   # 如 "uv"
+```
+
+## TokenUsage 定义 (F003)
+
+```python
+class TokenUsage(BaseModel):
+    prompt_tokens: int
+    completion_tokens: int
+    total_tokens: int
+```
+
 ## Graph 拓扑
 
-- 8 阶段 Node 序列
-- Conditional Edges: 原型确认/设计审批/测试结果/解决成功/审查通过/验收通过
+- 8 阶段 Node 序列（阶段 0-7）
+- HITL 闸门: interrupt_before=["prototype_confirmation","design_approval","acceptance_check"]（多节点拓扑，F002/F011 §5）
+- Conditional Edges: 测试结果/解决成功/审查通过（自动闸门）
 - Cycles: 反馈循环(失败→修复→回到写代码), DRR长循环(验收失败→修正环境→回到写代码)
+- 循环预算: max_iterations + current_iteration, per-loop 重置（F011 §6）
 - Checkpointer: PostgreSQL 持久化
-- Human-in-the-loop: interrupt_before=["human_interrupt"]
+- 横切关注点: 熵管理（事件驱动，非线性阶段，F002）

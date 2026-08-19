@@ -43,7 +43,7 @@
     "id": "F006",
     "name": "前端平台 UI",
     "priority": 6,
-    "status": "todo",
+    "status": "approved",
     "description": "需求输入 + 流程监控 + 约束配置 + 产物管理",
     "dependencies": ["F001"]
   },

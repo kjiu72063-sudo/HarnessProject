@@ -1,8 +1,8 @@
-last_updated: 2026-08-17
+last_updated: 2026-08-18
 status: active
 owner: @K总
 
-# Harness 8 阶段流程
+# Harness 8 阶段流程（阶段 0-7）
 
 ## 阶段0: 初始化 Agent (Initializer)
 建立项目环境: init.sh + progress.txt + feature_list.json + Git 初始提交
@@ -40,7 +40,7 @@ owner: @K总
 - Agent 查看日志/指标 → 验收通过?(菱形)
 - DRR 长循环: 失败 → 修正环境 → 回到写代码
 
-## 阶段8: 熵管理 (穿插)
+## 横切: 熵管理（事件驱动，非线性阶段）
 - mvn verify 通过后 → 后台清理 Agent
 - 文档反馈后 → Doc-Gardening Agent
 - 功能完成后 → 质量基线更新
