@@ -75,6 +75,9 @@ harness-journal/
 │   └── 01-design-approval-approved.md  K总批准4设计文档+跨文档同步，进入编码
 ├── stage-04-coding/                  ← 阶段4：编码实现（🔄 进行中）
 │   ├── 01-f002-coding-delegation.md    F002 编码委派（L3 coder，journal 02 已预留）
+│   ├── 02-f002-coding.md               F002 首轮编码完成（commit e1ba981，coder 自写）
+│   ├── 03-f002-acceptance-failed-and-revision-delegation.md  L1 验收不通过（langgraph 依赖声明与 API 不匹配）+ 修订 R1 委派
+│   ├── 04-f002-coding-revision-r1.md   F002 修订 R1（coder 自写，编号已预留）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）
