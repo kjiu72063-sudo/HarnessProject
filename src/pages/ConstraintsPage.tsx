@@ -1,7 +1,8 @@
-import { ListChecks, ShieldCheck } from 'lucide-react'
+import { ListChecks } from 'lucide-react'
 import type { JSX } from 'react'
+import { ConstraintRulesSection } from '../components/ConstraintRulesSection'
 import { useSessionState } from '../hooks/useSessionState'
-import { HARNESS_RULES, LINTER_ENGINES, VERIFY_GATES } from '../lib/constraintsData'
+import { LINTER_ENGINES, VERIFY_GATES } from '../lib/constraintsData'
 import type { VerifyResult } from '../types/harness'
 
 interface ConstraintsPageProps {
@@ -11,6 +12,7 @@ interface ConstraintsPageProps {
 export function ConstraintsPage({ sessionId }: ConstraintsPageProps) {
   const { snapshot, error } = useSessionState(sessionId)
   const verifyResult = snapshot?.state.verify_result ?? null
+  const projectId = snapshot?.state.project_id ?? ''
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-5 p-6">
@@ -24,7 +26,7 @@ export function ConstraintsPage({ sessionId }: ConstraintsPageProps) {
         <SessionChip sessionId={sessionId} />
       </header>
 
-      <RulesSection />
+      <ConstraintRulesSection projectId={projectId} />
       <LinterSection />
       <GateResultsSection verifyResult={verifyResult} error={error} />
     </div>
@@ -46,43 +48,6 @@ function SectionHeader({ icon, title, count }: { icon: JSX.Element; title: strin
       <h3 className="text-sm font-semibold text-app-text">{title}</h3>
       <span className="ml-auto font-mono text-[11px] text-app-muted">{count}</span>
     </div>
-  )
-}
-
-function RulesSection() {
-  return (
-    <section className="rounded-lg border border-app-line bg-app-panel">
-      <SectionHeader
-        icon={<ShieldCheck size={14} />}
-        title="AGENTS.md 硬性规则"
-        count={`${HARNESS_RULES.length} 条`}
-      />
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-[13px]">
-          <thead className="border-b border-app-line text-[11px] uppercase text-app-muted">
-            <tr>
-              <th className="px-5 py-2.5 font-medium">编号</th>
-              <th className="px-5 py-2.5 font-medium">规则</th>
-              <th className="px-5 py-2.5 font-medium">执行方式</th>
-              <th className="px-5 py-2.5 font-medium">状态</th>
-            </tr>
-          </thead>
-          <tbody>
-            {HARNESS_RULES.map((rule) => (
-              <tr key={rule.id} className="border-b border-app-line/60 last:border-none">
-                <td className="px-5 py-3 font-mono text-xs text-app-muted">#{rule.id}</td>
-                <td className="px-5 py-3">
-                  <span className="block font-semibold text-app-text">{rule.title}</span>
-                  <span className="mt-0.5 block text-xs text-app-secondary">{rule.detail}</span>
-                </td>
-                <td className="px-5 py-3 font-mono text-xs text-app-secondary">{rule.enforcer}</td>
-                <td className="px-5 py-3">{renderEnforcedBadge(rule.enforced)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
   )
 }
 
@@ -150,24 +115,12 @@ function GateResultsSection({
               </span>
               <span className="block text-[11px] text-app-muted">{gate.detail}</span>
             </span>
-            {renderGateStatus(verifyResult)}
+            {renderGateStatus(verifyResult, gate.id)}
           </div>
         ))}
       </div>
       {error && <p className="mt-4 text-xs text-status-failed">闸门数据拉取失败: {error}</p>}
     </section>
-  )
-}
-
-function renderEnforcedBadge(enforced: boolean): JSX.Element {
-  return enforced ? (
-    <span className="inline-flex items-center rounded border border-status-passed/40 bg-status-passed/10 px-2 py-0.5 text-[11px] text-status-passed">
-      已机械化
-    </span>
-  ) : (
-    <span className="inline-flex items-center rounded border border-status-running/40 bg-status-running/10 px-2 py-0.5 text-[11px] text-status-running">
-      人工审查
-    </span>
   )
 }
 
@@ -181,12 +134,14 @@ function renderVerifyBadge(verifyResult: VerifyResult | null): JSX.Element {
   return <span className="text-xs text-app-muted">未运行</span>
 }
 
-function renderGateStatus(verifyResult: VerifyResult | null): JSX.Element {
-  if (verifyResult?.pass === true) {
-    return <span className="font-mono text-xs text-status-passed">PASS</span>
+function renderGateStatus(verifyResult: VerifyResult | null, gateId: number): JSX.Element {
+  const gate = verifyResult?.gates?.find((entry) => entry.gate_id === gateId)
+  if (!gate) {
+    return <span className="font-mono text-xs text-app-muted">--</span>
   }
-  if (verifyResult?.pass === false) {
-    return <span className="font-mono text-xs text-status-failed">FAIL</span>
-  }
-  return <span className="font-mono text-xs text-app-muted">--</span>
+  return gate.pass ? (
+    <span className="font-mono text-xs text-status-passed">PASS</span>
+  ) : (
+    <span className="font-mono text-xs text-status-failed">FAIL</span>
+  )
 }

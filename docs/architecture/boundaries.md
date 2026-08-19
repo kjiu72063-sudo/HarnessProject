@@ -17,12 +17,15 @@ owner: @K总
 - server/llm/ — LLM 提供商层（OpenAI 实现 + 抽象接口，F003）
 - server/models/ — 数据库模型
 - server/schemas/ — Pydantic 请求/响应 schema
+- server/constraints/ — 约束管理层（F004: parser/registry/store，引擎不执行检查，只注册/注入/消费）
 - server/config/ — 配置管理
 
 ## 依赖方向
 ### 后端
 routes → schemas → models → config
+routes → constraints
 graph → nodes → schemas → models
+nodes → constraints（coding_agent 注入/controller_spec 消费, validation 读取注册表产 gates）
 nodes → llm → schemas, config
 nodes 之间不直接调用，只通过 State 传递数据
 

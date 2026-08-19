@@ -37,6 +37,7 @@ PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次�
 | 端口一致性 | .preview = vite.config.ts | check_port_consistency → verify.sh #14 | ✅ 已机械化 | #6 |
 | Git 追踪关键文件 | progress.txt/feature_list.json | check_git_tracking → verify.sh #13 [P004] | ✅ 已机械化 | #9 |
 | sub_id 不可变 | .coze sub_id 创建后不可改 | git-level 约束 | ⚠️ 人工审查 | #7 |
+| 约束层不执行检查（单执行器原则） | server/constraints/ 禁止 import routes/nodes，引擎只注册/注入/消费 | import-linter forbidden 合约 → verify.sh #8 (F004) | ✅ 已机械化 | F004设计裁决 |
 
 ## 审计闭环校验（根因修复）
 

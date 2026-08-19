@@ -112,6 +112,7 @@ harness-journal/
 │   ├── 36-f004-design.md                                F004约束管理层设计Agent产出记录（设计文档282行, 9项标准对照, 3条开放问题）
 │   └── 37-f004-design-acceptance.md                     F004设计Draft L1流程验收通过（四类行全过; 开放问题转呈K总; 待设计审批HITL闸门）
 │   └── 38-f004-design-approval-and-coder-delegation.md   F004设计审批通过+三条开放问题裁决落地（api-spec回写绑coder/F015 backlog/enabled=false语义）+coder委派三件套（39/40预留）
+│   └── 39-f004-coding-done.md                            F004 coder执行记录（环境表/13项标准对照/4歧义自报/verify 14项全PASS/后端110+前端93测试；40预留test-reviewer）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）

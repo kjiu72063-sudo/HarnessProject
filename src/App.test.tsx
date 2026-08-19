@@ -48,7 +48,7 @@ describe('App shell 导航', () => {
     fireEvent.click(screen.getByText('流程监控'))
     expect(screen.getByText('暂无活动会话')).toBeInTheDocument()
     fireEvent.click(screen.getByText('约束配置'))
-    expect(screen.getByText('AGENTS.md 硬性规则')).toBeInTheDocument()
+    expect(screen.getByText(/AGENTS\.md 硬性规则 · Linter 引擎/)).toBeInTheDocument()
     fireEvent.click(screen.getByText('产物管理'))
     expect(screen.getByText('暂无产物文件 · 编码阶段完成后自动生成')).toBeInTheDocument()
   })

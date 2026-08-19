@@ -1,11 +1,3 @@
-export interface RuleEntry {
-  id: number
-  title: string
-  detail: string
-  enforced: boolean
-  enforcer: string
-}
-
 export interface LinterEntry {
   name: string
   scope: string
@@ -19,21 +11,6 @@ export interface GateEntry {
   detail: string
 }
 
-export const HARNESS_RULES: RuleEntry[] = [
-  { id: 1, title: 'API 相对路径', detail: '前端调用后端统一走 /api/...，禁止硬编码域名/IP/localhost', enforced: true, enforcer: 'ESLint no-restricted-syntax' },
-  { id: 2, title: '禁裸 print()', detail: '后端 Python 统一用 logging', enforced: true, enforcer: 'ruff T20' },
-  { id: 3, title: '禁 as any', detail: '前端禁止 as any 与隐式 any', enforced: true, enforcer: 'ESLint no-explicit-any' },
-  { id: 4, title: 'API 类型定义', detail: '新增 API 必须有 Pydantic schema + TS 类型', enforced: false, enforcer: '人工审查' },
-  { id: 5, title: 'Node 委派桩', detail: 'LangGraph Node 只做委派与状态转换，不含业务逻辑', enforced: false, enforcer: '人工审查' },
-  { id: 6, title: '端口固定', detail: '前端 Vite 5000 / 后端 FastAPI 8000', enforced: true, enforcer: 'check_port_consistency' },
-  { id: 7, title: 'sub_id 不可变', detail: '不修改 .coze 中的 sub_id', enforced: false, enforcer: 'git-level 约束' },
-  { id: 8, title: 'Pydantic Body 模型', detail: 'POST/PUT 请求体必须用 BaseModel，禁止裸参数 [P003]', enforced: false, enforcer: '人工审查' },
-  { id: 9, title: '关键文件 Git 追踪', detail: 'progress.txt / feature_list.json 不可被 .gitignore 排除 [P004]', enforced: true, enforcer: 'check_git_tracking' },
-  { id: 10, title: '全闸门通过', detail: '所有代码变更必须通过 verify.sh 14 项闸门', enforced: true, enforcer: 'scripts/verify.sh' },
-  { id: 11, title: '文件与函数行数', detail: '单文件 ≤300 行 / 单函数 ≤50 行', enforced: true, enforcer: 'ESLint max-lines' },
-  { id: 12, title: '技术栈基线一致', detail: 'AGENTS.md 声明版本与实际安装版本一致 [P008]', enforced: true, enforcer: 'check_tech_stack_alignment' },
-  { id: 13, title: '规则→执行闭合', detail: '每条规则在 convention-to-rule-mapping.md 有对应行', enforced: false, enforcer: '人工审查' },
-]
 
 export const LINTER_ENGINES: LinterEntry[] = [
   { name: 'ESLint', scope: '前端 src/', duty: 'TS/TSX 静态分析：any 类型 / 行数上限 / 硬编码域名', ruleCount: '40+' },

@@ -44,9 +44,16 @@ export interface CodeArtifactEntry {
   [key: string]: unknown
 }
 
+export interface GateResult {
+  gate_id: number
+  name: string
+  pass: boolean
+}
+
 export interface VerifyResult {
   pass?: boolean
   summary?: string
+  gates?: GateResult[]
   [key: string]: unknown
 }
 

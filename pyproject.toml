@@ -84,3 +84,12 @@ name = "Nodes cannot import routes"
 type = "forbidden"
 source_modules = ["server.nodes"]
 forbidden_modules = ["server.routes"]
+
+# ❌ Constraints 不得 import Routes/Nodes（单执行器原则：约束层只注册/注入/消费，不执行检查）
+# ✅ FIX: 约束逻辑收敛在 server/constraints/，Node 委派桩单向调用 registry
+# 📖 See: docs/architecture/boundaries.md
+[[tool.importlinter.contracts]]
+name = "Constraints cannot import routes or nodes"
+type = "forbidden"
+source_modules = ["server.constraints"]
+forbidden_modules = ["server.routes", "server.nodes"]

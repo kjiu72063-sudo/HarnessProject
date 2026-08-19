@@ -31,7 +31,7 @@ class HarnessState(TypedDict):
     worktree_branch: str
 
     # 校验结果
-    verify_result: dict
+    verify_result: dict  # F004 起 verify_result["gates"]: list[dict], 每项 {gate_id, label, status: "passing"|"failing"}
     test_result: dict
 
     # 反馈循环
