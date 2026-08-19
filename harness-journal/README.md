@@ -71,8 +71,10 @@ harness-journal/
 │   ├── 41-cross-doc-sync-r1-review.md  L3重审通过：跨文档同步正式闭合
 │   ├── 42-stage02-complete-and-design-review-gate.md  阶段2完成回顾+设计审批HITL闸门准备
 │   └── 43-l1-handoff-and-template-optimization.md  L1交接+orchestrator-prompt升级为模板+journal完整性检查
-├── stage-03-design-review/           ← 阶段3：设计审批（HITL闸门，待K总决策）
-├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
+├── stage-03-design-review/           ← 阶段3：设计审批（✅ 已通过，2026-08-19）
+│   └── 01-design-approval-approved.md  K总批准4设计文档+跨文档同步，进入编码
+├── stage-04-coding/                  ← 阶段4：编码实现（🔄 进行中）
+│   ├── 01-f002-coding-delegation.md    F002 编码委派（L3 coder，journal 02 已预留）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）
@@ -88,9 +90,9 @@ Harness Engineering 流程在本项目中的实际执行顺序与标准 8 阶段
 | 0 | 需求与可行性 | 前置（文档中未显式定义） | ✅ 已完成 |
 | 0 | 初始化 Agent | 阶段0（Anthropic 两阶段模型-初始化） | ✅ 已完成 |
 | 1 | 信息层 | 阶段1（信息层） | ✅ 已完成 |
-| 2 | 功能拆分与设计 | 阶段2 | 🔄 进行中 |
-| 3 | 设计审批 | 阶段2-审批 | ⬜ 待执行 |
-| 4 | 编码实现 | 阶段4 | ⬜ 待执行 |
+| 2 | 功能拆分与设计 | 阶段2 | ✅ 已完成 |
+| 3 | 设计审批 | 阶段2-审批 | ✅ 已完成 |
+| 4 | 编码实现 | 阶段4 | 🔄 进行中 |
 | 5 | 自校验与反馈循环 | 阶段5 | ⬜ 待执行 |
 | 6 | 合并与部署 | 阶段6 | ⬜ 待执行 |
 | 7 | 可观测性验证 | 阶段7 | ⬜ 待执行 |
