@@ -1,6 +1,11 @@
 # Feature: F004 约束管理层（AGENTS.md 解析 + Linter 规则引擎 + 架构约束）
 
-## Status: Draft
+## Status: Approved
+
+> 2026-08-20 K总设计审批通过（HITL 闸门），三条开放问题裁决（journal 38）：
+> ① api-spec.md 细化口径：不在设计阶段回写，绑定为 F004 coder 显式验收标准（实现 + Pydantic schema + api-spec.md 回写同一提交落地）。
+> ② 规则更新建议产品化：F004 范围维持 feedback_log + journal 止；可视化「待裁决建议」登记 feature_list.json F015 backlog，不进 Sprint2，触发条件为 F004 运行后人工裁决工作流成为瓶颈。
+> ③ agents_md 条目 enabled=false 语义：采纳本设计（仅影响阶段 4 注入，不影响 verify.sh 实际执行）；「禁用即跳过闸门」方向性拒绝（防绕过闸门通道，与"AGENTS.md 权威文档 + verify.sh 唯一执行器"双裁决冲突）；该语义写入 convention-to-rule-mapping.md 由 F004 coder 同步。
 
 ## 目标
 

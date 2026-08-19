@@ -27,8 +27,8 @@
     "id": "F004",
     "name": "约束管理层",
     "priority": 4,
-    "status": "todo",
-    "description": "AGENTS.md 解析 + Linter 规则引擎 + 架构约束",
+    "status": "approved",
+    "description": "AGENTS.md 解析 + Linter 规则引擎 + 架构约束。设计Approved(2026-08-20 K总, journal 38, 含三条开放问题裁决: api-spec回写绑coder验收/建议产品化记F015/enabled=false仅影响阶段4注入)",
     "dependencies": ["F002"]
   },
   {
@@ -86,6 +86,14 @@
     "status": "approved",
     "description": "Agent Registry + Controller Spec + 标准引导模板 + skill≠agent约束 + 6闸门actor分配 + 循环预算",
     "dependencies": ["F001"]
+  },
+  {
+    "id": "F015",
+    "name": "约束建议裁决可视化",
+    "priority": 9,
+    "status": "backlog",
+    "description": "约束页可视化「待裁决建议」+ 新端点 GET /api/constraints/suggestions。来源: F004设计开放问题②裁决(2026-08-20 K总, journal 38)。范围: F004维持 feedback_log + journal 止, 本条不进Sprint2, 触发条件为 F004 运行后人工裁决工作流成为瓶颈",
+    "dependencies": ["F004"]
   },
   {
     "id": "F014",
