@@ -116,3 +116,5 @@
 [2026-08-18T19:30Z] stage-02 | cross-doc-sync-review | done | L3跨文档一致性校验: 6维度检查, 4项缺陷(跨文档2+概念1+遗漏1), 结论需修订后重审. #1 boundaries.md缺src/pages/子目录+前端依赖方向 #2 convention-mapping _bootstrap.md约束编号#1→#3 #3 AGENTS.md规则#5注释过时 #4 F006 boundaries.md同步待办部分未落地
 [2026-08-18T20:00Z] stage-02 | cross-doc-sync-r1-fix | done | L1修复3项跨文档缺陷: #1 boundaries.md追加src/pages/+前端依赖方向 #2 convention-mapping _bootstrap编号#1→#3 #3 AGENTS.md规则#5注释改为正式生效. 委派L3重审.
 [2026-08-18T20:30Z] stage-02 | cross-doc-sync-r1-review | done | L3重审通过: Part A 7/7(3项修复全验证)+Part B 3/3(内部一致性)+Part C 12/12(跨文档遗漏零), 无新引入缺陷, 跨文档同步正式闭合
+[2026-08-18T21:00Z] stage-02 | cross-doc-sync | done | 跨文档同步阶段完成: 4文件同步(state-design/boundaries/harness-flow/convention-mapping)+L3校验通过. 阶段2功能拆分全部完成, 进入设计审批HITL闸门
+[2026-08-18T21:00Z] stage-03 | design-review | pending | 设计审批闸门(HITL): 4设计文档(F011/F002/F003/F006)全部Approved+跨文档同步L3校验通过, 待K总审批决策

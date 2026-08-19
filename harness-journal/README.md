@@ -68,8 +68,9 @@ harness-journal/
 │   ├── 38-f006-r2-review-delegation.md  F006 R2 L1流程验收+聚焦校验委派
 │   ├── 39-cross-doc-sync-planning.md  跨文档同步范围规划（L1执行）
 │   ├── 40-cross-doc-sync-review-result-and-r1-fix.md  L3校验3项缺陷+L1修复+重审委派
-│   └── 41-cross-doc-sync-r1-review.md  L3重审通过：跨文档同步正式闭合
-├── stage-03-design-review/           ← 阶段3：设计审批（待执行）
+│   ├── 41-cross-doc-sync-r1-review.md  L3重审通过：跨文档同步正式闭合
+│   └── 42-stage02-complete-and-design-review-gate.md  阶段2完成回顾+设计审批HITL闸门准备
+├── stage-03-design-review/           ← 阶段3：设计审批（HITL闸门，待K总决策）
 ├── stage-04-coding/                  ← 阶段4：编码实现（待执行）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
