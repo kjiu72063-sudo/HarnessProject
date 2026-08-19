@@ -109,3 +109,4 @@
 [2026-08-18T16:00Z] stage-02 | F006-r1-review | done | L3全量校验F006 R1: Part A 3项原缺陷全修复, Part B发现5项新引入缺陷(概念3+跨文档2: #1石墨灰同名异值/#2缺boundaries.md同步待办/#3 DiamondNode三状态vs四状态/#4缺resumeHarness API封装/#5 TechStackSelector与TechStackSpec不匹配), 结论需修订后重审
 [2026-08-18T16:30Z] stage-02 | F006-r2-delegation | done | L1流程验收通过+接受结论, 产出R2修订ControllerSpec(10条验收标准)+L3启动提示词, 委派L3设计编写Agent修复5项缺陷
 [2026-08-18T17:00Z] stage-02 | F006-revision-r2 | done | F006修订Round2完成: 修复5项缺陷(#1石墨灰同名异值→#4B5563改名青灰/#2添加boundaries.md跨文档同步待办/#3 DiamondNode三状态→四状态对齐StageStatus/#4新增resumeHarness API封装对齐F002 ResumeRequest+模块列表stream→resume/#5 TechStackSelector 4选1→6字段表单对齐TechStackSpec), 185行, Status: Draft
+[2026-08-18T17:30Z] stage-02 | F006-r2-review-delegation | done | L1流程验收通过(编号冲突37修正)+产出聚焦校验ControllerSpec(Part A 5项+B 3项+C 3项+D 4项)+L3启动提示词, 委派L3校验Agent
