@@ -1,4 +1,7 @@
 [Controller Spec]
+
+> **⚠️ 已作废（2026-08-19T07:26Z）**：本 Controller Spec 基于L1越权自产的内容判定（缺陷诊断/定级/修复方向），被 K总 纠正后作废。修订委派须待 L3 test-reviewer 独立校验结论（journal 04）后由 L1 重新产出。保留仅作审计痕迹，禁止使用。
+
 任务: 修复 F002 验收缺陷——langgraph 依赖声明与实际 API 依赖不匹配（声明版本范围内运行时崩溃）
 角色: coder
 前置条件: F002 首轮编码已完成（commit e1ba981），L1 流程验收发现 2 项缺陷（journal 03）

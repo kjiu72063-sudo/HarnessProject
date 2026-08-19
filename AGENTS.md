@@ -7,11 +7,11 @@
 ## 当前阶段与下一步
 
 - **已完成**: 阶段0初始化 + 阶段1信息层(含原型确认通过) + 阶段2约束层(12轮审计收敛，verify.sh 14项全通过) + Sprint1设计文档全部Approved(F011+F002+F003+F006) + 跨文档同步(state-design.md/boundaries.md/harness-flow.md/convention-to-rule-mapping.md, L3校验通过) + 设计审批HITL闸门通过(2026-08-19, K总批准)
-- **当前**: 阶段4编码实现。Task 3a F002 首轮编码完成(commit e1ba981)但L1流程验收**不通过**——pyproject声明langgraph>=0.2.50而代码用1.2.x API(JsonPlusSerializer.allowed_msgpack_modules), 声明范围内运行时崩溃; 修订R1已委派(启动提示词: docs/handbook/launch-prompts/f002-coding-revision-r1-launch.md), journal 03为证据链, 待K总开会话
-- **下一步**: F002修订R1→L1复验(重点mypy+pytest在声明版本自洽)→L3 test-reviewer审查→F003编码→F006编码→集成验证(每Task一个L3会话)。环境事实: 各会话沙箱环境漂移(L1会话无uv/系统langgraph 1.0.2, coder会话需先uv sync), verify.sh后端项硬依赖uv run
+- **当前**: 阶段4编码实现。Task 3a F002 首轮编码完成(commit e1ba981), L1流程验收复跑verify.sh 10/14(后端mypy/pytest失败, 流程事实见journal 03)。**L1越界事故已纠正(2026-08-19, K总)**: L1越权做了内容测验(深度复现/根因判定/修复方向裁定), 据其产出的修订R1委派已作废(journal 04)。现已委派L3 test-reviewer独立校验F002产出(启动提示词: docs/handbook/launch-prompts/f002-test-review-launch.md), journal 04为纠正与委派记录, 05预留给test-reviewer
+- **下一步**: test-reviewer校验报告→L1流程验收→基于L3校验结论产出修订ControllerSpec→coder修订→L1复验(仅记verify.sh PASS/FAIL)→test-reviewer重审→F003编码→F006编码→集成验证(每Task一个L3会话)。环境事实: 各会话沙箱环境漂移(L1会话无uv/系统langgraph 1.0.2, coder会话uv sync得1.2.11, 网络受限时uv sync可能卡死超6分钟), verify.sh后端项硬依赖uv run
 - **原型确认**: 4页面(需求输入/流程监控/约束配置/产物管理)已通过，K总认为可先走通第一版再迭代。后续功能需求记入feature_list.json排期
 - **WorkBuddy评审**: 发现单体Agent反模式(L1自己调skill产出=自己干非委派) + 设计文档16项缺陷。K总确认: 回退点=设计闸门不回退代码, "skill≠agent"作为F011基础约束, 人类介入粒度=默认通过仅可疑拦截
-- **L1职责边界**: L1只做流程检查(产出存在/journal写入/约束遵守), 不做内容质量判定。内容质量校验必须委派L3设计校验Agent。修订后必须重新校验, 不得以任何理由跳过。
+- **L1职责边界**: L1只做流程检查(产出存在/journal写入/约束遵守/复跑verify.sh仅记录PASS与FAIL), 不做内容质量判定。内容质量校验必须委派L3校验Agent。**复现缺陷/根因分析/缺陷定级/修复方向裁定=内容测验, 一律委派L3, L1不得以"取证""验收需要"为由自行深入**(2026-08-19 F002验收时L1越界自测被K总纠正, 见journal 04, 修订R1因此作废)。verify.sh失败时的正确动作: 记录流程事实→委派L3校验→基于校验结论出修订ControllerSpec。修订后必须重新校验, 不得以任何理由跳过。
 - **方案文档**: harness-journal/stage-02-feature-breakdown/02-agent-society-and-revision-plan.md
 - **新会话**: 先读本文件→progress.txt→feature_list.json→docs/plans/current-sprint.md→harness-journal/README.md(必读!最近3条journal)
 
