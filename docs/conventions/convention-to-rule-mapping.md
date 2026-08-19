@@ -26,7 +26,7 @@ PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次�
 | POST 用 Pydantic Body | 路由参数必须 Pydantic Body | 文档约束 [P003] | ⚠️ 人工审查 | #8 |
 | API 必须有类型定义 | Pydantic schema + TS 类型 | FastAPI 自动校验 + mypy | ⚠️ 人工审查 | #4 |
 | LangGraph Node 委派桩/状态转换器 | Node 不含业务逻辑，通过 Agent Runtime 委派 L3 Agent | 文档约束 (F011/F002) | ⚠️ 人工审查 | #5 |
-| harness-journal 沉淀 | 每次交互/开发任务必须写 harness-journal | 文档约束 (_bootstrap.md 硬约束#1) | ⚠️ 人工审查 | — |
+| harness-journal 沉淀 | 每次交互/开发任务必须写 harness-journal | 文档约束 (_bootstrap.md 硬约束#3) | ⚠️ 人工审查 | — |
 | 测试覆盖率 ≥ 80% | --cov-fail-under=80 | pytest-cov → verify.sh #9 | ✅ 已机械化 | #10 |
 | Python 版本 ≥ 3.12 | requires-python >= 3.12 | pyproject.toml + check_tech_stack_alignment → #12 | ✅ 已机械化 | #12 |
 | pnpm 版本 ≥ 9 | engines pnpm >= 9 | package.json engines（pnpm install 时强制） | ✅ 已机械化 | — |

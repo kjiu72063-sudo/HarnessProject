@@ -47,7 +47,7 @@
 2. 后端 Python 代码禁止裸 `print()`，统一用 `logging`
 3. 前端禁止 `as any` 和隐式 `any`
 4. 新增 API 必须有对应类型定义（Pydantic schema + TS 类型）
-5. LangGraph Node 是委派桩/状态转换器：接收 State → 委派 Agent Runtime 执行 → 返回更新后的 State。Node 本身不含业务逻辑。（待 F011/F002 修订后正式生效，当前为修订方向）
+5. LangGraph Node 是委派桩/状态转换器：接收 State → 委派 Agent Runtime 执行 → 返回更新后的 State。Node 本身不含业务逻辑。（F011/F002 已 Approved，正式生效）
 6. 端口: 前端 Vite 固定 5000，后端 FastAPI 固定 8000
 7. 不修改 .coze 中的 sub_id
 8. POST/PUT 路由请求体必须用 Pydantic BaseModel，禁止裸参数 [P003]

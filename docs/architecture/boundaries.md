@@ -8,7 +8,7 @@ owner: @K总
 - 只通过相对路径 `/api/...` 调用后端
 - 禁止直接访问数据库或文件系统
 - 禁止硬编码域名/IP/localhost
-- 子目录: src/components/（UI 组件）、src/api/（API 封装）、src/types/（TS 类型定义）
+- 子目录: src/pages/（页面组件）、src/components/（UI 组件）、src/api/（API 封装）、src/types/（TS 类型定义）
 
 ## 后端 (server/)
 - server/routes/ — API 路由，只做请求转发和响应
@@ -20,10 +20,14 @@ owner: @K总
 - server/config/ — 配置管理
 
 ## 依赖方向
+### 后端
 routes → schemas → models → config
 graph → nodes → schemas → models
 nodes → llm → schemas, config
 nodes 之间不直接调用，只通过 State 传递数据
+
+### 前端
+pages → components, api → types
 
 ## 禁止
 - routes 直接操作数据库（必须经 models）
