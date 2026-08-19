@@ -5,7 +5,6 @@ def test_settings_defaults():
     s = Settings()
     assert s.app_name == "harness-platform"
     assert s.api_prefix == "/api"
-    assert s.openai_model == "gpt-4o"
     assert s.backend_port == 8000
 
 

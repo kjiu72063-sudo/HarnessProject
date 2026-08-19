@@ -5,8 +5,6 @@ class Settings(BaseSettings):
     app_name: str = "harness-platform"
     api_prefix: str = "/api"
     database_url: str = "postgresql://localhost:5432/harness_platform"
-    openai_api_key: str = ""
-    openai_model: str = "gpt-4o"
     backend_port: int = 8000
 
     # F003 LLM 提供商层（字段名对齐设计文档 §配置项）
