@@ -101,3 +101,14 @@ owner: @K总
 | 修复方案 | (a) AGENTS.md `React 18` → `React 19`；(b) `src/App.tsx` UI 显示 `React 18` → `React 19`；(c) `pyproject.toml` `requires-python` 从 `>=3.11` 收紧为 `>=3.12`；(d) `convention-to-rule-mapping.md` `Python ≥ 3.11` → `≥ 3.12` |
 | 关联文件 | `AGENTS.md`、`package.json`、`pyproject.toml`、`src/App.tsx`、`docs/conventions/convention-to-rule-mapping.md` |
 | 预防规则 | AGENTS.md 技术栈基线必须与 `package.json`/`pyproject.toml` 实际安装版本交叉验证；每次审计必须包含"声明版本 vs 实际版本一致性检查"步骤；平台模板安装的版本可能与设计文档声明不同，初始化后必须同步基线 |
+
+## P009 — 网络受限沙箱中 `uv sync` 卡死超时
+
+| 字段 | 内容 |
+|---|---|
+| 阶段 | stage-04 / F002 验收与测试审查（journal 03/05） |
+| 错误特征 | `uv sync` 长时间无输出（>6 分钟无进展），无报错、不退出；L1 会话与 test-reviewer 会话均复现。对照：同会话 `pip install` 走镜像源正常可用 |
+| 根因 | `uv` 不继承 pip 的镜像配置（`pip.conf`/`PIP_INDEX_URL`），直连默认源 `pypi.org`；网络受限沙箱对该域直连被限速/阻断。且 `uv sync --frozen` 按 lock 文件中的原始 URL 下载，`UV_INDEX_URL` 等镜像变量对已锁定 URL 无效 |
+| 修复方案 | 按 lock 钉版的等价环境构建法（test-reviewer 实测约 3 分钟）：`export UV_DEFAULT_INDEX=<镜像源>` → `uv venv` → `uv pip install -r <(uv export --frozen)` 或按 `uv.lock` 版本逐项 `uv pip install pkg==version`；或直接 `pip install` 镜像源可用时用系统 python 等效复跑并在记录中注明实际版本 |
+| 关联文件 | `uv.lock`、`pyproject.toml`、`scripts/verify.sh`（后端 4 项硬依赖 `uv run`） |
+| 预防规则 | 会话开始先探测：`command -v uv` 与镜像连通性，再决定验证路径；verify.sh 后端项在无 uv 会话不可直接复跑，用等效命令替代并如实记录环境；环境与版本必须写入 journal（各会话沙箱环境漂移，结论不得绑定单一会话环境） |

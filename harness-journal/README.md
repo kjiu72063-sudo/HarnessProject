@@ -79,6 +79,7 @@ harness-journal/
 │   ├── 03-f002-acceptance-failed-and-revision-delegation.md  L1 流程验收记录（verify.sh 复跑 10/14；其缺陷判定与修订委派因 L1 越界作废，见 04）
 │   ├── 04-l1-boundary-violation-and-test-reviewer-delegation.md  K总纠正L1越界+教训固化+test-reviewer校验委派
 │   ├── 05-f002-test-review.md          F002 测试审查（L3 独立校验：需改进后重审，6项问题，2必须修复=依赖声明不自洽+.coverage入库）
+│   ├── 06-f002-review-acceptance-and-revision-r2-delegation.md  L1流程验收test-reviewer产出+修订R2委派（#1-#4，#5/#6排期，P009沉淀）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）

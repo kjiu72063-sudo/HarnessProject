@@ -7,8 +7,8 @@
 ## 当前阶段与下一步
 
 - **已完成**: 阶段0初始化 + 阶段1信息层(含原型确认通过) + 阶段2约束层(12轮审计收敛，verify.sh 14项全通过) + Sprint1设计文档全部Approved(F011+F002+F003+F006) + 跨文档同步(state-design.md/boundaries.md/harness-flow.md/convention-to-rule-mapping.md, L3校验通过) + 设计审批HITL闸门通过(2026-08-19, K总批准)
-- **当前**: 阶段4编码实现。Task 3a F002 首轮编码完成(commit e1ba981), L1流程验收复跑verify.sh 10/14(后端mypy/pytest失败, 流程事实见journal 03)。**L1越界事故已纠正(2026-08-19, K总)**: L1越权做了内容测验(深度复现/根因判定/修复方向裁定), 据其产出的修订R1委派已作废(journal 04)。现已委派L3 test-reviewer独立校验F002产出(启动提示词: docs/handbook/launch-prompts/f002-test-review-launch.md), journal 04为纠正与委派记录, 05预留给test-reviewer
-- **下一步**: test-reviewer校验报告→L1流程验收→基于L3校验结论产出修订ControllerSpec→coder修订→L1复验(仅记verify.sh PASS/FAIL)→test-reviewer重审→F003编码→F006编码→集成验证(每Task一个L3会话)。环境事实: 各会话沙箱环境漂移(L1会话无uv/系统langgraph 1.0.2, coder会话uv sync得1.2.11, 网络受限时uv sync可能卡死超6分钟), verify.sh后端项硬依赖uv run
+- **当前**: 阶段4编码实现。F002首轮编码(commit e1ba981)经L3 test-reviewer独立校验结论"需改进后重审"(journal 05): lock等价环境60测试全绿/99.20%覆盖, 但6项问题(2必须修复: #1依赖声明langgraph>=0.2.50不自洽+checkpoint>=4.1.0未声明, lock 1.2.11+4.2.0掩盖; #2 .coverage误入git; 建议#3 journal三处自报失实 #4逃生口零覆盖 #5 mypy strict表述 #6 gate_decision契约未回写)。L1流程验收通过, 修订R2已委派coder(范围=#1-#4, 启动提示词: docs/handbook/launch-prompts/f002-coding-revision-r2-launch.md), journal 06为验收与委派记录, 07预留给coder, 08预留给重审
+- **下一步**: coder修订R2→L1流程验收(仅记verify.sh PASS/FAIL)→test-reviewer重审(修订后必须重新校验)→通过则F002状态推进passing→F003编码→F006编码→集成验证。**L1跨文档同步待办**(编码告一段落后由L1统一执行): (a)api-spec.md「Agent 会话」段与F002 /api/harness/*对齐; (b)L3报告#5设计文档"mypy strict"表述修正; (c)L3报告#6 gate_decision字段与resume响应契约回写state-design.md(F006编码前必须完成)。环境事实: 各会话沙箱环境漂移, uv sync网络受限时卡死(根因与替代构建法见pitfalls.md P009), verify.sh后端项硬依赖uv run
 - **原型确认**: 4页面(需求输入/流程监控/约束配置/产物管理)已通过，K总认为可先走通第一版再迭代。后续功能需求记入feature_list.json排期
 - **WorkBuddy评审**: 发现单体Agent反模式(L1自己调skill产出=自己干非委派) + 设计文档16项缺陷。K总确认: 回退点=设计闸门不回退代码, "skill≠agent"作为F011基础约束, 人类介入粒度=默认通过仅可疑拦截
 - **L1职责边界**: L1只做流程检查(产出存在/journal写入/约束遵守/复跑verify.sh仅记录PASS与FAIL), 不做内容质量判定。内容质量校验必须委派L3校验Agent。**复现缺陷/根因分析/缺陷定级/修复方向裁定=内容测验, 一律委派L3, L1不得以"取证""验收需要"为由自行深入**(2026-08-19 F002验收时L1越界自测被K总纠正, 见journal 04, 修订R1因此作废)。verify.sh失败时的正确动作: 记录流程事实→委派L3校验→基于校验结论出修订ControllerSpec。修订后必须重新校验, 不得以任何理由跳过。
