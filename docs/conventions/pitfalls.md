@@ -1,4 +1,4 @@
-last_updated: 2026-08-19
+last_updated: 2026-08-20
 status: active
 owner: @K总
 
@@ -134,6 +134,14 @@ owner: @K总
 | 修复方案 | 无需"修复"，属平台既定行为；提交前用 `git status` + `git diff --cached` 逐行核实暂存内容与预期改动一致，避免误判"有未提交改动被追踪"或把非预期文件一并提交 |
 | 关联文件 | `.git/config`（平台托管，勿改） |
 | 预防规则 | 所有 Agent 提交前强制执行 `git diff --cached --stat` 核对文件清单与 Controller Spec 范围一致；发现暂存区含范围外文件先unstage再提交 |
+
+**F014 批次新实证（2026-08-20，coder journal 29 + L1 journal 32 + test-reviewer journal 30 链条确认）**：
+
+- 实证4：commit 时 hookspath 会把 **untracked 文件也自动 stage**——coder 首次提交混入工作区中的 assets 两文件（报告 6 files）；unstage 后 commit 钩子会再次自动 stage，单次 unstage 不够，须在提交瞬间核对
+- 实证5：修正混入提交必须完整序列 `mv 移出工作区 → git rm --cached 清索引 → amend → 核对 → 移回`；仅 `mv` 移出不清索引时，索引条目残留会随 amend 再次入提交（coder 两次 amend 才收敛）
+- 实证6：**coder 侧修正干净后平台层仍可自动提交混入**——coder 提交 5e736d2 后 2.5 分钟，平台自动提交 6f8789d（Coze-Commit-Type: user）把 assets 两文件混入提交历史。因此验收/审查必须锚定 **diff 范围（331e7f6..5e736d2）而非 HEAD**；范围外平台提交对被审对象零改动不构成污染（journal 30 标准 7 独立确认）
+- 预防规则补充：验收与审查一律锚定显式 diff 范围；提交前核对须含「untracked 文件是否被钩子自动 stage」检查（`git status` 双向核对）
+
 ## P012 — L1 管控 Agent 流程验收时越界自测内容质量（复发型边界违规）
 
 | 字段 | 内容 |

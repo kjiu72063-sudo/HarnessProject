@@ -107,6 +107,7 @@ harness-journal/
 │   └── 31-l1-handoff.md                                L1换任交接journal（前任L1任期决策链全景/教训强化/F014进行中状态/新任L1第一件事指引，K总决策换任）
 │   └── 32-f014-acceptance-and-test-review-delegation.md   新任L1流程验收F014通过+Spec标准5口径裁定+P011第3条实证(6f8789d)+test-reviewer审查委派（30预留）
 │   └── 33-l1-boundary-violation-correction.md       L1越界事故记录与整改（F014验收越界自测被K总纠正；journal 32更正段；边界判定测试+黑名单；委派产物去锚定修订；P012）
+│   └── 34-f014-closure.md                           F014闭环（L3审查通过journal 30 + L1流程验收审查报告 + 状态推进passing + P011实证4-6沉淀 + 编号映射再呈K总）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
 ├── stage-06-merge-deploy/            ← 阶段6：合并与部署（待执行）
 ├── stage-07-observability/           ← 阶段7：可观测性验证（待执行）

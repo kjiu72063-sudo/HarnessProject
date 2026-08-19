@@ -10,7 +10,7 @@ owner: @K总
 - [x] F003 可插拔 LLM 提供商层 (passing, commit a775554, 审查 journal 16)
 - [x] F006 前端平台 UI (passing, commit 00eed47, 审查 journal 20)
 - [x] Task 5 集成验证 (done, journal 23/24 双通过, 零代码变更)
-- [ ] F012 Settings 死配置清理 (微任务已委派, journal 28)
+- [x] F012 Settings 死配置清理 (passing, commit 5e736d2, 审查链 29→32→33→30, 委派链口径F014, 编号映射待K总裁决)
 
 ## Sprint 2: 约束与反馈
 - [ ] F004 约束管理层
