@@ -1,5 +1,5 @@
-last_updated: 2026-08-19
-status: sprint1-closed
+last_updated: 2026-08-20
+status: sprint2-active
 owner: @K总
 
 # 当前迭代计划
@@ -10,14 +10,14 @@ owner: @K总
 - [x] F003 可插拔 LLM 提供商层 (passing, commit a775554, 审查 journal 16)
 - [x] F006 前端平台 UI (passing, commit 00eed47, 审查 journal 20)
 - [x] Task 5 集成验证 (done, journal 23/24 双通过, 零代码变更)
-- [x] F012 Settings 死配置清理 (passing, commit 5e736d2, 审查链 29→32→33→30, 委派链口径F014, 编号映射待K总裁决)
+- [x] F014 Settings 死配置清理 (passing, commit 5e736d2, 审查链 29→32→33→30, 闭环journal 34)
 
 ## Sprint 2: 约束与反馈
 - [ ] F004 约束管理层
 - [ ] F005 代码执行沙箱
 - [ ] F007 SSE 实时状态推送
-- [ ] F013 Playwright DOM级端到端测试 (S1 裁决落地)
-- [ ] F014 API 会话列表端点
+- [ ] F012 Playwright DOM级端到端测试 (S1 裁决落地)
+- [ ] F013 API 会话列表端点
 
 ## Sprint 3: 持久化与熵管理
 - [ ] F008 熵管理后台任务

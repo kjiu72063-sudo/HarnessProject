@@ -88,15 +88,15 @@
     "dependencies": ["F001"]
   },
   {
-    "id": "F012",
+    "id": "F014",
     "name": "Settings 死配置清理",
     "priority": 1.6,
     "status": "passing",
-    "description": "跨文档同步批次(e)执行部分: 删除server/config/settings.py零消费方死配置(openai_api_key/openai_model)+测试同步。闭环2026-08-20: coder提交5e736d2/journal 29, L1流程验收journal 32(33更正), L3审查通过journal 30(8标准全过/0必须修复), 闭环journal 34。注: 委派链口径记F014, 编号映射待K总裁决",
+    "description": "跨文档同步批次(e)执行部分: 删除server/config/settings.py零消费方死配置(openai_api_key/openai_model)+测试同步。闭环2026-08-20: coder提交5e736d2/journal 29, L1流程验收journal 32(33更正), L3审查通过journal 30(8标准全过/0必须修复), 闭环journal 34。编号映射已裁决: 2026-08-20 K总确认以委派链口径为准(journal 35)",
     "dependencies": ["F003"]
   },
   {
-    "id": "F013",
+    "id": "F012",
     "name": "Playwright DOM级端到端测试",
     "priority": 2.5,
     "status": "todo",
@@ -104,7 +104,7 @@
     "dependencies": ["F006"]
   },
   {
-    "id": "F014",
+    "id": "F013",
     "name": "API会话列表端点",
     "priority": 5.5,
     "status": "todo",
