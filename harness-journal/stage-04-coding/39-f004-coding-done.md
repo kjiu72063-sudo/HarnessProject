@@ -135,4 +135,13 @@
 | uv.lock | 零漂移（git diff 无输出） |
 | 工作区 | 干净（复跑后无任何变更） |
 
-**progress.txt 未追加**: coding-done 状态未变化, 本附记为证据补强而非新状态; 避免重复状态行。journal 40 未占用。本会话唯一文件变更 = 本附记。
+**progress.txt 未追加**: coding-done 状态未变化, 本附记为证据补强而非新状态; 避免重复状态行。journal 40 未占用。本会话文件变更 = 本附记两段。
+
+**API 实测摘录（2026-08-20T03:25Z, 后端 8000 起服实测, 补 Spec 标准 #1/#3 的 curl 响应证据形式）**:
+
+- `GET /api/constraints?project_id=demo-1` → **total=15**（agents_md=13 + manual 种子=2）, 其中 manual_review=**5** 条, rule_type 覆盖 8 类（dependency_direction/file_size/git_tracking/port_consistency/process_convention/static_text/tech_stack_alignment/type_check）; 字段完整（id/project_id/source/source_key/rule_no/title/detail/rule_type/enforcer/enforcement/gate_ids/enabled/created_at/updated_at）
+- `POST /api/constraints`（manual）→ 201 语义返回新条目 `{"source":"manual","source_key":"manual-16",...,"enforcement":"manual_review"}` 项目隔离正确
+- `PUT /api/constraints/1`（agents_md, body 含 title 篡改）→ **403** `{"detail":"agents_md 条目文本只读（与 AGENTS.md 源一致），仅可切换 enabled"}`
+- `PUT /api/constraints/16`（manual, enabled toggle）→ **200**
+- `PUT /api/constraints/1`（agents_md, 纯 enabled toggle）→ **200**（裁决③语义: enabled=false 仅影响阶段 4 注入, toggle 合法）
+- 实测后服务关闭, 端口 8000 释放, 工作区零变更
