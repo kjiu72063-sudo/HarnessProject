@@ -13,7 +13,7 @@ owner: @K总
 - [x] F014 Settings 死配置清理 (passing, commit 5e736d2, 审查链 29→32→33→30, 闭环journal 34)
 
 ## Sprint 2: 约束与反馈
-- [ ] F004 约束管理层
+- [x] F004 约束管理层 (passing, 编码35f09dc + M1/M2修复02830d1, 审查链 39→40→43→44, 闭环journal 46)
 - [ ] F005 代码执行沙箱
 - [ ] F007 SSE 实时状态推送
 - [ ] F012 Playwright DOM级端到端测试 (S1 裁决落地)

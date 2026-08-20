@@ -118,6 +118,8 @@ harness-journal/
 │   └── 42-f004-review-acceptance-and-fix-delegation.md  F004审查报告L1流程验收+M1/M2修复微任务委派（依据100%转写journal 40; 43 coder/44复审预留; 60b18f6平台提交知悉）
 │   ├── 43-f004-fix-m1-m2.md                            F004 M1/M2修复coder产出（02830d1恰4文件纯文档; 8标准自报+2歧义α/β备审）
 │   └── 45-f004-fix-acceptance-and-review-delegation.md  F004修复L1流程验收（四类行全过; 锚点表述不精确记录; 歧义移交）+复审委派（journal 44预留）
+│   ├── 44-f004-fix-m1-m2-review.md                     F004 M1/M2修复复审（8项全PASS+歧义α/β裁定接受; 建议推进passing）
+│   └── 46-f004-closure.md                              F004闭环（复审验收四类行全过+P009环境注记+状态推进passing; 全周期journal 36-46）
 │   └── 44-f004-fix-m1-m2-review.md                       F004 M1/M2修复复审（8项全PASS; 歧义α接受重排/β接受; 建议F004推进passing）
 │   └── 40-f004-test-review.md                           F004 L3独立测试审查（12标准10PASS+2FAIL(M1:api-spec字段缺失+枚举名错/M2:convention-mapping缺enabled语义); 设计符合性全PASS; 7歧义裁定/核查; 标准7/8/9内容级独立补测; verify 14/14; 5条建议改进）
 │   └── 39-f004-coding-done.md                            F004 coder执行记录（环境表/13项标准对照/4歧义自报/verify 14项全PASS/后端110+前端93测试；40预留test-reviewer）

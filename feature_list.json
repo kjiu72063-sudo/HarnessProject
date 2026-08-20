@@ -27,8 +27,8 @@
     "id": "F004",
     "name": "约束管理层",
     "priority": 4,
-    "status": "approved",
-    "description": "AGENTS.md 解析 + Linter 规则引擎 + 架构约束。设计Approved(2026-08-20 K总, journal 38, 含三条开放问题裁决: api-spec回写绑coder验收/建议产品化记F015/enabled=false仅影响阶段4注入)",
+    "status": "passing",
+    "description": "AGENTS.md 解析 + Linter 规则引擎 + 架构约束。闭环2026-08-20: 设计Approved(journal 38)→coder 35f09dc(journal 39)→L3审查10/12+M1/M2(journal 40)→修复02830d1(journal 43)→L1验收(journal 41/42/45)→复审8项全PASS+歧义α/β接受(journal 44)",
     "dependencies": ["F002"]
   },
   {
