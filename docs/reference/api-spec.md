@@ -29,7 +29,7 @@ owner: @K总
 - `GET /api/constraints?project_id=` — 约束规则列表。响应: `{ rules: Constraint[] }`；`project_id` **可选**：省略 → 仅返回系统规则（source=agents_md）；提供 → 系统规则 + 该项目规则，按 `rule_no` 升序
 - `POST /api/constraints` — 新增约束规则（仅 source=manual，project_id 必填）。请求体: `{ project_id, rule_type, title, detail, enabled }`；`rule_type` ∈ rule_linter_config | test_coverage | file_size | fn_complexity | tech_stack_lock | api_prefix | no_print | logging | type_safety | project_layout（十类）；422: 未知 rule_type / 空 title(<1 字符) / 空 project_id
 - `PUT /api/constraints/{id}` — 更新约束规则（enabled 切换 / title / detail；rule_type/project_id/source 不可变）。请求体: `{ title?, detail?, enabled? }`；422: id 非正整数 / 空 title / 规则不存在时 404
-- `Constraint` 字段: `{ id, project_id, source(agents_md|manual), rule_type, rule_no, title, detail, enabled, enforcement(verify_gate|agent_hint), gate_ids, created_at, updated_at }`；系统规则（source=agents_md）由服务启动时从 AGENTS.md「硬性规则」段解析注册，不可通过 API 增删改
+- `Constraint` 字段: `{ id, project_id, source(agents_md|manual), source_key, rule_no, title, detail, rule_type, enforcer, enforcement(mechanized|manual_review), gate_ids, enabled, created_at, updated_at }`；`source_key`: 条目唯一标识键（agents-md-rule-{n} / manual-{auto}）；`enforcer`: 执行器标识（"ruff T20" 等）；系统规则（source=agents_md）由服务启动时从 AGENTS.md「硬性规则」段解析注册，不可通过 API 增删改
 
 ### 产物管理
 - `GET /api/projects/{id}/artifacts` — 产物列表

@@ -38,6 +38,7 @@ PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次�
 | Git 追踪关键文件 | progress.txt/feature_list.json | check_git_tracking → verify.sh #13 [P004] | ✅ 已机械化 | #9 |
 | sub_id 不可变 | .coze sub_id 创建后不可改 | git-level 约束 | ⚠️ 人工审查 | #7 |
 | 约束层不执行检查（单执行器原则） | server/constraints/ 禁止 import routes/nodes，引擎只注册/注入/消费 | import-linter forbidden 合约 → verify.sh #8 (F004) | ✅ 已机械化 | F004设计裁决 |
+| agents_md 条目 enabled=false 语义 | enabled=false 仅影响阶段 4 注入（不下发编码 Agent），不影响 verify.sh 实际执行；「禁用即跳过闸门」方向性拒绝 | coding_agent 注入时 filter enabled=True；validation gates 不过滤 enabled | ⚠️ 人工审查 | #10, 裁决③ |
 
 ## 审计闭环校验（根因修复）
 
