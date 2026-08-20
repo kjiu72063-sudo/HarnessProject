@@ -115,3 +115,24 @@
 | ruff + mypy + import-linter (3 合约) | 全过 |
 | tsc + eslint + stylelint + dependency-cruiser | 全过 |
 | 覆盖率 | ≥80% (Gate 10) |
+
+## 9. 会话复验附记（2026-08-20T03:20Z, 重复派生会话）
+
+**场景**: K总按同一启动提示词再次派生 coder 会话（journal 38 委派源）。冷启动核实: 提交 35f09dc 已在仓库（HEAD）、journal 39 与 progress coding-done 行已写入、工作区干净 → **判定不重做**（P011 已有 a577463 重复提交实证教训）, 本会话使命转为现状核实 + 独立等效复跑。
+
+**环境漂移**（P009 预防规则的会话探测场景命中）: 本会话沙箱无 uv、无 .venv, 仅系统 Python 3.12.3 + pip 24.0（aliyun 镜像已配置）。首轮 verify.sh 复跑 10/14——后端 4 项（Ruff/Mypy/import-linter/Tests）全部 `uv: command not found`, 前端 10 项全过。失败为环境缺失, 非代码缺陷。
+
+**P009 替代法重建**（本会话实测路径, 供后续会话复用）: `pip install uv`（镜像源, 装得 uv 0.12.5 与前次会话同版）→ `export UV_DEFAULT_INDEX=https://mirrors.aliyun.com/pypi/simple/` → `UV_FROZEN=1 uv venv && UV_FROZEN=1 uv pip install -r <(UV_FROZEN=1 uv export --frozen)` → 用后即 unset UV_DEFAULT_INDEX（P010）。全程 UV_FROZEN=1 前置。
+
+**等效复跑结果（HEAD=35f09dc, 2026-08-20T03:20Z）**:
+
+| 项 | 结果 |
+|---|---|
+| verify.sh | **14/14 PASS** |
+| 后端 pytest | 110 passed + 1 skipped, 覆盖率 98.57% (≥80%) |
+| import-linter | 3 kept, 0 broken（含 F004 新增 3 合约） |
+| 前端 vitest | 93 passed (17 文件) |
+| uv.lock | 零漂移（git diff 无输出） |
+| 工作区 | 干净（复跑后无任何变更） |
+
+**progress.txt 未追加**: coding-done 状态未变化, 本附记为证据补强而非新状态; 避免重复状态行。journal 40 未占用。本会话唯一文件变更 = 本附记。
