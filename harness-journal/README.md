@@ -114,6 +114,8 @@ harness-journal/
 │   └── 38-f004-design-approval-and-coder-delegation.md   F004设计审批通过+三条开放问题裁决落地（api-spec回写绑coder/F015 backlog/enabled=false语义）+coder委派三件套（39/40预留）
 │   ├── 39-f004-coding-done.md                          F004编码产出（两会话: 前次35f09dc编码+journal正文 / 重复派生会话复验+curl证据补齐+P009替代法附记）
 │   └── 41-f004-acceptance-and-test-review-delegation.md F004编码L1流程验收（重复派生场景四类行全过; c670ec3平台提交知悉; 7项歧义移交）+test-reviewer委派（40预留）
+│   ├── 40-f004-test-review.md                          F004 L3独立测试审查（10/12 PASS; M1 api-spec缺字段+枚举名错误 / M2 mapping缺裁决③语义; 标准7/8/9补测全过; 7项歧义A-G闭环; 5条建议）
+│   └── 42-f004-review-acceptance-and-fix-delegation.md  F004审查报告L1流程验收+M1/M2修复微任务委派（依据100%转写journal 40; 43 coder/44复审预留; 60b18f6平台提交知悉）
 │   └── 40-f004-test-review.md                           F004 L3独立测试审查（12标准10PASS+2FAIL(M1:api-spec字段缺失+枚举名错/M2:convention-mapping缺enabled语义); 设计符合性全PASS; 7歧义裁定/核查; 标准7/8/9内容级独立补测; verify 14/14; 5条建议改进）
 │   └── 39-f004-coding-done.md                            F004 coder执行记录（环境表/13项标准对照/4歧义自报/verify 14项全PASS/后端110+前端93测试；40预留test-reviewer）
 ├── stage-05-validation/              ← 阶段5：自校验与反馈循环（待执行）
