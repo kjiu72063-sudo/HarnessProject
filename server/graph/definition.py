@@ -46,6 +46,8 @@ HUMAN_GATES = ["prototype_confirmation", "design_approval", "acceptance_check"]
 _ALLOWED_MSGPACK_MODULES = [
     ("server.schemas.harness_state", "TechStackSpec"),
     ("server.schemas.harness_state", "TokenUsage"),
+    ("server.sandbox.base", "ExecutionResult"),
+    ("server.sandbox.base", "ResourceUsage"),
 ]
 
 

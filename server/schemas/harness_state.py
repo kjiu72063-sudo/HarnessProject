@@ -15,6 +15,15 @@ class TechStackSpec(BaseModel):
     frontend_package_manager: str = Field(description="如 pnpm")
     backend_package_manager: str = Field(description="如 uv")
 
+    def build_test_commands(self) -> list[str]:
+        """产物验证命令（F005 歧义α：归属 F005 编码补入，默认空列表）。
+
+        F002 既有定义零改动：此方法为 F005 新增，不影响 F002 拓扑。
+        真实命令由 TechStackSpec 具体值决定（如 ["uv","run","pytest"] / ["pnpm","test"]），
+        当前默认返回空列表（首版 stub，后续按栈动态实现）。
+        """
+        return []
+
 
 class TokenUsage(BaseModel):
     """LLM token 用量（F003 定义，F002 先占位默认值）。"""
@@ -58,6 +67,9 @@ class HarnessState(TypedDict):
     verify_result: dict
     test_result: dict
 
+    # 沙箱执行结果（F005 [NEW]，与 verify_result 零交集）
+    sandbox_result: dict
+
     # 反馈循环
     feedback_log: list[dict]
     issue_type: str | None
@@ -96,6 +108,7 @@ def build_initial_state(project_id: str, tech_stack: TechStackSpec, project_name
         worktree_branch="",
         verify_result={},
         test_result={},
+        sandbox_result={},
         feedback_log=[],
         issue_type=None,
         issue_resolved=False,

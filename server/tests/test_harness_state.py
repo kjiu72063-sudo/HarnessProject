@@ -77,6 +77,7 @@ def test_harness_state_typeddict_annotations_cover_state_design_fields():
         "max_iterations",
         "current_iteration",
         "token_usage_total",
+        "sandbox_result",
         "current_stage",
         "next_feature",
         "human_intervention",

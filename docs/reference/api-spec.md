@@ -36,5 +36,8 @@ owner: @K总
 - `GET /api/projects/{id}/preview` — 应用预览
 - `POST /api/projects/{id}/deploy` — 部署
 
+### 沙箱状态 (F005 已实现，server/routes/sandbox.py)
+- `GET /api/sandbox/status` — 沙箱执行器状态查询（只读）。响应: `{ executor_type, docker_available }`；`executor_type` ∈ docker | local | disabled；`docker_available` = (executor_type == "docker")。执行由委派桩内部调用，不经 API 暴露。
+
 ### 健康
 - `GET /api/health` — 健康检查

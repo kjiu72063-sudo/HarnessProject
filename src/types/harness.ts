@@ -2,6 +2,13 @@ export type StageStatus = 'pending' | 'running' | 'passed' | 'failed'
 
 export type HarnessSessionStatus = 'running' | 'interrupted' | 'completed' | 'ended'
 
+export type SandboxExecutionStatus =
+  | 'completed'
+  | 'timeout'
+  | 'cancelled'
+  | 'error'
+  | 'disabled'
+
 export type GateName =
   | 'prototype_confirmation'
   | 'design_approval'
@@ -57,6 +64,15 @@ export interface VerifyResult {
   [key: string]: unknown
 }
 
+export interface SandboxResult {
+  execution_id: string
+  exit_code: number
+  stdout: string
+  stderr: string
+  duration_ms: number
+  status: SandboxExecutionStatus
+}
+
 export interface TestResult {
   pass?: boolean
   summary?: string
@@ -86,6 +102,7 @@ export interface HarnessState {
   worktree_branch: string
   verify_result: VerifyResult
   test_result: TestResult
+  sandbox_result?: SandboxResult  // F005 [NEW]，可选字段向后兼容
   feedback_log: FeedbackEntry[]
   issue_type: string | null
   issue_resolved: boolean

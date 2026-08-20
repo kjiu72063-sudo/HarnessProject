@@ -4,6 +4,7 @@ from typing import Any
 
 from server.constraints import registry
 from server.nodes.runtime import agent_runtime, build_controller_spec
+from server.sandbox import get_executor_type
 from server.schemas.harness_state import HarnessState
 
 
@@ -17,6 +18,7 @@ async def coding_agent(state: HarnessState) -> dict[str, Any]:
         outputs=["code_artifacts", "worktree_branch"],
     )
     controller_spec["inputs"]["constraints"] = constraints
+    controller_spec["inputs"]["sandbox_available"] = get_executor_type() != "disabled"
     result = await agent_runtime.delegate(role="coder", controller_spec=controller_spec)
     return {
         "current_stage": "validation",

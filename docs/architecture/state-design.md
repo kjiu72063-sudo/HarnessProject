@@ -1,4 +1,4 @@
-last_updated: 2026-08-18
+last_updated: 2026-08-20
 status: active
 owner: @K总
 
@@ -46,6 +46,9 @@ class HarnessState(TypedDict):
     # LLM 用量 (F003)
     token_usage_total: TokenUsage  # [NEW] 累计 token 用量
 
+    # 沙箱执行结果 (F005)
+    sandbox_result: dict | None  # [NEW] 代码执行沙箱结果，None=未执行
+
     # 流程控制
     current_stage: str
     next_feature: str | None
@@ -62,6 +65,7 @@ class TechStackSpec(BaseModel):
     llm: str             # 如 "OpenAI"
     frontend_package_manager: str  # 如 "pnpm"
     backend_package_manager: str   # 如 "uv"
+    build_test_commands: list[str] = []  # [NEW] F005 沙箱执行命令，默认空列表（歧义α裁决）
 ```
 
 ## TokenUsage 定义 (F003)
