@@ -122,7 +122,10 @@ harness-journal/
 │   └── 46-f004-closure.md                              F004闭环（复审验收四类行全过+P009环境注记+状态推进passing; 全周期journal 36-46）
 │   ├── 47-f005-design.md                                F005执行沙箱设计Agent产出（250行, 可插拔执行器+三级降级链+五维安全隔离; 4开放问题+2歧义）
 │   ├── 48-f005-design-acceptance.md                     F005设计Draft L1流程验收（四类行全过; 04acfe0平台提交知悉; 开放问题/歧义转呈K总）
-│   └── 49-f005-design-approval-and-coder-delegation.md  F005设计Approved+6项裁决全采纳落地+coder委派三件套（journal编号调整: 50=coder/51=审查）
+│   ├── 49-f005-design-approval-and-coder-delegation.md  F005设计Approved+6项裁决全采纳落地+coder委派三件套（journal编号调整: 50=coder/51=审查）
+│   ├── 50-f005-coder-execution.md                       F005编码完成（coder自写: 7模块+8测试文件+跨文档4份, fbc5d0c 32文件）
+│   ├── 51-（预留）                                       F005 test-reviewer 审查记录（预留禁占）
+│   └── 52-f005-coding-acceptance-and-review-delegation.md F005编码L1流程验收（四类行全过; be3c61e平台提交知悉P011实证7; 3歧义转呈）+审查委派
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）
 │   └── 44-f004-fix-m1-m2-review.md                       F004 M1/M2修复复审（8项全PASS; 歧义α接受重排/β接受; 建议F004推进passing）
 │   └── 40-f004-test-review.md                           F004 L3独立测试审查（12标准10PASS+2FAIL(M1:api-spec字段缺失+枚举名错/M2:convention-mapping缺enabled语义); 设计符合性全PASS; 7歧义裁定/核查; 标准7/8/9内容级独立补测; verify 14/14; 5条建议改进）
