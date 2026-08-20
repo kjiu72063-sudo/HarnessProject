@@ -172,3 +172,4 @@
 [2026-08-20T12:30Z] stage-04 | F004 | fix-review-done | F004 M1/M2修复复审完成(journal 44): 8项标准全PASS(独立取证), 歧义α(字段排序)裁定接受重排/歧义β(AGENTS.md列值)裁定接受, 建议F004推进passing
 [2026-08-20T05:31Z] stage-04 | F004 | passing | F004闭环: 复审报告L1流程验收通过(journal 46, 四类行全过; verify.sh首轮10/14系L1会话uv缺失所致, P009替代构建法重建后等效复跑14/14 PASS非代码缺陷, §5已沉淀)。L3复审结论(journal 44, 引用未复核): 8项全PASS+歧义α/β裁定接受, 无必须修复项。状态推进: feature_list.json F004→passing+current-sprint.md勾选。F004全周期journal 36-46闭环(设计38→编码39→审查40→修复43→复审44)。下一步: Sprint2后续F005优先(先设计后编码先例), 5条建议改进留后续批次统筹。详见journal 46
 [2026-08-20T05:37Z] stage-04 | F005 | design-pending | F005设计Agent委派三件套产出: ControllerSpec(f005-design-writer.md, 9项验收标准)+启动提示词(f005-design-writer-launch.md, journal 47预留)。设计输入已核实: 架构文档sandbox/docker零命中(契约全新), validation Node为委派桩即沙箱消费方, F004单执行器原则需零交集界定, 平台Docker可用性受限为最大设计风险(F003可插拔先例)。待K总派生设计Agent
+[2026-08-20T10:30Z] stage-04 | F005 | design-draft | F005执行沙箱设计Draft产出(250行, journal 47, 4项开放问题待K总裁决)
