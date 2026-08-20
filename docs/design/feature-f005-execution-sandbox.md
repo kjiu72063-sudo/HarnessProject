@@ -1,10 +1,18 @@
 last_updated: 2026-08-20
-status: Draft
+status: Approved
 owner: @K总
 
 # Feature: F005 代码执行沙箱
 
-## Status: Draft
+## Status: Approved
+
+> 2026-08-20 K总设计审批通过（HITL 闸门），4 项开放问题 + 2 项自报歧义全部按 design-writer 建议采纳（journal 49）：
+> ① 跨语言支持范围：首版不含 Java/mvn，排期 F010 协同交付；白名单预留 mvn 匹配位但不启用。feature_list.json F005 描述中 "mvn verify" 同步修正。
+> ② 沙箱镜像策略：方案 B（按 TechStackSpec 动态选择），映射表内置 2 条（python:3.12-slim / node:20-slim），对齐 F003 Provider 注册先例。
+> ③ 并发执行上限：首版不限（单会话场景），并发控制留 F009；单实例隔离由 Docker 资源限制提供。
+> ④ Artifact 检索：首版不支持，沙箱仅执行验证命令；后续可增 `artifact_paths` 字段。
+> 歧义 α `TechStackSpec.build_test_commands()`：归属 F005 编码阶段补入（默认实现返回空列表，Pydantic field 或方法按现有 TechStackSpec 形态落地），F002 既有定义不动。
+> 歧义 β npm 白名单双重出现：有意设计（平台栈用 pnpm），保留——npm 命中危险模式即拒绝，与白名单其他条目不冲突。
 
 ## 目标
 
