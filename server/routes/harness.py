@@ -2,12 +2,13 @@
 
 POST /api/harness/start                     启动 Harness 流程
 GET  /api/harness/{session_id}/state        HarnessState 完整快照
-GET  /api/harness/{session_id}/stream       SSE 事件流（stub 数据）
+GET  /api/harness/{session_id}/stream       SSE 实时状态推送 (F007)
 POST /api/harness/{session_id}/resume       恢复人类闸门决策
 
 会话表为 in-memory（持久化属 F009，本次非目标）。
 """
 
+import asyncio
 import json
 import logging
 import uuid
@@ -18,6 +19,11 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 from langgraph.types import Command
 
+from server.graph.callbacks import (
+    SSECallbackHandler,
+    get_event_queue,
+    remove_event_queue,
+)
 from server.graph.definition import build_harness_graph, make_thread_config
 from server.schemas.harness import (
     HarnessResumeResponse,
@@ -26,6 +32,7 @@ from server.schemas.harness import (
     ResumeRequest,
 )
 from server.schemas.harness_state import TechStackSpec, TokenUsage, build_initial_state
+from server.schemas.sse import HEARTBEAT_INTERVAL_S
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/harness", tags=["harness"])
@@ -74,9 +81,17 @@ def _snapshot(app: Any, session_id: str) -> dict[str, Any]:
     }
 
 
+def _sse_line(event: str, data: Any) -> str:
+    return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
+
+
 @router.post("/start", response_model=HarnessStartResponse)
 async def start_harness(request: HarnessStartRequest) -> HarnessStartResponse:
-    """启动 Harness 流程：构建图 → 初始化 State → 运行至首个人类闸门。"""
+    """启动 Harness 流程：构建图 → 初始化 State → 运行至首个人类闸门。
+
+    歧义β裁决：SSECallbackHandler 在此构造并注入 ainvoke config，
+    与执行同生；首事件 snapshot 兜底补偿 start→首订阅间事件。
+    """
     session_id = uuid.uuid4().hex[:12]
     app = build_harness_graph()
     _sessions[session_id] = app
@@ -85,11 +100,24 @@ async def start_harness(request: HarnessStartRequest) -> HarnessStartResponse:
         tech_stack=request.tech_stack,
         project_name=request.project_id,
     )
+    queue: asyncio.Queue[str] = asyncio.Queue()
+    handler = SSECallbackHandler(session_id, queue)
+    config = make_thread_config(session_id)
+    config["callbacks"] = [handler]
     try:
-        await app.ainvoke(initial_state, config=make_thread_config(session_id))
+        await app.ainvoke(initial_state, config=config)
     except ValueError as exc:
+        remove_event_queue(session_id)
         del _sessions[session_id]
         raise HTTPException(status_code=422, detail=str(exc)) from exc
+    final_status = _session_status(
+        app.get_state(make_thread_config(session_id)).next,
+        app.get_state(make_thread_config(session_id)).values,
+    )
+    if final_status in ("completed", "ended"):
+        await handler.emit_done()
+    else:
+        await handler.emit_status(final_status)
     logger.info("harness session %s started (project=%s)", session_id, request.project_id)
     return HarnessStartResponse(session_id=session_id, status="running")
 
@@ -103,19 +131,41 @@ async def get_harness_state(session_id: str) -> dict[str, Any]:
 
 @router.get("/{session_id}/stream")
 async def stream_harness(session_id: str) -> StreamingResponse:
-    """SSE 事件流：推送当前快照与状态事件（stub 数据，流式框架属 F006/F009）。"""
+    """SSE 实时状态推送 (F007)：方案 B 回调触发，生成器消费 queue。"""
     app = _get_session(session_id)
+    queue = get_event_queue(session_id)
 
     async def event_source() -> AsyncIterator[str]:
-        snapshot = _snapshot(app, session_id)
-        yield f"event: snapshot\ndata: {json.dumps(snapshot, ensure_ascii=False)}\n\n"
-        yield f"event: status\ndata: {json.dumps({'status': snapshot['status']})}\n\n"
-        yield "event: done\ndata: {}\n\n"
+        yield _sse_line("snapshot", _snapshot(app, session_id))
+        if queue is None:
+            yield _sse_line("done", {})
+            return
+        heartbeat_timer = HEARTBEAT_INTERVAL_S
+        try:
+            while True:
+                try:
+                    line = await asyncio.wait_for(queue.get(), timeout=heartbeat_timer)
+                    yield line
+                    heartbeat_timer = HEARTBEAT_INTERVAL_S
+                    if "event: done" in line or "event: error" in line:
+                        break
+                except TimeoutError:
+                    from server.schemas.sse import SSEHeartbeatEvent
+                    hb = SSEHeartbeatEvent().model_dump()
+                    yield _sse_line("heartbeat", hb)
+                    heartbeat_timer = HEARTBEAT_INTERVAL_S
+        except asyncio.CancelledError:
+            remove_event_queue(session_id)
+            raise
 
     return StreamingResponse(
         event_source(),
         media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
+            "Connection": "keep-alive",
+        },
     )
 
 
@@ -131,11 +181,19 @@ async def resume_harness(session_id: str, request: ResumeRequest) -> HarnessResu
             status_code=409,
             detail=f"session not paused at gate '{request.gate}' (next={list(snapshot.next)})",
         )
+    queue = get_event_queue(session_id)
+    config = make_thread_config(session_id)
+    if queue is not None:
+        handler = SSECallbackHandler(session_id, queue)
+        config["callbacks"] = [handler]
     await app.ainvoke(
         Command(resume={"gate_decision": request.decision}),
-        config=make_thread_config(session_id),
+        config=config,
     )
     result = _snapshot(app, session_id)
+    if queue is not None and result["status"] in ("completed", "ended"):
+        from server.schemas.sse import SSEDoneEvent
+        await queue.put(_sse_line("done", SSEDoneEvent().model_dump()))
     logger.info("harness session %s resumed at %s -> %s", session_id, request.gate, result["status"])
     return HarnessResumeResponse(
         status=result["status"],

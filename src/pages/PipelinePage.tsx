@@ -1,15 +1,13 @@
 import { Activity, CheckCircle2, XCircle } from 'lucide-react'
-import { useCallback, useState } from 'react'
-import { getHarnessState, resumeHarness } from '../api/harness'
+import { useState } from 'react'
+import { resumeHarness } from '../api/harness'
 import type { PageId } from '../components/Sidebar'
 import { DAGView } from '../components/DAGView'
 import { LogPanel } from '../components/LogPanel'
 import { StatusBadge } from '../components/StatusBadge'
-import { usePolling } from '../hooks/usePolling'
+import { useSSE } from '../hooks/useSSE'
 import { buildLogEntries, ENTROPY_NODE, FLOW_NODES, GATE_TITLES, RESUMABLE_GATES } from '../lib/stages'
 import type { HarnessStateSnapshot } from '../types/harness'
-
-const POLL_INTERVAL_MS = 2000
 
 const STAGE_TITLE_OVERRIDES: Record<string, string> = {
   completed: '已完成',
@@ -22,12 +20,7 @@ interface PipelinePageProps {
 }
 
 export function PipelinePage({ sessionId, onNavigate }: PipelinePageProps) {
-  const fetcher = useCallback(() => getHarnessState(sessionId ?? ''), [sessionId])
-  const { data, error, loading, refresh } = usePolling<HarnessStateSnapshot>(
-    fetcher,
-    POLL_INTERVAL_MS,
-    sessionId !== null,
-  )
+  const { data, error, connected } = useSSE(sessionId)
 
   if (!sessionId) {
     return <PipelineEmpty onNavigate={onNavigate} />
@@ -46,7 +39,7 @@ export function PipelinePage({ sessionId, onNavigate }: PipelinePageProps) {
             <Activity size={14} className="text-app-secondary" />
             <h2 className="text-sm font-semibold text-app-text">流程 DAG · 8 阶段</h2>
             {data && <StatusBadge status={mapSessionStatus(data.status)} />}
-            {loading && <span className="ml-auto text-[11px] text-app-muted">轮询中 · 2s</span>}
+            {connected && <span className="ml-auto text-[11px] text-app-muted">SSE 实时</span>}
           </div>
           <div className="min-h-0 flex-1 p-3">
             <DAGView snapshot={data} />
@@ -58,7 +51,7 @@ export function PipelinePage({ sessionId, onNavigate }: PipelinePageProps) {
             <DecisionPanel
               snapshot={data}
               sessionId={sessionId}
-              onDecisionHandled={refresh}
+              onDecisionHandled={() => {}}
             />
           )}
           <div className="min-h-0 flex-1">
@@ -69,7 +62,7 @@ export function PipelinePage({ sessionId, onNavigate }: PipelinePageProps) {
 
       {error && (
         <p className="rounded-lg border border-status-failed/40 bg-status-failed/10 px-3.5 py-2 text-xs text-status-failed">
-          状态拉取失败: {error}
+          SSE 连接失败: {error}
         </p>
       )}
     </div>

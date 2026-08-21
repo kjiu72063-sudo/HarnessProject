@@ -70,12 +70,16 @@ def test_state_unknown_session_returns_404():
 
 def test_stream_pushes_sse_events():
     session_id = start_session("p-sse")
+    for gate in ["prototype_confirmation", "design_approval", "acceptance_check"]:
+        client.post(
+            f"/api/harness/{session_id}/resume",
+            json={"gate": gate, "decision": True},
+        )
     with client.stream("GET", f"/api/harness/{session_id}/stream") as response:
         assert response.status_code == 200
         assert response.headers["content-type"].startswith("text/event-stream")
         body = "".join(response.iter_text())
     assert "event: snapshot" in body
-    assert "event: status" in body
     assert "event: done" in body
 
 

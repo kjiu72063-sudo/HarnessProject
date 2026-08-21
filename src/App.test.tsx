@@ -4,9 +4,33 @@ import { App } from './App'
 
 const fetchMock = vi.fn()
 
+const esInstances: InstanceType<typeof EventSource>[] = []
+
+class MockES {
+  url = ''
+  readyState = 1
+  private listeners: Record<string, EventListener[]> = {}
+  onerror: ((ev: Event) => void) | null = null
+  constructor(url: string) {
+    this.url = url
+    esInstances.push(this as unknown as InstanceType<typeof EventSource>)
+  }
+  addEventListener(type: string, listener: EventListener) {
+    if (!this.listeners[type]) this.listeners[type] = []
+    this.listeners[type].push(listener)
+  }
+  emit(type: string, data: unknown) {
+    const event = new MessageEvent(type, { data: JSON.stringify(data) })
+    for (const listener of this.listeners[type] ?? []) listener(event)
+  }
+  close() { this.readyState = 2 }
+}
+
 beforeEach(() => {
   window.localStorage.clear()
+  esInstances.length = 0
   vi.stubGlobal('fetch', fetchMock)
+  vi.stubGlobal('EventSource', MockES as unknown as typeof EventSource)
 })
 
 afterEach(() => {
@@ -65,12 +89,28 @@ describe('App 会话流转', () => {
     setInput(/需求描述/, '输入一个todo应用')
     fireEvent.click(screen.getByRole('button', { name: /启动 Harness 流程/ }))
 
-    expect(await screen.findByText('编码 Agent')).toBeInTheDocument()
+    expect(await screen.findByText('流程 DAG · 8 阶段')).toBeInTheDocument()
     expect(fetchMock.mock.calls[0]?.[0]).toBe('/api/harness/start')
   })
 })
 
 describe('App 会话持久化', () => {
+  const persistedSnapshot = {
+    session_id: 'sess-persist',
+    status: 'running' as const,
+    next: ['information_layer'],
+    state: {
+      project_id: 'my-blog', project_name: 'my-blog',
+      tech_stack: { frontend: 'React', backend: 'FastAPI', database: 'PostgreSQL', llm: 'ChatGPT', frontend_package_manager: 'pnpm', backend_package_manager: 'uv' },
+      agents_md: '', rules: [], boundaries: '', progress: '', feature_list: [], git_log: '',
+      design_docs: [], code_artifacts: [], worktree_branch: '', verify_result: {}, test_result: {},
+      feedback_log: [], issue_type: null, issue_resolved: false,
+      max_iterations: 3, current_iteration: 1,
+      token_usage_total: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
+      current_stage: 'information_layer', next_feature: null, human_intervention: false, gate_decision: false,
+    },
+  }
+
   it('restores persisted session from localStorage on remount', async () => {
     fetchMock.mockResolvedValue(
       jsonResponse({ session_id: 'sess-persist', status: 'running', next: ['information_layer'] }),
@@ -82,30 +122,13 @@ describe('App 会话持久化', () => {
     expect(await screen.findByText('流程 DAG · 8 阶段')).toBeInTheDocument()
     unmount()
 
-    fetchMock.mockResolvedValue(
-      jsonResponse({
-        session_id: 'sess-persist',
-        status: 'running',
-        next: ['information_layer'],
-        state: {
-          project_id: 'my-blog',
-          max_iterations: 3,
-          current_iteration: 1,
-          messages: [],
-          design_docs: [],
-          current_stage: 'information_layer',
-          token_usage: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
-          token_usage_total: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
-          next_feature: '',
-          test_result: null,
-          verify_result: null,
-          code_artifacts: [],
-          error: null,
-        },
-      }),
-    )
+    esInstances.length = 0
     render(<App />)
     fireEvent.click(screen.getByText('流程监控'))
+
+    const es = esInstances.find((e) => (e as unknown as MockES).url.includes('sess-persist'))
+    expect(es).toBeDefined()
+    ;(es as unknown as MockES).emit('snapshot', persistedSnapshot)
     expect(await screen.findByText('需求与架构规划')).toBeInTheDocument()
     expect(screen.getByText('会话 sess-per')).toBeInTheDocument()
   })
