@@ -134,7 +134,10 @@ harness-journal/
 │   ├── 58-f007-design-delegation.md                     F007 SSE推送设计委派（三件套; 59=design-writer预留; stub端点/轮询现状/无F009范围界定入Spec）
 │   ├── 59-f007-design-draft.md                          F007设计Draft完成（coder自写: 8事件类型/方案B回调/5场景断线语义, 2e2f529恰3文件, 3开放问题+2歧义）
 │   ├── 60-f007-design-acceptance.md                      F007设计Draft L1流程验收（四类行全过; 3开放问题+2歧义转呈K总）
-│   └── 61-f007-design-approval-and-coder-delegation.md  F007设计Approved+5项裁决收口（α替换F007/βstart注入）+coder委派三件套（编号调整: 62=coder/63=审查）
+│   ├── 61-f007-design-approval-and-coder-delegation.md  F007设计Approved+5项裁决收口（α替换F007/βstart注入）+coder委派三件套（编号调整: 62=coder/63=审查）
+│   ├── 62-f007-coder-execution.md                       F007编码完成（coder自写: 8事件+方案B回调+stream真实化+useSSE改造, 71ac96a 15文件+848/-110）
+│   ├── 63-（预留）                                       F007 test-reviewer 审查记录（预留禁占）
+│   └── 64-f007-coding-acceptance-and-review-delegation.md F007编码L1流程验收（四类行全过, 环境完好）+审查委派
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）
 │   └── 44-f004-fix-m1-m2-review.md                       F004 M1/M2修复复审（8项全PASS; 歧义α接受重排/β接受; 建议F004推进passing）
