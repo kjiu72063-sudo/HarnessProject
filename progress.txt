@@ -183,3 +183,4 @@
 [2026-08-20T18:10Z] stage-04 | F005 | fix-accepted | F005 M1/M2/M3修复L1流程验收通过(journal 56, 四类行全过: 0eb3326恰6文件+91/-14与自报一致/禁改清单零命中/journal 54+progress写入/verify.sh复跑14 PASS——首轮10/14系uv二进制单独被清除P009变体新实证, .venv完好仅重装uv即过)。4流程疑点记录(README索引范围/时间戳倒挂/自报歧义未列明/M2形态关系)入复审Spec核查。复审委派三件套产出(journal 55预留)。待K总派生复审会话
 [2026-08-20T19:00Z] stage-04 | F005 | re-review-done | M1/M2/M3修复复审8项全PASS+歧义可接受+0M, 建议推进passing(journal 55)
 [2026-08-20T19:40Z] stage-04 | F005 | passing | F005代码执行沙箱闭环(复审journal 55 L1流程验收通过+8项全PASS+0M → journal 57状态推进: feature_list F005→passing, current-sprint勾选)。全周期journal 47-57: 设计→6裁决Approved→编码fbc5d0c→L3审查M1/M2/M3→修复0eb3326→复审8/8。N1-N4共4条N级留后续统筹。Sprint2后续: F007/F012/F013(均需先派设计Agent)
+[2026-08-20T20:15Z] stage-04 | F007 | design-delegated | F007 SSE实时推送设计委派三件套产出(journal 58, 8项验收标准; 关键输入: F002 stub端点L104待真实化/PipelinePage轮询待改EventSource/graph零事件出口/无F009断线回放范围需显式界定)。journal 59=design-writer预留。待K总派生设计会话

@@ -130,7 +130,8 @@ harness-journal/
 │   ├── 54-f005-fix-m1-m3.md                              F005 M1/M2/M3修复完成（coder自写: exec+shlex/文档对齐/timeout契约, 0eb3326 6文件）
 │   ├── 55-f005-fix-m1-m3-re-review.md                   F005 M1/M2/M3修复L3复审（8项全PASS+歧义可接受+0M, 建议推进passing）
 │   ├── 56-f005-fix-acceptance-and-review-delegation.md  F005修复L1流程验收（四类行全过; 44d6d60平台提交知悉P011实证8; P009变体uv单独清除; 4疑点记录）+复审委派
-│   └── 57-f005-closure.md                               F005闭环passing（journal 47-57全周期; N1-N4留统筹; Sprint2后续F007/F012/F013）
+│   ├── 57-f005-closure.md                               F005闭环passing（journal 47-57全周期; N1-N4留统筹; Sprint2后续F007/F012/F013）
+│   └── 58-f007-design-delegation.md                     F007 SSE推送设计委派（三件套; 59=design-writer预留; stub端点/轮询现状/无F009范围界定入Spec）
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）
 │   └── 44-f004-fix-m1-m2-review.md                       F004 M1/M2修复复审（8项全PASS; 歧义α接受重排/β接受; 建议F004推进passing）
