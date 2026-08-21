@@ -153,7 +153,8 @@ harness-journal/
 │   ├── 77-f012-closure.md                               F012闭环passing（journal 66-77全周期含一次修复循环; N池累计15条; Sprint2仅余F013）
 │   ├── 78-f013-design-delegation.md                     F013会话列表端点设计委派（三件套; 79=design-writer预留; stub处置/localStorage切换/分页范围入Spec）
 │   ├── 79-f013-design-draft.md                          F013设计Draft完成（coder自写: 6字段列表端点/_session_meta方案A/stub删除推荐, d61a9b4恰3文件+280行, 4开放问题+1歧义）
-│   └── 80-f013-design-acceptance.md                      F013设计Draft L1流程验收（四类行全过; P009新形态: 浏览器版本目录漂移1161/1234, 重下载后15/15; N池+1候选）+5项裁决转呈K总
+│   ├── 80-f013-design-acceptance.md                      F013设计Draft L1流程验收（四类行全过; P009新形态: 浏览器版本目录漂移1161/1234, 重下载后15/15; N池+1候选）+5项裁决转呈K总
+│   └── 81-f013-design-approval-and-coder-delegation.md  F013设计Approved+5项裁决（stub删/ls移除/无分页/_session_meta/方案A）+coder委派三件套（82=coder/83=审查）
 │   ├── 70-f012-coder-execution.md                       F012编码完成（6新增+7修改+325/-3行, 9场景4spec, verify.sh 15/15 PASS #15 skip+WARN P009降级）
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）

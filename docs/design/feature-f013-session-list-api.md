@@ -4,7 +4,9 @@ owner: @K总
 
 # Feature: F013 API 会话列表端点
 
-## Status: Draft
+## Status: Approved
+
+> **K总裁决注记（2026-08-21，journal 81）**：5 项全部按 design-writer 建议采纳——①agent_sessions.py stub **删除**（方案 A，死代码无消费方）②localStorage 兜底**完全移除**（删 recentSessions.ts + addRecentSession 调用，API 消费后无存在意义）③首版**不实现**分页/过滤（会话数 < 50，前端仅取 6 条）④started_at 走 **_session_meta 存储层增量**（排序保证 + formatTime 依赖）⑤歧义 α 裁定**方案 A 独立 dict**（现有 4 端点零改动）。
 
 ## 目标
 
