@@ -184,3 +184,4 @@
 [2026-08-20T19:00Z] stage-04 | F005 | re-review-done | M1/M2/M3修复复审8项全PASS+歧义可接受+0M, 建议推进passing(journal 55)
 [2026-08-20T19:40Z] stage-04 | F005 | passing | F005代码执行沙箱闭环(复审journal 55 L1流程验收通过+8项全PASS+0M → journal 57状态推进: feature_list F005→passing, current-sprint勾选)。全周期journal 47-57: 设计→6裁决Approved→编码fbc5d0c→L3审查M1/M2/M3→修复0eb3326→复审8/8。N1-N4共4条N级留后续统筹。Sprint2后续: F007/F012/F013(均需先派设计Agent)
 [2026-08-20T20:15Z] stage-04 | F007 | design-delegated | F007 SSE实时推送设计委派三件套产出(journal 58, 8项验收标准; 关键输入: F002 stub端点L104待真实化/PipelinePage轮询待改EventSource/graph零事件出口/无F009断线回放范围需显式界定)。journal 59=design-writer预留。待K总派生设计会话
+[2026-08-20T14:30Z] stage-04 | F007-design | done | F007 SSE实时状态推送设计Draft完成: 8项验收标准全覆盖, 方案B(自定义回调)选定, Status: Draft, 开放问题3项+歧义2项待K总裁决
