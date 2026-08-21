@@ -4,7 +4,9 @@ owner: @K总
 
 # Feature: F012 Playwright DOM级端到端测试
 
-## Status: Draft
+## Status: Approved
+
+> **K总裁决（2026-08-20，journal 69）：4 项开放问题全部按 design-writer 建议采纳**——①verify.sh 集成形态=方案 C（条件第 15 项：有浏览器→执行，无→skip+WARN）②浏览器范围=仅 Chromium ③E2E 后端=真实后端（完整 API 闭环）④Playwright 纳入技术栈基线（编码阶段同步 AGENTS.md）。
 
 ## 目标
 

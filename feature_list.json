@@ -107,8 +107,8 @@
     "id": "F012",
     "name": "Playwright DOM级端到端测试",
     "priority": 2.5,
-    "status": "todo",
-    "description": "S1裁决落地(Task5审查journal 24 S1): Playwright/Cypress覆盖4页面DOM级交互, Sprint2与F004排期统筹",
+    "status": "approved",
+    "description": "S1裁决落地(Task5审查journal 24 S1): Playwright覆盖4页面DOM级交互。设计Approved 2026-08-20(journal 69): 方案C条件第15项/仅Chromium/真实后端/Playwright纳技术栈基线",
     "dependencies": ["F006"]
   },
   {
