@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Harness Platform - Verify 闸门
 # 等价于 PDF 中的 `mvn -B clean verify` 全链路
-# 14 项: 类型检查 + Lint + CSS Lint + 单元测试 + 分层依赖 + 覆盖率 ≥ 80% + 文档新鲜度 + 文件大小 + 技术栈基线一致性 + Git 追踪 + 端口一致性
+# 15 项: 类型检查 + Lint + CSS Lint + 单元测试 + 分层依赖 + 覆盖率 ≥ 80% + 文档新鲜度 + 文件大小 + 技术栈基线一致性 + Git 追踪 + 端口一致性 + Playwright E2E（条件执行）
 # 任何一项失败即整体失败，阻止代码合并
 
 set -euo pipefail
@@ -249,6 +249,42 @@ check_port_consistency() {
   return 0
 }
 run_check "Port Consistency (.preview vs vite.config.ts)" "check_port_consistency"
+
+# ---------- Check 15: Playwright E2E（条件执行：方案 C） ----------
+check_e2e() {
+  if ! command -v npx >/dev/null 2>&1; then
+    echo "  ⚠️ E2E skipped: npx not available"
+    return 0
+  fi
+
+  local has_chromium=0
+
+  if [ "${PLAYWRIGHT_BROWSERS_PATH:-}" = "0" ]; then
+    if command -v chromium >/dev/null 2>&1 || command -v chromium-browser >/dev/null 2>&1 || command -v google-chrome >/dev/null 2>&1; then
+      has_chromium=1
+    fi
+  else
+    local cache_dir="${PLAYWRIGHT_BROWSERS_PATH:-$HOME/.cache/ms-playwright}"
+    if [ -d "$cache_dir" ]; then
+      local chromium_count shell_count
+      chromium_count=$(find "$cache_dir" -maxdepth 2 -name 'chrome' -path '*/chrome-linux/*' 2>/dev/null | wc -l)
+      shell_count=$(find "$cache_dir" -maxdepth 3 -name 'chrome-headless-shell' -path '*/chrome-headless-shell-linux64/*' 2>/dev/null | wc -l)
+      if [ "$chromium_count" -gt 0 ] && [ "$shell_count" -gt 0 ]; then
+        has_chromium=1
+      fi
+    fi
+  fi
+
+  if [ "$has_chromium" -eq 0 ]; then
+    echo "  ⚠️ E2E skipped: no browser binary (Chromium not found)"
+    echo "  💡 Install: pnpm exec playwright install chromium"
+    return 0
+  fi
+
+  echo "  Browser detected, running Playwright E2E..."
+  pnpm test:e2e
+}
+run_check "Playwright E2E (conditional: skip+WARN if no browser)" "check_e2e"
 
 echo ""
 echo "=========================================="

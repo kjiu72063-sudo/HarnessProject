@@ -42,6 +42,7 @@ PDF 原文: "经验法则:如果一条规则在 Code Review 中被提过 3 次�
 | 沙箱白名单校验 | 命令必须在 ALLOWED_COMMANDS 且不在 DANGEROUS_PATTERNS | server/sandbox/validate_command() → ruff/lint 不覆盖（运行时校验） | ⚠️ 人工审查 | F005 |
 | 沙箱与 F004 零交集 | 沙箱不执行 scripts/verify.sh，verify.sh 不入白名单 | mvn 匹配位注释禁用 + 白名单无 verify.sh | ⚠️ 人工审查 | F005裁决① |
 | 沙箱 Docker 不可用时降级 | Docker 不可用 → LocalExecutor → disabled | probe_docker() 三级退化 | ⚠️ 人工审查 | F005 |
+| E2E 测试环境探测降级 | 无浏览器 skip+WARN | verify.sh #15 check_e2e | ⚠️ 人工审查 | F012 |
 
 ## 审计闭环校验（根因修复）
 

@@ -143,6 +143,7 @@ harness-journal/
 │   ├── 67-f012-design-draft.md                          F012设计Draft完成（coder自写: 9场景/方案C条件闸门/三级网络受限方案, ecdc9d2恰3文件+273行, 4开放问题）
 │   ├── 68-f012-design-acceptance.md                      F012设计Draft L1流程验收（四类行全过; 自报哈希笔误ecdc9d2记录; 82cc0af平台提交知悉P011实证10; 4开放问题转呈K总）
 │   └── 69-f012-design-approval-and-coder-delegation.md  F012设计Approved+4项裁决全采纳（方案C/仅Chromium/真实后端/纳基线）+coder委派三件套（70=coder/71=审查）
+│   ├── 70-f012-coder-execution.md                       F012编码完成（6新增+7修改+325/-3行, 9场景4spec, verify.sh 15/15 PASS #15 skip+WARN P009降级）
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）
 │   └── 44-f004-fix-m1-m2-review.md                       F004 M1/M2修复复审（8项全PASS; 歧义α接受重排/β接受; 建议F004推进passing）

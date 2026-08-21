@@ -37,5 +37,7 @@ export default defineConfig([
     'server/**',
     '.dependency-cruiser.cjs',
     'vite.config.ts',
+    'tests/**',
+    'playwright.config.ts',
   ]),
 ]);

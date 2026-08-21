@@ -35,6 +35,10 @@ storybook-static
 .ruff_cache/
 .tox/
 
+# E2E test artifacts
+playwright-report/
+test-results/
+
 # Go tooling
 bin/
 *.test
