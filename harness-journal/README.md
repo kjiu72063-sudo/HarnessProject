@@ -150,7 +150,8 @@ harness-journal/
 │   ├── 74-f012-fix-m1-m2.md                              F012 M1/M2修复完成（coder自写: 检测三修正+选择器限作用域, 221cef3恰6文件+40/-47; journal经4e8208f平台提交落盘P011实证13）
 │   ├── 75-f012-fix-m1-m2-review.md                       F012 M1/M2修复复审（8/8 PASS+α可接受+0M+1N, 建议推进passing）
 │   ├── 76-f012-fix-acceptance-and-review-delegation.md  F012修复L1流程验收（四类行全过; 4e8208f复刻同名message知悉P011实证13）+复审委派
-│   └── 77-f012-closure.md                               F012闭环passing（journal 66-77全周期含一次修复循环; N池累计15条; Sprint2仅余F013）
+│   ├── 77-f012-closure.md                               F012闭环passing（journal 66-77全周期含一次修复循环; N池累计15条; Sprint2仅余F013）
+│   └── 78-f013-design-delegation.md                     F013会话列表端点设计委派（三件套; 79=design-writer预留; stub处置/localStorage切换/分页范围入Spec）
 │   ├── 70-f012-coder-execution.md                       F012编码完成（6新增+7修改+325/-3行, 9场景4spec, verify.sh 15/15 PASS #15 skip+WARN P009降级）
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）
