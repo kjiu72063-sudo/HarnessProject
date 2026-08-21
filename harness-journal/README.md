@@ -139,7 +139,9 @@ harness-journal/
 │   ├── 63-f007-test-review.md                     F007 L3独立测试审查（12标准全PASS/0M/2N/0歧义, 建议推进passing）
 │   ├── 64-f007-coding-acceptance-and-review-delegation.md F007编码L1流程验收（四类行全过, 环境完好）+审查委派
 │   ├── 65-f007-closure.md                               F007闭环passing（journal 58-65全周期; N池累计11条留统筹; Sprint2余F012/F013）
-│   └── 66-f012-design-delegation.md                     F012 Playwright E2E设计委派（三件套; 67=design-writer预留; 零现状净增量/闸门集成形态/网络受限降级入Spec）
+│   ├── 66-f012-design-delegation.md                     F012 Playwright E2E设计委派（三件套; 67=design-writer预留; 零现状净增量/闸门集成形态/网络受限降级入Spec）
+│   ├── 67-f012-design-draft.md                          F012设计Draft完成（coder自写: 9场景/方案C条件闸门/三级网络受限方案, ecdc9d2恰3文件+273行, 4开放问题）
+│   └── 68-f012-design-acceptance.md                      F012设计Draft L1流程验收（四类行全过; 自报哈希笔误ecdc9d2记录; 82cc0af平台提交知悉P011实证10; 4开放问题转呈K总）
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）
 │   └── 44-f004-fix-m1-m2-review.md                       F004 M1/M2修复复审（8项全PASS; 歧义α接受重排/β接受; 建议F004推进passing）

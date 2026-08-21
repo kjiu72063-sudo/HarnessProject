@@ -193,3 +193,4 @@
 [2026-08-20T23:15Z] stage-04 | F007 | passing | F007 SSE实时状态推送闭环(审查journal 63 L1流程验收通过+12/12+0M → journal 65状态推进: feature_list F007→passing, current-sprint勾选)。全周期journal 58-65共8号, 无修复循环一次编码即过。N池累计11条(journal40的5条+F005的4条+F007的2条)留统筹。Sprint2余F012/F013(均需先派设计Agent)
 [2026-08-20T23:40Z] stage-04 | F012 | design-delegated | F012 Playwright E2E设计委派三件套产出(journal 66, 8项验收标准; 关键输入: 零现状净增量/4页面确认/verify.sh闸门集成形态为核心开放问题/P009网络受限下浏览器下载须有镜像+预装探测+skip降级方案)。journal 67=design-writer预留。待K总派生设计会话
 [2026-08-20T23:55Z] stage-04 | F012 | design-draft | F012 Playwright E2E设计Draft产出(~210行, journal 67, 4项开放问题待K总裁决: verify.sh集成形态/浏览器范围/真实后端vs route mock/Playwright纳技术栈基线)
+[2026-08-21T00:10Z] stage-04 | F012 | design-review-pending | F012设计Draft L1流程验收通过(journal 68, 四类行全过: ecdc9d2恰3文件+273行——自报哈希edcd9d2系笔误记录不阻断/verify.sh复跑14 PASS环境完好/82cc0af平台提交知悉P011实证10)。4开放问题(verify.sh集成形态方案C推荐/浏览器范围/真实后端vs mock/Playwright纳基线)转呈K总裁决。待K总设计审批HITL闸门
