@@ -146,7 +146,10 @@ harness-journal/
 │   ├── 70-f012-coder-execution.md                       F012编码完成（coder自写: config+4spec+9场景+第15项闸门+跨文档, a73c7dd 18文件+419/-3）
 │   ├── 71-f012-test-review.md                            F012 L3独立测试审查（10/12 PASS+2 FAIL: M1 verify.sh检测逻辑三处bug/M2 E2E选择器strict mode violation 10/12; 3N; E2E真实执行10fail/1skip/1pass; 建议修复后重审）
 │   ├── 72-f012-coding-acceptance-and-review-delegation.md F012编码L1流程验收（四类行全过, 15/15含#15 skip预期; P011实证11）+审查委派
-│   └── 73-f012-review-acceptance-and-fix-delegation.md  F012审查L1流程验收（四类行全过; b4db473平台提交复刻同名message知悉P011实证12; journal72认知更正段）+M1/M2修复委派（74=coder/75=复审）
+│   ├── 73-f012-review-acceptance-and-fix-delegation.md  F012审查L1流程验收（四类行全过; b4db473平台提交复刻同名message知悉P011实证12; journal72认知更正段）+M1/M2修复委派（74=coder/75=复审）
+│   ├── 74-f012-fix-m1-m2.md                              F012 M1/M2修复完成（coder自写: 检测三修正+选择器限作用域, 221cef3恰6文件+40/-47; journal经4e8208f平台提交落盘P011实证13）
+│   ├── 75-（预留）                                       F012 M1/M2修复复审记录（预留禁占）
+│   └── 76-f012-fix-acceptance-and-review-delegation.md  F012修复L1流程验收（四类行全过; 4e8208f复刻同名message知悉P011实证13）+复审委派
 │   ├── 70-f012-coder-execution.md                       F012编码完成（6新增+7修改+325/-3行, 9场景4spec, verify.sh 15/15 PASS #15 skip+WARN P009降级）
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）
