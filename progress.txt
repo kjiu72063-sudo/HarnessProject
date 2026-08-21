@@ -191,3 +191,4 @@
 [2026-08-20T22:30Z] stage-04 | F007 | coding-review-pending | F007编码L1流程验收通过(journal 64, 四类行全过: 71ac96a恰15文件+848/-110与自报一致/禁改清单零命中/journal 62+progress写入/verify.sh复跑14 PASS环境完好)。test-reviewer委派三件套产出(journal 63预留, 重点=断言空洞警惕+单订阅语义)。待K总派生审查会话
 [2026-08-20T22:30Z] stage-04 | F007 | test-review-done | L3独立测试审查(71ac96a): 12标准全PASS/0M/2N(N1:usePolling死代码/N2:二次订阅防御)/0歧义/verify14-14/92.98%覆盖率/uv.lock零漂移, 建议推进passing
 [2026-08-20T23:15Z] stage-04 | F007 | passing | F007 SSE实时状态推送闭环(审查journal 63 L1流程验收通过+12/12+0M → journal 65状态推进: feature_list F007→passing, current-sprint勾选)。全周期journal 58-65共8号, 无修复循环一次编码即过。N池累计11条(journal40的5条+F005的4条+F007的2条)留统筹。Sprint2余F012/F013(均需先派设计Agent)
+[2026-08-20T23:40Z] stage-04 | F012 | design-delegated | F012 Playwright E2E设计委派三件套产出(journal 66, 8项验收标准; 关键输入: 零现状净增量/4页面确认/verify.sh闸门集成形态为核心开放问题/P009网络受限下浏览器下载须有镜像+预装探测+skip降级方案)。journal 67=design-writer预留。待K总派生设计会话
