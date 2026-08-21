@@ -144,7 +144,7 @@ harness-journal/
 │   ├── 68-f012-design-acceptance.md                      F012设计Draft L1流程验收（四类行全过; 自报哈希笔误ecdc9d2记录; 82cc0af平台提交知悉P011实证10; 4开放问题转呈K总）
 │   ├── 69-f012-design-approval-and-coder-delegation.md  F012设计Approved+4项裁决全采纳（方案C/仅Chromium/真实后端/纳基线）+coder委派三件套（70=coder/71=审查）
 │   ├── 70-f012-coder-execution.md                       F012编码完成（coder自写: config+4spec+9场景+第15项闸门+跨文档, a73c7dd 18文件+419/-3）
-│   ├── 71-（预留）                                       F012 test-reviewer 审查记录（预留禁占）
+│   ├── 71-f012-test-review.md                            F012 L3独立测试审查（10/12 PASS+2 FAIL: M1 verify.sh检测逻辑三处bug/M2 E2E选择器strict mode violation 10/12; 3N; E2E真实执行10fail/1skip/1pass; 建议修复后重审）
 │   └── 72-f012-coding-acceptance-and-review-delegation.md F012编码L1流程验收（四类行全过, 15/15含#15 skip预期; P011实证11）+审查委派
 │   ├── 70-f012-coder-execution.md                       F012编码完成（6新增+7修改+325/-3行, 9场景4spec, verify.sh 15/15 PASS #15 skip+WARN P009降级）
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
