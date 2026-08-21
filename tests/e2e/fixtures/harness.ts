@@ -24,7 +24,7 @@ export const test = base.extend<HarnessFixtures>({
 
 export async function startHarnessSession(page: import('@playwright/test').Page): Promise<string> {
   await page.fill('input[placeholder="my-app"]', `e2e-project-${Date.now()}`)
-  await page.fill('textarea[placeholder*="需求"]', 'E2E test: 构建一个简单的计数器应用')
+  await page.fill('textarea[placeholder*="描述你想构建"]', 'E2E test: 构建一个简单的计数器应用')
   const submitBtn = page.getByRole('button', { name: /启动 Harness/ })
   await submitBtn.click()
   const url = page.url()

@@ -1,11 +1,12 @@
-import { test, expect } from './fixtures/harness'
+import { test, expect, startHarnessSession } from './fixtures/harness'
 
 test.describe('ConstraintsPage', () => {
   test('C1: 规则列表渲染 → rule_type/enabled/enforcer 可见', async ({ page, navigateTo }) => {
     await page.goto('/')
     await navigateTo('constraints')
-    await expect(page.getByText('约束配置')).toBeVisible()
-    const table = page.locator('table')
+    await expect(page.getByRole('heading', { name: '约束配置' })).toBeVisible()
+    const main = page.locator('main')
+    const table = main.locator('table').first()
     await expect(table).toBeVisible()
     const rows = table.locator('tbody tr')
     await expect(rows.first()).toBeVisible({ timeout: 5_000 })
@@ -18,25 +19,19 @@ test.describe('ConstraintsPage', () => {
     await expect(toggle).toBeVisible({ timeout: 5_000 })
     const before = await toggle.getAttribute('aria-checked')
     await toggle.click()
-    const after = await toggle.getAttribute('aria-checked')
-    expect(after).not.toBe(before)
+    await expect(toggle).toHaveAttribute('aria-checked', before === 'true' ? 'false' : 'true', { timeout: 5_000 })
   })
 
   test('C3: 新增手动规则 → source=manual', async ({ page, navigateTo }) => {
     await page.goto('/')
-    await page.evaluate(() => {
-      localStorage.setItem(
-        'harness-recent-sessions',
-        JSON.stringify([
-          { project_id: 'e2e-constraints', session_id: 'sess-constraints-001', started_at: Date.now() },
-        ]),
-      )
-    })
-    await page.reload()
+    await startHarnessSession(page)
     await navigateTo('constraints')
-    await page.getByRole('button', { name: /添加自定义规则/ }).click()
+    const main = page.locator('main')
+    await main.getByRole('button', { name: /添加自定义规则/ }).click()
     await page.fill('input[placeholder="标题（必填）"]', 'E2E 手动规则')
-    await page.getByRole('button', { name: '提交' }).click()
-    await expect(page.getByText('manual')).toBeVisible({ timeout: 5_000 })
+    const submitBtn = page.getByRole('button', { name: '提交' })
+    await expect(submitBtn).toBeEnabled({ timeout: 5_000 })
+    await submitBtn.click()
+    await expect(main.getByText('manual').first()).toBeVisible({ timeout: 5_000 })
   })
 })

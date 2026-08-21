@@ -267,8 +267,8 @@ check_e2e() {
     local cache_dir="${PLAYWRIGHT_BROWSERS_PATH:-$HOME/.cache/ms-playwright}"
     if [ -d "$cache_dir" ]; then
       local chromium_count shell_count
-      chromium_count=$(find "$cache_dir" -maxdepth 2 -name 'chrome' -path '*/chrome-linux/*' 2>/dev/null | wc -l)
-      shell_count=$(find "$cache_dir" -maxdepth 3 -name 'chrome-headless-shell' -path '*/chrome-headless-shell-linux64/*' 2>/dev/null | wc -l)
+      chromium_count=$(find "$cache_dir" -maxdepth 3 -name 'chrome' \( -path '*/chrome-linux64/*' -o -path '*/chrome-linux/*' \) 2>/dev/null | wc -l)
+      shell_count=$(find "$cache_dir" -maxdepth 3 \( -name 'headless_shell' -o -name 'chrome-headless-shell' \) \( -path '*/chrome-headless-shell-linux64/*' -o -path '*/chrome-linux/*' \) 2>/dev/null | wc -l)
       if [ "$chromium_count" -gt 0 ] && [ "$shell_count" -gt 0 ]; then
         has_chromium=1
       fi
