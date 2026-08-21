@@ -51,8 +51,8 @@
     "id": "F007",
     "name": "SSE 实时状态推送",
     "priority": 7,
-    "status": "coder-done",
-    "description": "LangGraph Node 执行回调推送到前端。设计Approved 2026-08-20(journal 61): 8事件类型/方案B自定义回调/start_harness构造注入β/轮询回退不保留/首版单订阅/docstring替换F007。编码完成(journal 62): 12项标准全过",
+    "status": "passing",
+    "description": "LangGraph Node 执行回调推送到前端。闭环2026-08-20(journal 65): 设计5裁决Approved(journal 61)→编码71ac96a(journal 62)→L3审查12/12+0M(journal 63)。8事件类型/方案B自定义回调/start_harness构造注入/轮询回退不保留/首版单订阅",
     "dependencies": ["F006"]
   },
   {
