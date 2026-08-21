@@ -16,7 +16,7 @@ owner: @K总
 - [x] F004 约束管理层 (passing, 编码35f09dc + M1/M2修复02830d1, 审查链 39→40→43→44, 闭环journal 46)
 - [x] F005 代码执行沙箱（编码 fbc5d0c + 修复 0eb3326，审查链 50→51→54→55，闭环 journal 57）
 - [x] F007 SSE 实时状态推送（编码 71ac96a，审查链 59→63，一次编码即过，闭环 journal 65）
-- [ ] F012 Playwright DOM级端到端测试 (S1 裁决落地)
+- [x] F012 Playwright DOM级端到端测试（编码 a73c7dd + 修复 221cef3，审查链 67→75，闭环 journal 77）
 - [ ] F013 API 会话列表端点
 
 ## Sprint 3: 持久化与熵管理
