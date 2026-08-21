@@ -35,8 +35,8 @@
     "id": "F005",
     "name": "代码执行沙箱",
     "priority": 5,
-    "status": "approved",
-    "description": "可插拔执行器 Docker/Local/Disabled + 五维安全隔离（验证命令执行，与 verify.sh 零交集）。设计Approved 2026-08-20(journal 49): 4开放问题+2歧义全按design-writer建议采纳，首版不含mvn留F010、镜像方案B动态选择、并发不限留F009、Artifact检索不支持",
+    "status": "passing",
+    "description": "可插拔执行器 Docker/Local/Disabled + 五维安全隔离（验证命令执行，与 verify.sh 零交集）。闭环2026-08-20: 设计Approved 6裁决(journal 49)→编码fbc5d0c(journal 50)→L3审查9/12+M1/M2/M3(journal 51)→修复0eb3326(journal 54)→复审8项全PASS(journal 55)。6项裁决: 首版不含mvn留F010、镜像方案B动态选择、并发不限留F009、Artifact检索不支持、build_test_commands归F005、npm危险模式保留",
     "dependencies": ["F002"]
   },
   {
