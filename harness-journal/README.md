@@ -128,7 +128,7 @@ harness-journal/
 │   ├── 52-f005-coding-acceptance-and-review-delegation.md F005编码L1流程验收（四类行全过; be3c61e平台提交知悉P011实证7; 3歧义转呈）+审查委派
 │   ├── 53-f005-review-acceptance-and-fix-delegation.md  F005审查L1流程验收（四类行全过; P009新实证.venv中途清除; M/N处置）+M1-M3修复委派（54=coder/55=复审）
 │   ├── 54-f005-fix-m1-m3.md                              F005 M1/M2/M3修复完成（coder自写: exec+shlex/文档对齐/timeout契约, 0eb3326 6文件）
-│   ├── 55-（预留）                                       F005 M1/M2/M3修复复审记录（预留禁占）
+│   ├── 55-f005-fix-m1-m3-re-review.md                   F005 M1/M2/M3修复L3复审（8项全PASS+歧义可接受+0M, 建议推进passing）
 │   └── 56-f005-fix-acceptance-and-review-delegation.md  F005修复L1流程验收（四类行全过; 44d6d60平台提交知悉P011实证8; P009变体uv单独清除; 4疑点记录）+复审委派
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）

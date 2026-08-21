@@ -181,3 +181,4 @@
 [2026-08-20T17:05Z] stage-04 | F005 | fix-delegated | F005审查报告L1流程验收通过(journal 53, 四类行全过: e165d04恰2文件/verify.sh复跑14 PASS, 首轮10/14系.venv与uv中途被环境清除P009新实证, 重建后全过)。M1/M2/M3修复微任务委派三件套产出(8项验收标准, journal 54=coder/55=复审); N1/N2/N3留后续统筹(F004先例), N2顺带与否待K总表态。待K总派生修复会话
 [2026-08-20T15:30Z] stage-04 | F005 | fix-done | M1 shell→exec+M2跨文档对齐+M3超时status契约修复, verify.sh 14/14, journal 54
 [2026-08-20T18:10Z] stage-04 | F005 | fix-accepted | F005 M1/M2/M3修复L1流程验收通过(journal 56, 四类行全过: 0eb3326恰6文件+91/-14与自报一致/禁改清单零命中/journal 54+progress写入/verify.sh复跑14 PASS——首轮10/14系uv二进制单独被清除P009变体新实证, .venv完好仅重装uv即过)。4流程疑点记录(README索引范围/时间戳倒挂/自报歧义未列明/M2形态关系)入复审Spec核查。复审委派三件套产出(journal 55预留)。待K总派生复审会话
+[2026-08-20T19:00Z] stage-04 | F005 | re-review-done | M1/M2/M3修复复审8项全PASS+歧义可接受+0M, 建议推进passing(journal 55)
