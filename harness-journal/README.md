@@ -142,7 +142,10 @@ harness-journal/
 │   ├── 66-f012-design-delegation.md                     F012 Playwright E2E设计委派（三件套; 67=design-writer预留; 零现状净增量/闸门集成形态/网络受限降级入Spec）
 │   ├── 67-f012-design-draft.md                          F012设计Draft完成（coder自写: 9场景/方案C条件闸门/三级网络受限方案, ecdc9d2恰3文件+273行, 4开放问题）
 │   ├── 68-f012-design-acceptance.md                      F012设计Draft L1流程验收（四类行全过; 自报哈希笔误ecdc9d2记录; 82cc0af平台提交知悉P011实证10; 4开放问题转呈K总）
-│   └── 69-f012-design-approval-and-coder-delegation.md  F012设计Approved+4项裁决全采纳（方案C/仅Chromium/真实后端/纳基线）+coder委派三件套（70=coder/71=审查）
+│   ├── 69-f012-design-approval-and-coder-delegation.md  F012设计Approved+4项裁决全采纳（方案C/仅Chromium/真实后端/纳基线）+coder委派三件套（70=coder/71=审查）
+│   ├── 70-f012-coder-execution.md                       F012编码完成（coder自写: config+4spec+9场景+第15项闸门+跨文档, a73c7dd 18文件+419/-3）
+│   ├── 71-（预留）                                       F012 test-reviewer 审查记录（预留禁占）
+│   └── 72-f012-coding-acceptance-and-review-delegation.md F012编码L1流程验收（四类行全过, 15/15含#15 skip预期; P011实证11）+审查委派
 │   ├── 70-f012-coder-execution.md                       F012编码完成（6新增+7修改+325/-3行, 9场景4spec, verify.sh 15/15 PASS #15 skip+WARN P009降级）
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）

@@ -196,3 +196,4 @@
 [2026-08-21T00:10Z] stage-04 | F012 | design-review-pending | F012设计Draft L1流程验收通过(journal 68, 四类行全过: ecdc9d2恰3文件+273行——自报哈希edcd9d2系笔误记录不阻断/verify.sh复跑14 PASS环境完好/82cc0af平台提交知悉P011实证10)。4开放问题(verify.sh集成形态方案C推荐/浏览器范围/真实后端vs mock/Playwright纳基线)转呈K总裁决。待K总设计审批HITL闸门
 [2026-08-21T00:35Z] stage-04 | F012 | design-approved | K总裁决Approve: 4开放问题全按design-writer建议采纳(①verify.sh方案C条件第15项 ②仅Chromium ③真实后端 ④Playwright纳技术栈基线)。落地: 设计Status→Approved+裁决注记, F012→approved, coder委派三件套产出(12项标准含4裁决绑定为标准4-7, journal 69; 编号70=coder/71=审查)。待K总派生F012 coder
 [2026-08-20T12:30Z] stage-04 | F012 | coding-done | Playwright E2E编码完成: 6新增+7修改+325/-3行, 9场景4spec, verify.sh 15/15 PASS(#15 skip+WARN P009降级)
+[2026-08-21T00:55Z] stage-04 | F012 | coding-review-pending | F012编码L1流程验收通过(journal 72, 四类行全过: a73c7dd恰18文件+419/-3与自报一致/禁改清单零命中/verify.sh复跑15 PASS——第15项E2E走skip+WARN为P009降级预期; 本会话P009再命中uv+.venv均清重建后过; 6f1fdc0平台提交知悉P011实证11)。test-reviewer委派三件套产出(journal 71预留, 重点=降级逻辑可靠性+断言空洞+版本兼容)。待K总派生审查会话
