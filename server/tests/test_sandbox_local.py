@@ -64,7 +64,7 @@ class TestLocalExecutor:
         assert "second" in result.stdout
 
     async def test_execute_timeout(self) -> None:
-        """超时命令触发 cancel。"""
+        """超时命令触发 cancel，status="timeout" + exit_code=-1。"""
         with tempfile.TemporaryDirectory() as tmpdir:
             request = ExecutionRequest(
                 execution_id="test-timeout",
@@ -73,5 +73,6 @@ class TestLocalExecutor:
                 timeout=1,
             )
             result = await local_executor.execute(request)
-        assert result.status == "completed"
+        assert result.status == "timeout"
+        assert result.exit_code == -1
         assert "timed out" in result.stderr

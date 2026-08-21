@@ -7,7 +7,9 @@ resource_limits 忽略，resource_usage 返回零值占位。
 
 import asyncio
 import logging
+import shlex
 import time
+from typing import Literal
 
 from server.sandbox.base import (
     MAX_OUTPUT_BYTES,
@@ -36,33 +38,38 @@ async def execute(request: ExecutionRequest) -> ExecutionResult:
     start = time.monotonic()
     combined_stdout = ""
     combined_stderr = ""
+    any_timeout = False
 
     for cmd_str in request.commands:
-        stdout, stderr = await _run_single(
+        stdout, stderr, timed_out = await _run_single(
             request.execution_id, cmd_str, request.project_path, request.env, request.timeout,
         )
         combined_stdout += stdout
         combined_stderr += stderr
+        if timed_out:
+            any_timeout = True
 
     duration_ms = int((time.monotonic() - start) * 1000)
+    status: Literal["completed", "timeout"] = "timeout" if any_timeout else "completed"
     return ExecutionResult(
         execution_id=request.execution_id,
-        exit_code=0,
+        exit_code=-1 if any_timeout else 0,
         stdout=_truncate(combined_stdout),
         stderr=_truncate(combined_stderr),
         duration_ms=duration_ms,
         resource_usage=ResourceUsage(),  # 零值占位
-        status="completed",
+        status=status,
     )
 
 
 async def _run_single(
     exec_id: str, cmd_str: str, cwd: str, env: dict[str, str], timeout: int,
-) -> tuple[str, str]:
-    """执行单条命令，返回 (stdout, stderr)。超时触发 cancel。"""
+) -> tuple[str, str, bool]:
+    """执行单条命令，返回 (stdout, stderr, timed_out)。超时触发 cancel。"""
     try:
-        proc = await asyncio.create_subprocess_shell(
-            cmd_str,
+        args = shlex.split(cmd_str)
+        proc = await asyncio.create_subprocess_exec(
+            args[0], *args[1:],
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
             cwd=cwd,
@@ -75,9 +82,9 @@ async def _run_single(
             )
         except TimeoutError:
             await cancel(exec_id)
-            return "", f"Command timed out after {timeout}s: {cmd_str}"
+            return "", f"Command timed out after {timeout}s: {cmd_str}", True
     except OSError as exc:
-        return "", f"Command failed: {exc}"
+        return "", f"Command failed: {exc}", False
 
     stdout = stdout_bytes.decode("utf-8", errors="replace") if stdout_bytes else ""
     stderr = stderr_bytes.decode("utf-8", errors="replace") if stderr_bytes else ""
@@ -86,7 +93,7 @@ async def _run_single(
     if proc.returncode and proc.returncode != 0:
         raise SandboxError(f"Command exited {proc.returncode}: {cmd_str}")
 
-    return stdout, stderr
+    return stdout, stderr, False
 
 
 def _base_env() -> dict[str, str]:

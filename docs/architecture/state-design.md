@@ -47,7 +47,7 @@ class HarnessState(TypedDict):
     token_usage_total: TokenUsage  # [NEW] 累计 token 用量
 
     # 沙箱执行结果 (F005)
-    sandbox_result: dict | None  # [NEW] 代码执行沙箱结果，None=未执行
+    sandbox_result: dict  # [NEW] 代码执行沙箱结果，初始 {}（未执行时 disabled 字典）
 
     # 流程控制
     current_stage: str
@@ -65,7 +65,9 @@ class TechStackSpec(BaseModel):
     llm: str             # 如 "OpenAI"
     frontend_package_manager: str  # 如 "pnpm"
     backend_package_manager: str   # 如 "uv"
-    build_test_commands: list[str] = []  # [NEW] F005 沙箱执行命令，默认空列表（歧义α裁决）
+
+    # F005 产物验证命令（歧义α裁决：按现有 TechStackSpec 形态以方法落地，默认空列表）
+    def build_test_commands(self) -> list[str]: ...
 ```
 
 ## TokenUsage 定义 (F003)

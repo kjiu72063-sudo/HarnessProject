@@ -127,6 +127,7 @@ harness-journal/
 │   ├── 51-f005-test-review.md                          F005 L3独立测试审查（9PASS+3FAIL: M1 shell替代exec/M2跨文档不一致/M3超时status; 3歧义裁定; 3N留统筹）
 │   ├── 52-f005-coding-acceptance-and-review-delegation.md F005编码L1流程验收（四类行全过; be3c61e平台提交知悉P011实证7; 3歧义转呈）+审查委派
 │   └── 53-f005-review-acceptance-and-fix-delegation.md  F005审查L1流程验收（四类行全过; P009新实证.venv中途清除; M/N处置）+M1-M3修复委派（54=coder/55=复审）
+│   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）
 │   └── 44-f004-fix-m1-m2-review.md                       F004 M1/M2修复复审（8项全PASS; 歧义α接受重排/β接受; 建议F004推进passing）
 │   └── 40-f004-test-review.md                           F004 L3独立测试审查（12标准10PASS+2FAIL(M1:api-spec字段缺失+枚举名错/M2:convention-mapping缺enabled语义); 设计符合性全PASS; 7歧义裁定/核查; 标准7/8/9内容级独立补测; verify 14/14; 5条建议改进）
