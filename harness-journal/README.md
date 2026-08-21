@@ -126,7 +126,10 @@ harness-journal/
 │   ├── 50-f005-coder-execution.md                       F005编码完成（coder自写: 7模块+8测试文件+跨文档4份, fbc5d0c 32文件）
 │   ├── 51-f005-test-review.md                          F005 L3独立测试审查（9PASS+3FAIL: M1 shell替代exec/M2跨文档不一致/M3超时status; 3歧义裁定; 3N留统筹）
 │   ├── 52-f005-coding-acceptance-and-review-delegation.md F005编码L1流程验收（四类行全过; be3c61e平台提交知悉P011实证7; 3歧义转呈）+审查委派
-│   └── 53-f005-review-acceptance-and-fix-delegation.md  F005审查L1流程验收（四类行全过; P009新实证.venv中途清除; M/N处置）+M1-M3修复委派（54=coder/55=复审）
+│   ├── 53-f005-review-acceptance-and-fix-delegation.md  F005审查L1流程验收（四类行全过; P009新实证.venv中途清除; M/N处置）+M1-M3修复委派（54=coder/55=复审）
+│   ├── 54-f005-fix-m1-m3.md                              F005 M1/M2/M3修复完成（coder自写: exec+shlex/文档对齐/timeout契约, 0eb3326 6文件）
+│   ├── 55-（预留）                                       F005 M1/M2/M3修复复审记录（预留禁占）
+│   └── 56-f005-fix-acceptance-and-review-delegation.md  F005修复L1流程验收（四类行全过; 44d6d60平台提交知悉P011实证8; P009变体uv单独清除; 4疑点记录）+复审委派
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）
 │   └── 44-f004-fix-m1-m2-review.md                       F004 M1/M2修复复审（8项全PASS; 歧义α接受重排/β接受; 建议F004推进passing）
