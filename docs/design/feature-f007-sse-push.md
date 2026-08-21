@@ -4,7 +4,9 @@ owner: @K总
 
 # Feature: F007 SSE 实时状态推送
 
-## Status: Draft
+## Status: Approved
+
+**裁决注记（2026-08-20 K总，journal 61）**：5 项待裁决全部收口——①事件粒度：按建议采纳，首版 Node 级 + snapshot 全量推送；②轮询回退：按建议采纳，首版不保留（EventSource 内置重连 + 404 直接终止）；③多订阅：按建议采纳，首版单订阅，broadcast 语义留后续；歧义 α：docstring 替换为 F007（不保留 F006/F009 历史溯源标记）；歧义 β：SSECallbackHandler 在 start_harness() 构造注入 ainvoke config（与执行同生，首事件 snapshot 兜底补偿）。
 
 ## 目标
 

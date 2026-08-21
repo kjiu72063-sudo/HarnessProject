@@ -186,3 +186,4 @@
 [2026-08-20T20:15Z] stage-04 | F007 | design-delegated | F007 SSE实时推送设计委派三件套产出(journal 58, 8项验收标准; 关键输入: F002 stub端点L104待真实化/PipelinePage轮询待改EventSource/graph零事件出口/无F009断线回放范围需显式界定)。journal 59=design-writer预留。待K总派生设计会话
 [2026-08-20T14:30Z] stage-04 | F007-design | done | F007 SSE实时状态推送设计Draft完成: 8项验收标准全覆盖, 方案B(自定义回调)选定, Status: Draft, 开放问题3项+歧义2项待K总裁决
 [2026-08-20T21:00Z] stage-04 | F007 | design-review-pending | F007设计Draft L1流程验收通过(journal 60, 四类行全过: 2e2f529恰3文件+285行/205行≤300/journal 59正确占用/verify.sh复跑14 PASS环境完好)。3开放问题(事件粒度/轮询回退/多订阅)+2歧义(α docstring归属/β handler绑定点)转呈K总裁决。待K总设计审批HITL闸门
+[2026-08-20T21:40Z] stage-04 | F007 | design-approved | K总裁决Approve: 3开放问题+2歧义全收口(①Node级+snapshot全量 ②轮询回退不保留 ③首版单订阅; α docstring替换为F007 β start_harness构造注入)。落地: 设计Status→Approved+裁决注记, F007→approved, coder委派三件套产出(12项标准含6项裁决绑定, journal 61; 编号调整62=coder/63=审查)。待K总派生F007 coder
