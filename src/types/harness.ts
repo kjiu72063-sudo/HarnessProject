@@ -145,7 +145,15 @@ export interface HarnessStateSnapshot {
 }
 
 export interface RecentSession {
-  project_id: string
   session_id: string
+  status: string
+  project_id: string
+  current_stage: string
+  requirement_summary: string
   started_at: number
+}
+
+export interface SessionListResponse {
+  sessions: RecentSession[]
+  total: number
 }

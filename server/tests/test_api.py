@@ -43,9 +43,7 @@ def test_create_project_default_tech_stack():
     assert data["tech_stack"] == "java-springboot"
 
 
-def test_list_agent_sessions():
+def test_agent_sessions_route_removed():
+    """F013: agent_sessions.py stub 已删除，路由应返回 404。"""
     response = client.get("/api/agent-sessions?project_id=test")
-    assert response.status_code == 200
-    data = response.json()
-    assert "sessions" in data
-    assert data["total"] == 0
+    assert response.status_code == 404

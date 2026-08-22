@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getHarnessState, resumeHarness, startHarness } from './harness'
+import { fetchSessions, getHarnessState, resumeHarness, startHarness } from './harness'
 import { buildState } from '../test/factories'
 
 const fetchMock = vi.fn()
@@ -81,5 +81,30 @@ describe('error handling', () => {
   it('falls back to HTTP status when body has no detail', async () => {
     fetchMock.mockResolvedValue(new Response('not json', { status: 500 }))
     await expect(getHarnessState('boom')).rejects.toThrow('请求失败 (HTTP 500)')
+  })
+})
+
+describe('fetchSessions', () => {
+  it('GET /api/harness/sessions returns session list', async () => {
+    fetchMock.mockResolvedValue(jsonResponse({
+      sessions: [
+        {
+          session_id: 'sess-1',
+          status: 'interrupted',
+          project_id: 'proj-1',
+          current_stage: 'prototype_confirmation',
+          requirement_summary: 'build a todo app',
+          started_at: 1700000000.0,
+        },
+      ],
+      total: 1,
+    }))
+    const result = await fetchSessions()
+    expect(fetchMock).toHaveBeenCalledWith('/api/harness/sessions', {
+      headers: { 'Content-Type': 'application/json' },
+    })
+    expect(result.total).toBe(1)
+    expect(result.sessions[0].session_id).toBe('sess-1')
+    expect(result.sessions[0].status).toBe('interrupted')
   })
 })

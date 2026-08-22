@@ -35,3 +35,22 @@ class HarnessResumeResponse(BaseModel):
     status: str
     next: list[str] = []
     state: dict[str, Any] = {}
+
+
+class SessionMeta(BaseModel):
+    requirement: str
+    started_at: float
+
+
+class SessionListItem(BaseModel):
+    session_id: str
+    status: str
+    project_id: str
+    current_stage: str
+    requirement_summary: str = Field(max_length=80)
+    started_at: float
+
+
+class SessionListResponse(BaseModel):
+    sessions: list[SessionListItem]
+    total: int

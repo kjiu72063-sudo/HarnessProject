@@ -24,15 +24,26 @@ test.describe('RequirementPage', () => {
   })
 
   test('R3: 最近项目列表渲染', async ({ page, navigateTo }) => {
-    await page.evaluate(() => {
-      localStorage.setItem(
-        'harness_recent_sessions',
-        JSON.stringify([
-          { project_id: 'proj-1', session_id: 'sess-001', started_at: Date.now() },
-        ]),
-      )
-    })
-    await page.reload()
+    await page.route('**/api/harness/sessions', (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          sessions: [
+            {
+              session_id: 'sess-001',
+              status: 'interrupted',
+              project_id: 'proj-1',
+              current_stage: 'prototype_confirmation',
+              requirement_summary: 'build a todo app',
+              started_at: Date.now() / 1000,
+            },
+          ],
+          total: 1,
+        }),
+      }),
+    )
+    await page.goto('/')
     const main = page.locator('main')
     await expect(main.getByText('近期生成')).toBeVisible()
     await expect(main.getByText('proj-1')).toBeVisible()

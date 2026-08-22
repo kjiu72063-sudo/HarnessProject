@@ -1,7 +1,6 @@
 import { Rocket } from 'lucide-react'
 import { useEffect, useState, type JSX } from 'react'
-import { startHarness } from '../api/harness'
-import { addRecentSession, getRecentSessions } from '../lib/recentSessions'
+import { fetchSessions, startHarness } from '../api/harness'
 import type { RecentSession, TechStackSpec } from '../types/harness'
 import { RecentProjects } from './RecentProjects'
 import { TechStackFields } from './TechStackFields'
@@ -14,7 +13,9 @@ export function RequirementPage({ onSessionStarted }: RequirementPageProps) {
   const [recent, setRecent] = useState<RecentSession[]>([])
 
   useEffect(() => {
-    setRecent(getRecentSessions())
+    void fetchSessions()
+      .then((data) => setRecent(data.sessions.slice(0, 6)))
+      .catch(() => setRecent([]))
   }, [])
 
   return (
@@ -117,11 +118,6 @@ function useStartHarness({ projectName, requirement, techStack, onSessionStarted
         project_id: projectName.trim(),
         requirement: requirement.trim(),
         tech_stack: techStack,
-      })
-      addRecentSession({
-        project_id: projectName.trim(),
-        session_id: response.session_id,
-        started_at: Date.now(),
       })
       onSessionStarted(response.session_id)
     } catch (err) {

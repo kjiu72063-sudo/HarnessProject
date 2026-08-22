@@ -1,8 +1,8 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import '@xyflow/react/dist/style.css'
 import { Header } from './components/Header'
 import { Sidebar, type PageId } from './components/Sidebar'
-import { getRecentSessions } from './lib/recentSessions'
+import { fetchSessions } from './api/harness'
 import { ArtifactsPage } from './pages/ArtifactsPage'
 import { ConstraintsPage } from './pages/ConstraintsPage'
 import { PipelinePage } from './pages/PipelinePage'
@@ -10,10 +10,18 @@ import { RequirementPage } from './pages/RequirementPage'
 
 export function App() {
   const [page, setPage] = useState<PageId>('requirement')
-  const [sessionId, setSessionId] = useState<string | null>(
-    () => getRecentSessions()[0]?.session_id ?? null,
-  )
+  const [sessionId, setSessionId] = useState<string | null>(null)
   const [navSeq, setNavSeq] = useState(0)
+
+  useEffect(() => {
+    void fetchSessions()
+      .then((data) => {
+        if (data.sessions.length > 0) {
+          setSessionId(data.sessions[0].session_id)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   const handleNavigate = useCallback((target: PageId) => {
     setPage(target)

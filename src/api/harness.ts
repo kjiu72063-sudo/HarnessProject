@@ -4,6 +4,7 @@ import type {
   HarnessStartResponse,
   HarnessStateSnapshot,
   ResumeRequest,
+  SessionListResponse,
 } from '../types/harness'
 import { apiFetch } from './client'
 
@@ -23,4 +24,8 @@ export function resumeHarness(sessionId: string, request: ResumeRequest): Promis
     method: 'POST',
     body: JSON.stringify(request),
   })
+}
+
+export function fetchSessions(): Promise<SessionListResponse> {
+  return apiFetch<SessionListResponse>('/harness/sessions')
 }

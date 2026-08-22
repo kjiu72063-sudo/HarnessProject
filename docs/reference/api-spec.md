@@ -37,8 +37,9 @@ owner: @K总
 
 **断线语义**：EventSource 内置重连；404（session 不存在）直接终止不重连；Last-Event-ID 不支持，重连后仅获当前快照 + 后续事件。
 - `POST /api/harness/{session_id}/resume` — 闸门决策恢复。请求体: `{ gate, decision }`（gate: prototype_confirmation / design_approval / acceptance_check / human_intervention）；响应: `{ status, next, state }`
+- `GET /api/harness/sessions` — 会话列表 (F013)。响应: `{ sessions: SessionListItem[], total }`；按 `started_at` 倒序；首版无分页/过滤参数（会话数 < 50）。`SessionListItem` 字段: `{ session_id, status, project_id, current_stage, requirement_summary(≤80字符), started_at }`
 
-> 历史: 原规划的 `/api/agent-sessions` 路由（阶段1骨架草案）已被 F002 的 `/api/harness/*` 取代；server/routes/agent_sessions.py 为占位 stub，消费方一律走 `/api/harness/*`。
+> 历史: 原 `/api/agent-sessions` 路由已在 F013 编码阶段删除（被 `/api/harness/sessions` 取代）。
 
 ### 约束管理 (F004 已实现，server/routes/constraints.py)
 - `GET /api/constraints?project_id=` — 约束规则列表。响应: `{ rules: Constraint[] }`；`project_id` **可选**：省略 → 仅返回系统规则（source=agents_md）；提供 → 系统规则 + 该项目规则，按 `rule_no` 升序

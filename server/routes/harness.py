@@ -11,6 +11,7 @@ POST /api/harness/{session_id}/resume       恢复人类闸门决策
 import asyncio
 import json
 import logging
+import time
 import uuid
 from collections.abc import AsyncIterator
 from typing import Any
@@ -30,6 +31,9 @@ from server.schemas.harness import (
     HarnessStartRequest,
     HarnessStartResponse,
     ResumeRequest,
+    SessionListItem,
+    SessionListResponse,
+    SessionMeta,
 )
 from server.schemas.harness_state import TechStackSpec, TokenUsage, build_initial_state
 from server.schemas.sse import HEARTBEAT_INTERVAL_S
@@ -45,6 +49,7 @@ RESUMABLE_GATES = {
 }
 
 _sessions: dict[str, Any] = {}
+_session_meta: dict[str, SessionMeta] = {}
 
 
 def _get_session(session_id: str) -> Any:
@@ -95,6 +100,10 @@ async def start_harness(request: HarnessStartRequest) -> HarnessStartResponse:
     session_id = uuid.uuid4().hex[:12]
     app = build_harness_graph()
     _sessions[session_id] = app
+    _session_meta[session_id] = SessionMeta(
+        requirement=request.requirement,
+        started_at=time.time(),
+    )
     initial_state = build_initial_state(
         project_id=request.project_id,
         tech_stack=request.tech_stack,
@@ -109,6 +118,7 @@ async def start_harness(request: HarnessStartRequest) -> HarnessStartResponse:
     except ValueError as exc:
         remove_event_queue(session_id)
         del _sessions[session_id]
+        _session_meta.pop(session_id, None)
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     final_status = _session_status(
         app.get_state(make_thread_config(session_id)).next,
@@ -120,6 +130,27 @@ async def start_harness(request: HarnessStartRequest) -> HarnessStartResponse:
         await handler.emit_status(final_status)
     logger.info("harness session %s started (project=%s)", session_id, request.project_id)
     return HarnessStartResponse(session_id=session_id, status="running")
+
+
+@router.get("/sessions", response_model=SessionListResponse)
+async def list_sessions() -> SessionListResponse:
+    """会话列表：遍历 _sessions，按 started_at 倒序返回摘要。"""
+    items: list[SessionListItem] = []
+    for sid, app in _sessions.items():
+        meta = _session_meta.get(sid)
+        snapshot = app.get_state(make_thread_config(sid))
+        items.append(
+            SessionListItem(
+                session_id=sid,
+                status=_session_status(snapshot.next, snapshot.values),
+                project_id=snapshot.values.get("project_id", ""),
+                current_stage=snapshot.values.get("current_stage", ""),
+                requirement_summary=(meta.requirement[:80] if meta else ""),
+                started_at=(meta.started_at if meta else 0.0),
+            )
+        )
+    items.sort(key=lambda x: x.started_at, reverse=True)
+    return SessionListResponse(sessions=items, total=len(items))
 
 
 @router.get("/{session_id}/state")

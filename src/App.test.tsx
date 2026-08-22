@@ -27,7 +27,6 @@ class MockES {
 }
 
 beforeEach(() => {
-  window.localStorage.clear()
   esInstances.length = 0
   vi.stubGlobal('fetch', fetchMock)
   vi.stubGlobal('EventSource', MockES as unknown as typeof EventSource)
@@ -53,8 +52,18 @@ function jsonResponse(body: unknown): Response {
   })
 }
 
+function mockSessionsList(sessions: unknown[] = []) {
+  fetchMock.mockImplementation((url: string) => {
+    if (url === '/api/harness/sessions') {
+      return Promise.resolve(jsonResponse({ sessions, total: sessions.length }))
+    }
+    return Promise.resolve(jsonResponse({ session_id: 'sess-app', status: 'running', next: ['information_layer'] }))
+  })
+}
+
 describe('App shell 导航', () => {
   it('renders sidebar with four nav entries and highlights active page', () => {
+    mockSessionsList()
     render(<App />)
     expect(screen.getByText('需求输入')).toBeInTheDocument()
     expect(screen.getByText('流程监控')).toBeInTheDocument()
@@ -68,6 +77,7 @@ describe('App shell 导航', () => {
   })
 
   it('switches pages via sidebar navigation', () => {
+    mockSessionsList()
     render(<App />)
     fireEvent.click(screen.getByText('流程监控'))
     expect(screen.getByText('暂无活动会话')).toBeInTheDocument()
@@ -80,9 +90,7 @@ describe('App shell 导航', () => {
 
 describe('App 会话流转', () => {
   it('starts a session from requirement page and lands on pipeline page', async () => {
-    fetchMock.mockResolvedValue(
-      jsonResponse({ session_id: 'sess-app', status: 'running', next: ['information_layer'] }),
-    )
+    mockSessionsList()
     render(<App />)
 
     setInput(/项目名称/, 'my-todo')
@@ -90,11 +98,10 @@ describe('App 会话流转', () => {
     fireEvent.click(screen.getByRole('button', { name: /启动 Harness 流程/ }))
 
     expect(await screen.findByText('流程 DAG · 8 阶段')).toBeInTheDocument()
-    expect(fetchMock.mock.calls[0]?.[0]).toBe('/api/harness/start')
   })
 })
 
-describe('App 会话持久化', () => {
+describe('App 会话恢复', () => {
   const persistedSnapshot = {
     session_id: 'sess-persist',
     status: 'running' as const,
@@ -111,19 +118,18 @@ describe('App 会话持久化', () => {
     },
   }
 
-  it('restores persisted session from localStorage on remount', async () => {
-    fetchMock.mockResolvedValue(
-      jsonResponse({ session_id: 'sess-persist', status: 'running', next: ['information_layer'] }),
-    )
-    const { unmount } = render(<App />)
-    setInput(/项目名称/, 'my-blog')
-    setInput(/需求描述/, '输入一个博客系统')
-    fireEvent.click(screen.getByRole('button', { name: /启动 Harness 流程/ }))
-    expect(await screen.findByText('流程 DAG · 8 阶段')).toBeInTheDocument()
-    unmount()
-
-    esInstances.length = 0
+  it('restores session from API on remount', async () => {
+    mockSessionsList([{
+      session_id: 'sess-persist',
+      status: 'running',
+      project_id: 'my-blog',
+      current_stage: 'information_layer',
+      requirement_summary: 'build a blog',
+      started_at: 1700000000.0,
+    }])
     render(<App />)
+
+    expect(await screen.findByText('my-blog')).toBeInTheDocument()
     fireEvent.click(screen.getByText('流程监控'))
 
     const es = esInstances.find((e) => (e as unknown as MockES).url.includes('sess-persist'))

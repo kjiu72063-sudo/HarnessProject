@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from server.constraints import registry
-from server.routes import agent_sessions, constraints, harness, projects, sandbox
+from server.routes import constraints, harness, projects, sandbox
 from server.sandbox import configure_executor
 from server.sandbox.probe import probe_docker
 
@@ -38,7 +38,6 @@ app.add_middleware(
 )
 
 app.include_router(projects.router, prefix="/api", tags=["projects"])
-app.include_router(agent_sessions.router, prefix="/api", tags=["agent-sessions"])
 app.include_router(constraints.router, prefix="/api", tags=["constraints"])
 app.include_router(harness.router, prefix="/api", tags=["harness"])
 app.include_router(sandbox.router, prefix="/api", tags=["sandbox"])
