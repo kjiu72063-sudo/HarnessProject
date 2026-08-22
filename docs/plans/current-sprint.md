@@ -1,5 +1,5 @@
-last_updated: 2026-08-20
-status: sprint2-active
+last_updated: 2026-08-21
+status: sprint2-done（2026-08-21 全部 feature passing，journal 85）
 owner: @K总
 
 # 当前迭代计划
@@ -17,7 +17,7 @@ owner: @K总
 - [x] F005 代码执行沙箱（编码 fbc5d0c + 修复 0eb3326，审查链 50→51→54→55，闭环 journal 57）
 - [x] F007 SSE 实时状态推送（编码 71ac96a，审查链 59→63，一次编码即过，闭环 journal 65）
 - [x] F012 Playwright DOM级端到端测试（编码 a73c7dd + 修复 221cef3，审查链 67→75，闭环 journal 77）
-- [ ] F013 API 会话列表端点
+- [x] F013 API 会话列表端点（编码 cd9343b，审查链 79→83，一次编码即过，闭环 journal 85）
 
 ## Sprint 3: 持久化与熵管理
 - [ ] F008 熵管理后台任务

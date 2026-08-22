@@ -115,8 +115,8 @@
     "id": "F013",
     "name": "API会话列表端点",
     "priority": 5.5,
-    "status": "approved",
-    "description": "GET /api/harness/sessions列表端点, 消除前端localStorage最近会话限制(Task5审查建议+K总最终验收指示)。设计Approved 2026-08-21(journal 81): 5项裁决——stub删除/localStorage完全移除/首版无分页/_session_meta增量(独立dict)",
+    "status": "passing",
+    "description": "GET /api/harness/sessions列表端点, 消除前端localStorage最近会话限制。闭环2026-08-21(journal 85): 设计5裁决Approved(journal 81)→编码cd9343b(journal 82)→L3审查12/12+0M+0N(journal 83)。stub删除/localStorage完全移除/首版无分页/_session_meta增量(独立dict)",
     "dependencies": ["F002"]
   }
 ]

@@ -157,7 +157,9 @@ harness-journal/
 │   ├── 81-f013-design-approval-and-coder-delegation.md  F013设计Approved+5项裁决（stub删/ls移除/无分页/_session_meta/方案A）+coder委派三件套（82=coder/83=审查）
 │   ├── 82-f013-coder-execution.md                       F013编码完成（coder自写: sessions端点+stub删除+localStorage移除+E2E R3改API, cd9343b 19文件+388/-180）
 │   ├── 83-f013-test-review.md                            F013 L3独立测试审查（12标准全PASS/0M/0N/0歧义, 建议推进passing）
-│   └── 84-f013-coding-acceptance-and-review-delegation.md F013编码L1流程验收（四类行全过; 首轮E2E一次flaky复跑消失15/15; grep模式过宽教训）+审查委派
+│   ├── 84-f013-coding-acceptance-and-review-delegation.md F013编码L1流程验收（四类行全过; 首轮E2E一次flaky复跑消失15/15; grep模式过宽教训）+审查委派
+│   ├── 85-f013-closure-and-sprint2-finale.md           F013闭环passing + Sprint2收官总览（六feature全passing; verify 15项; N池15+1）
+│   └── 86-l1-handover-to-third.md                      L1换任交接（二任→三任: 角色边界/状态快照/决策链全景32-86/P编号速查/委派方法论/冷启动序列）
 │   ├── 70-f012-coder-execution.md                       F012编码完成（6新增+7修改+325/-3行, 9场景4spec, verify.sh 15/15 PASS #15 skip+WARN P009降级）
 │   └── 54-f005-fix-m1-m3.md                            F005 M1+M2+M3修复coder执行（shell→exec+跨文档对齐+超时status契约, verify.sh 14/14）
 │   └── 50-f005-coder-execution.md                      F005编码执行记录（7模块+1路由+1schema+TS镜像+8测试文件71项全过, 覆盖率88.56%, mypy+ruff clean, 6裁决落地, 跨文档4文件同步）
