@@ -250,41 +250,24 @@ check_port_consistency() {
 }
 run_check "Port Consistency (.preview vs vite.config.ts)" "check_port_consistency"
 
-# ---------- Check 15: Playwright E2E（条件执行：方案 C） ----------
+# ---------- Check 15: Playwright E2E（条件执行：版本匹配才执行） ----------
 check_e2e() {
   if ! command -v npx >/dev/null 2>&1; then
     echo "  ⚠️ E2E skipped: npx not available"
     return 0
   fi
 
-  local has_chromium=0
+  local detect_output decision
+  detect_output=$(bash "$SCRIPT_DIR/check-e2e-browser.sh" 2>&1)
+  decision=$(echo "$detect_output" | head -1)
+  echo "$detect_output" | tail -n +2
 
-  if [ "${PLAYWRIGHT_BROWSERS_PATH:-}" = "0" ]; then
-    if command -v chromium >/dev/null 2>&1 || command -v chromium-browser >/dev/null 2>&1 || command -v google-chrome >/dev/null 2>&1; then
-      has_chromium=1
-    fi
-  else
-    local cache_dir="${PLAYWRIGHT_BROWSERS_PATH:-$HOME/.cache/ms-playwright}"
-    if [ -d "$cache_dir" ]; then
-      local chromium_count shell_count
-      chromium_count=$(find "$cache_dir" -maxdepth 3 -name 'chrome' \( -path '*/chrome-linux64/*' -o -path '*/chrome-linux/*' \) 2>/dev/null | wc -l)
-      shell_count=$(find "$cache_dir" -maxdepth 3 \( -name 'headless_shell' -o -name 'chrome-headless-shell' \) \( -path '*/chrome-headless-shell-linux64/*' -o -path '*/chrome-linux/*' \) 2>/dev/null | wc -l)
-      if [ "$chromium_count" -gt 0 ] && [ "$shell_count" -gt 0 ]; then
-        has_chromium=1
-      fi
-    fi
+  if [ "$decision" = "MATCHED" ]; then
+    echo "  Running Playwright E2E..."
+    pnpm test:e2e
   fi
-
-  if [ "$has_chromium" -eq 0 ]; then
-    echo "  ⚠️ E2E skipped: no browser binary (Chromium not found)"
-    echo "  💡 Install: pnpm exec playwright install chromium"
-    return 0
-  fi
-
-  echo "  Browser detected, running Playwright E2E..."
-  pnpm test:e2e
 }
-run_check "Playwright E2E (conditional: skip+WARN if no browser)" "check_e2e"
+run_check "Playwright E2E (conditional: version-match or skip+WARN)" "check_e2e"
 
 echo ""
 echo "=========================================="

@@ -36,7 +36,7 @@ owner: @K总
 | 12 | tech-stack-alignment | AGENTS.md 声明版本与 package.json / pyproject.toml 实际版本一致 [P008] |
 | 13 | git-tracking | progress.txt 和 feature_list.json 必须被 Git 追踪 [P004] |
 | 14 | port-consistency | .preview expose_port 与 vite.config.ts port 一致 |
-| 15 | playwright-e2e | Playwright DOM级E2E（条件执行：无浏览器时 skip+WARN） |
+| 15 | playwright-e2e | Playwright DOM级E2E（条件执行：版本匹配→执行，否则 skip+WARN 附版本证据） |
 
 任何一项失败即整体失败。
 
@@ -49,7 +49,7 @@ owner: @K总
 - 配置: `playwright.config.ts`（双栈 webServer: FastAPI 8000 + Vite 5000）
 - 覆盖率: **E2E 不计入 80% 基线**（Vitest V8 不采集 E2E 路径，两者测量正交维度）
 - 运行: `pnpm test:e2e`（CI）或 `pnpm test:e2e:ui`（本地调试）
-- 环境策略: 有浏览器→执行；无浏览器→skip+WARN（P009 先例），verify.sh 第 15 项条件闸门
+- 环境策略: 版本匹配→执行；版本不匹配或无浏览器→skip+WARN 附版本证据（检测脚本 scripts/check-e2e-browser.sh，所需 revision 来自 playwright-core browsers.json），verify.sh 第 15 项条件闸门
 - 选择器: getByRole/getByText 优先 → getByTestId 后备 → CSS 选择器禁止
 
 ## Agent 自我验证规则

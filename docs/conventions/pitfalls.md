@@ -152,3 +152,14 @@ owner: @K总
 | 修复方案 | 越界结论立即作废并在下一号 journal 立更正段（先例 journal 28(f)）；内容项全部移交 L3 校验 Agent 独立验证；委派 Controller Spec / 启动提示词改为去锚定表述（「无先在结论，不得锚定 L1」） |
 | 关联文件 | AGENTS.md「L1职责边界」（判定测试+黑名单）、docs/handbook/controller-specs/settings-cleanup-test-review.md、harness-journal/stage-04-coding/33-l1-boundary-violation-correction.md |
 | 预防规则 | L1 验收表只允许四类行：产出存在 / journal 与 progress 写入 / 约束遵守（行数等）/ verify.sh 复跑 PASS-FAIL，其余一律移交 L3；L1 起草审查 Controller Spec 时必须含「独立验证、不得引用 L1/coder 结论」条款；内容歧义只记录事实、不裁定 |
+
+## P013 — Playwright 浏览器缓存版本跨会话漂移
+
+| 字段 | 内容 |
+|---|---|
+| 阶段 | stage-04 / F013 设计验收（journal 80 §三）; M1 前置微任务（journal 88） |
+| 错误特征 | verify.sh #15 E2E 检测命中旧版浏览器 → 执行 → Playwright 运行时缺所需二进制 → `Executable doesn't exist .../chromium_headless_shell-XXXX/...` → 12 用例全 fail。比 skip+WARN 产生更差结果（假执行真全 fail） |
+| 根因 | 各会话沙箱浏览器缓存目录（`$HOME/.cache/ms-playwright`）仅存旧 revision 二进制（如 chromium-1161），而 `@playwright/test` 运行时需要与自身版本对应的 revision（如 chromium_headless_shell-1234）；原检测逻辑「存在任一浏览器即执行」不校验版本一致性 |
+| 修复方案 | 检测逻辑升级为版本匹配语义：从 `playwright-core/browsers.json` 读取所需 revision → 与缓存目录比对 → 匹配才执行，否则 skip+WARN 附版本证据；检测逻辑抽出独立脚本 `scripts/check-e2e-browser.sh`，verify.sh 调用 |
+| 关联文件 | `scripts/verify.sh`、`scripts/check-e2e-browser.sh`、`docs/conventions/testing.md` |
+| 预防规则 | 浏览器检测必须版本匹配而非存在性检测；所需 revision 来自依赖元数据（browsers.json），禁止硬编码版本映射表；换依赖版本后浏览器缓存可能失效，skip+WARN 提示安装命令 |
